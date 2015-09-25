@@ -3,7 +3,7 @@ function MySceneGraph(filename, scene) {
 
     // Establish bidirectional references between scene and graph
     this.scene = scene;
-    scene.graph=this;
+    scene.graph = this;
 
     // File reading
     this.reader = new CGFXMLreader();
@@ -14,14 +14,13 @@ function MySceneGraph(filename, scene) {
      * If any error occurs, the reader calls onXMLError on this object, with an error message
      */
 
-    this.reader.open('scenes/'+filename, this);
+    this.reader.open('scenes/' + filename, this);
 }
 
 /*
  * Callback to be executed after successful reading
  */
-MySceneGraph.prototype.onXMLReady=function()
-{
+MySceneGraph.prototype.onXMLReady = function() {
     console.log("XML Loading finished.");
     var rootElement = this.reader.xmlDoc.documentElement;
 
@@ -33,7 +32,7 @@ MySceneGraph.prototype.onXMLReady=function()
         return;
     }
 
-    this.loadedOk=true;
+    this.loadedOk = true;
 
     // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
     this.scene.onGraphLoaded();
@@ -44,9 +43,9 @@ MySceneGraph.prototype.onXMLReady=function()
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
-MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
+MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 
-    var elems =  rootElement.getElementsByTagName('globals');
+    var elems = rootElement.getElementsByTagName('globals');
     if (elems == null) {
         return "globals element is missing.";
     }
@@ -58,28 +57,27 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
     // various examples of different types of access
     var globals = elems[0];
     this.background = this.reader.getRGBA(globals, 'background');
-    this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill","line","point"]);
-    this.cullface = this.reader.getItem(globals, 'cullface', ["back","front","none", "frontandback"]);
-    this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw","cw"]);
+    this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
+    this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
+    this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
 
     console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
 
-    var tempList=rootElement.getElementsByTagName('list');
+    var tempList = rootElement.getElementsByTagName('list');
 
-    if (tempList == null  || tempList.length==0) {
+    if (tempList == null || tempList.length == 0) {
         return "list element is missing.";
     }
 
-    this.list=[];
+    this.list = [];
     // iterate over every element
-    var nnodes=tempList[0].children.length;
-    for (var i=0; i< nnodes; i++)
-    {
-        var e=tempList[0].children[i];
+    var nnodes = tempList[0].children.length;
+    for (var i = 0; i < nnodes; i++) {
+        var e = tempList[0].children[i];
 
         // process each element and store its information
-        this.list[e.id]=e.attributes.getNamedItem("coords").value;
-        console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
+        this.list[e.id] = e.attributes.getNamedItem("coords").value;
+        console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
     };
 
 };
@@ -88,7 +86,7 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
  * Callback to be executed on any read error
  */
 
-MySceneGraph.prototype.onXMLError=function (message) {
-    console.error("XML Loading Error: "+message);
-    this.loadedOk=false;
+MySceneGraph.prototype.onXMLError = function(message) {
+    console.error("XML Loading Error: " + message);
+    this.loadedOk = false;
 };
