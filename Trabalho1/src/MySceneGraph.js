@@ -79,7 +79,6 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
         this.list[e.id] = e.attributes.getNamedItem("coords").value;
         console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
     };
-
 };
 
 /*

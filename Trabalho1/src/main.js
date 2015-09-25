@@ -10,7 +10,7 @@ include = function() {
         d = a[c - 1],
         e = d.call;
     e && c--;
-    for (var g, h = 0; c > h; h++) g = b.createElement("script"), g.src = arguments[h], g.async = !0, g.onload = g.onerror = g.onreadystatechange = f, (b.head || b.getElementsByTagName("head")[0]).appendChild(g)
+    for (var g, h = 0; c > h; h++) g = b.createElement("script"), g.src = arguments[h], g.async = !0, g.onload = g.onerror = g.onreadystatechange = f, (b.head || b.getElementsByTagName("head")[0]).appendChild(g);
 };
 serialInclude = function(a) {
     var b = console,
@@ -42,7 +42,7 @@ function getUrlVars() {
     return vars;
 }
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js','LSXParser.js',
 
     main = function() {
         // Standard application, scene and interface setup
@@ -60,11 +60,11 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
         // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
         // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-        var filename = getUrlVars()['file'] || "demo.xml";
+        var filename = getUrlVars()['file'] || "example.lsx";
 
         // create and load graph, and associate it to scene.
         // Check console for loading errors
-        var myGraph = new MySceneGraph(filename, myScene);
+        var myGraph = new LSXParser(filename, myScene);
 
         // start
         app.run();
