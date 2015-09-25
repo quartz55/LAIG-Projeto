@@ -16,4 +16,23 @@
     <background r="0.2" g="0.2" b="0.2" a="1" />         <!-- background color -->
   </ILLUMINATION>
 
+  <LIGHTS>
+    <LIGHT id="0">                                    <!-- light identifier -->
+      <enable value ="1" />                         <!-- enable/disable -->
+      <position x="5" y="8" z="2" w="1" />       <!-- light position -->
+      <ambient r="0.5" g="0.5" b="0.5" a="1" />        <!-- ambient component -->
+      <diffuse r="0.8" g="0.8" b="0.8" a="1" />        <!-- diffuse component -->
+      <specular r="0.2" g="0.2" b="0.2" a="1" />       <!-- specular component -->
+    </LIGHT>
+
+    <LIGHT id="1">                                    <!-- light identifier -->
+      <enable value ="1" />                         <!-- enable/disable -->
+      <position x="5" y="8" z="2" w="1" />       <!-- light position -->
+      <ambient r="0.5" g="0.5" b="0.5" a="1" />        <!-- ambient component -->
+      <diffuse r="0.8" g="0.8" b="0.8" a="1" />        <!-- diffuse component -->
+      <specular r="0.2" g="0.2" b="0.2" a="1" />       <!-- specular component -->
+    </LIGHT>
+
+  </LIGHTS>
+
 </SCENE>

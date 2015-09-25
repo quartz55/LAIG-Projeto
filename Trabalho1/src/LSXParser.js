@@ -8,6 +8,7 @@ function LSXParser(filename, scene) {
 
     this.initials = new Initials();
     this.illumination = new Illumination();
+    this.lights = [];
 
     console.log("LSXParser for " + filename + ".");
 
@@ -26,6 +27,12 @@ LSXParser.prototype.onXMLReady = function() {
     }
 
     error = this.parseIllumination(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    error = this.parseLights(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
@@ -105,22 +112,14 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
     //Ambient
     var ambient = illumination_list.getElementsByTagName('ambient');
     if (ambient.length != 1 || ambient == null) return "No <ambient> tag.";
-    ambient = ambient[0];
 
-    this.illumination.ambient.r = this.reader.getFloat(ambient, 'r');
-    this.illumination.ambient.g = this.reader.getFloat(ambient, 'g');
-    this.illumination.ambient.b = this.reader.getFloat(ambient, 'b');
-    this.illumination.ambient.a = this.reader.getFloat(ambient, 'a');
+    this.illumination.ambient = this.parseColor(ambient[0]);
 
     //Background
     var background = illumination_list.getElementsByTagName('background');
     if (background.length != 1 || background == null) return "No <background> tag.";
-    background = background[0];
 
-    this.illumination.background.r = this.reader.getFloat(background, 'r');
-    this.illumination.background.g = this.reader.getFloat(background, 'g');
-    this.illumination.background.b = this.reader.getFloat(background, 'b');
-    this.illumination.background.a = this.reader.getFloat(background, 'a');
+    this.illumination.background = this.parseColor(background[0]);
 
     //Doubleside
     var doubleside = illumination_list.getElementsByTagName('doubleside');
@@ -132,6 +131,46 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
     this.illumination.print();
 
     return null;
+};
+
+LSXParser.prototype.parseLights = function(mainElement) {
+    var lights_list = mainElement.getElementsByTagName('LIGHTS');
+    if (lights_list == null || lights_list.length == 0)
+        return "<ILLUMINATION> element is missing.";
+
+    lights_list = lights_list[0];
+
+    var lights = lights_list.getElementsByTagName('LIGHT');
+    for (i = 0; i < lights.length; i++) {
+        var light = new Light(lights[i].id);
+        light.enabled = this.reader.getBoolean(lights[i].getElementsByTagName('enable')[0], 'value');
+        light.ambient = this.parseColor(lights[i].getElementsByTagName('ambient')[0]);
+        light.diffuse = this.parseColor(lights[i].getElementsByTagName('diffuse')[0]);
+        light.specular = this.parseColor(lights[i].getElementsByTagName('specular')[0]);
+
+        var temp_position = {};
+        var aux = lights[i].getElementsByTagName('position')[0];
+        temp_position.x = this.reader.getFloat(aux, 'x');
+        temp_position.y = this.reader.getFloat(aux, 'y');
+        temp_position.z = this.reader.getFloat(aux, 'z');
+        temp_position.w = this.reader.getFloat(aux, 'w');
+
+        light.position = temp_position;
+
+        light.print();
+        this.lights.push(light);
+    }
+
+    return null;
+};
+
+LSXParser.prototype.parseColor = function(element) {
+    var color = {};
+    color.r = this.reader.getFloat(element, 'r');
+    color.g = this.reader.getFloat(element, 'g');
+    color.b = this.reader.getFloat(element, 'b');
+    color.a = this.reader.getFloat(element, 'a');
+    return color;
 };
 
 
@@ -157,16 +196,37 @@ function Initials() {
 
 function Illumination() {
     this.ambient = {r:1, g:1, b:1, a:1};
-    this.background = {r:1, g:1, b:1, a:1};
+    this.background = {r:0, g:0, b:0, a:1};
     this.doubleside = false;
 
-    this.printColor = function(c){
-        return (c.r + ", " + c.g + ", " + c.b + ", " + c.a);
-    };
-
     this.print = function() {
-        console.log("Ambient: " + this.printColor(this.ambient));
-        console.log("Background: " + this.printColor(this.background));
+        console.log("Ambient: " + printColor(this.ambient));
+        console.log("Background: " + printColor(this.background));
         console.log("Doubleside: " + (this.doubleside ? "Yes" : "No"));
     };
 }
+
+function Light(id) {
+    this.id = id;
+    this.enabled = false;
+    this.position = {x:0, y:0, z:0, w:0};
+    this.ambient = {r:0, g:0, b:0, a:0};
+    this.diffuse = {r:0, g:0, b:0, a:0};
+    this.specular = {r:0, g:0, b:0, a:0};
+
+    this.setColor = function(which, color){
+        this[which] = color;
+    };
+
+    this.print = function() {
+        console.log("Light " + this.id + " - " + (this.enabled ? "On" : "Off"));
+        console.log("Position: " + this.position.x + " " + this.position.y + " " + this.position.z + " " + this.position.w);
+        console.log("Ambient: " + printColor(this.ambient));
+        console.log("Diffuse: " + printColor(this.diffuse));
+        console.log("Specular: " + printColor(this.specular));
+    };
+}
+
+var printColor = function(c){
+    return "("+ c.r + ", " + c.g + ", " + c.b + ", " + c.a + ")";
+};
