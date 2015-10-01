@@ -14,6 +14,7 @@ function LSXParser(filename, scene) {
     this.lights = [];
     this.textures = [];
     this.materials = [];
+    this.leaves = [];
 }
 
 LSXParser.prototype.onXMLReady = function() {
@@ -46,6 +47,12 @@ LSXParser.prototype.onXMLReady = function() {
     }
 
     error = this.parseMaterials(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    error = this.parseLeaves(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
@@ -84,8 +91,11 @@ LSXParser.prototype.parseInitials = function(mainElement) {
     if (rotations.length != 3 || rotations == null) return "Needs 3 <rotation> elements";
 
     for (i = 0; i < rotations.length; i++) {
-        var rot = {axis: null, angle: null};
-        rot.axis = this.reader.getItem(rotations[i], 'axis', ['x','y','z']);
+        var rot = {
+            axis: null,
+            angle: null
+        };
+        rot.axis = this.reader.getItem(rotations[i], 'axis', ['x', 'y', 'z']);
         rot.angle = this.reader.getFloat(rotations[i], 'angle');
         this.initials.rotations.push(rot);
     }
@@ -142,7 +152,7 @@ LSXParser.prototype.parseLights = function(mainElement) {
 
     var lights = lights_list.getElementsByTagName('LIGHT');
     for (i = 0; i < lights.length; i++) {
-        var light = new Light(lights[i].id);
+        var light = new Light(lights[i].getAttribute('id'));
         light.enabled = this.reader.getBoolean(lights[i].getElementsByTagName('enable')[0], 'value');
         light.ambient = this.parseColor(lights[i].getElementsByTagName('ambient')[0]);
         light.diffuse = this.parseColor(lights[i].getElementsByTagName('diffuse')[0]);
@@ -170,10 +180,9 @@ LSXParser.prototype.parseTextures = function(mainElement) {
 
     var textures = textures_list.getElementsByTagName('TEXTURE');
     for (i = 0; i < textures.length; i++) {
-        var texture = new Texture(textures[i].id);
+        var texture = new Texture(textures[i].getAttribute('id'));
 
-        var file = textures[i].getElementsByTagName('file')[0];
-        texture.path = this.reader.getString(file, 'path');
+        texture.path = textures[i].getElementsByTagName('file')[0].getAttribute('path');
 
         var aux = textures[i].getElementsByTagName('amplif_factor')[0];
         texture.amplif_factor.s = this.reader.getFloat(aux, 's');
@@ -192,7 +201,7 @@ LSXParser.prototype.parseMaterials = function(mainElement) {
 
     var materials = materials_list.getElementsByTagName('MATERIAL');
     for (i = 0; i < materials.length; i++) {
-        var mat = new Material(materials[i].id);
+        var mat = new Material(materials[i].getAttribute('id'));
         mat.ambient = this.parseColor(materials[i].getElementsByTagName('ambient')[0]);
         mat.diffuse = this.parseColor(materials[i].getElementsByTagName('diffuse')[0]);
         mat.specular = this.parseColor(materials[i].getElementsByTagName('specular')[0]);
@@ -205,6 +214,55 @@ LSXParser.prototype.parseMaterials = function(mainElement) {
     }
 
     return null;
+};
+
+LSXParser.prototype.parseLeaves = function(mainElement) {
+    var leaves_list = mainElement.getElementsByTagName('LEAVES')[0];
+    if (leaves_list == null) return "<LEAVES> element is missing.";
+
+    var leaves = leaves_list.getElementsByTagName('LEAF');
+    for (i = 0; i < leaves.length; i++) {
+        var leaf = new Leaf(leaves[i].getAttribute('id'));
+        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+
+        var args_aux = leaves[i].getAttribute('args').split(" ");
+        switch (leaf.type) {
+            case "rectangle":
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseFloat(args_aux[1]));
+                leaf.args.push(parseFloat(args_aux[2]));
+                leaf.args.push(parseFloat(args_aux[3]));
+                break;
+            case "cylinder":
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseFloat(args_aux[1]));
+                leaf.args.push(parseFloat(args_aux[2]));
+                leaf.args.push(parseInt(args_aux[3]));
+                leaf.args.push(parseInt(args_aux[4]));
+                break;
+            case "sphere":
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseInt(args_aux[1]));
+                leaf.args.push(parseInt(args_aux[2]));
+                break;
+            case "triangle":
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseFloat(args_aux[1]));
+                leaf.args.push(parseFloat(args_aux[2]));
+
+                leaf.args.push(parseFloat(args_aux[3]));
+                leaf.args.push(parseFloat(args_aux[4]));
+                leaf.args.push(parseFloat(args_aux[5]));
+
+                leaf.args.push(parseFloat(args_aux[6]));
+                leaf.args.push(parseFloat(args_aux[7]));
+                leaf.args.push(parseFloat(args_aux[8]));
+                break;
+        }
+
+        leaf.print();
+        this.leaves.push(leaf);
+    }
 };
 
 LSXParser.prototype.parseColor = function(element) {
@@ -221,25 +279,46 @@ LSXParser.prototype.parseColor = function(element) {
  * Data structures
  */
 function Initials() {
-    this.frustum = {near: 0.0, far: 0.0};
-    this.translate = {x: 0.0, y: 0.0, z: 0.0};
+    this.frustum = {
+        near: 0.0,
+        far: 0.0
+    };
+    this.translate = {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0
+    };
     this.rotations = [];
-    this.scale = {sx: 1.0, sy: 1.0, sz: 1.0};
+    this.scale = {
+        sx: 1.0,
+        sy: 1.0,
+        sz: 1.0
+    };
     this.reference = 0.0;
 
     this.print = function() {
         console.log("Frustum (near / far): " + this.frustum.near + " / " + this.frustum.far);
         console.log("Translate: " + this.translate.x + " " + this.translate.y + " " + this.translate.z);
         for (i = 0; i < this.rotations.length; i++)
-            console.log("Rotation " + (i+1) + ": " + this.rotations[i].axis + "> " + this.rotations[i].angle);
+            console.log("Rotation " + (i + 1) + ": " + this.rotations[i].axis + "> " + this.rotations[i].angle);
         console.log("Scale: " + this.scale.sx + " " + this.scale.sy + " " + this.scale.sz);
         console.log("Reference: " + this.reference);
     };
 }
 
 function Illumination() {
-    this.ambient = {r:1.0, g:1.0, b:1.0, a:1.0};
-    this.background = {r:0.0, g:0.0, b:0.0, a:1.0};
+    this.ambient = {
+        r: 1.0,
+        g: 1.0,
+        b: 1.0,
+        a: 1.0
+    };
+    this.background = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 1.0
+    };
     this.doubleside = false;
 
     this.print = function() {
@@ -252,12 +331,32 @@ function Illumination() {
 function Light(id) {
     this.id = id;
     this.enabled = false;
-    this.position = {x:0.0, y:0.0, z:0.0, w:0.0};
-    this.ambient = {r:0.0, g:0.0, b:0.0, a:0.0};
-    this.diffuse = {r:0.0, g:0.0, b:0.0, a:0.0};
-    this.specular = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.position = {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0,
+        w: 0.0
+    };
+    this.ambient = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
+    this.diffuse = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
+    this.specular = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
 
-    this.setColor = function(which, color){
+    this.setColor = function(which, color) {
         this[which] = color;
     };
 
@@ -273,7 +372,10 @@ function Light(id) {
 function Texture(id) {
     this.id = id;
     this.path = "";
-    this.amplif_factor = {s:0.0, t:0.0};
+    this.amplif_factor = {
+        s: 0.0,
+        t: 0.0
+    };
 
     this.print = function() {
         console.log("Texture " + this.id);
@@ -285,10 +387,30 @@ function Texture(id) {
 function Material(id) {
     this.id = id;
     this.shininess = 0.0;
-    this.ambient = {r:0.0, g:0.0, b:0.0, a:0.0};
-    this.diffuse = {r:0.0, g:0.0, b:0.0, a:0.0};
-    this.specular = {r:0.0, g:0.0, b:0.0, a:0.0};
-    this.emission = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.ambient = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
+    this.diffuse = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
+    this.specular = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
+    this.emission = {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 0.0
+    };
 
     this.print = function() {
         console.log("Material " + this.id);
@@ -300,6 +422,18 @@ function Material(id) {
     };
 }
 
-var printColor = function(c){
-    return "("+ c.r + ", " + c.g + ", " + c.b + ", " + c.a + ")";
+function Leaf(id) {
+    this.id = id;
+    this.type = "";
+    this.args = [];
+
+    this.print = function() {
+        console.log("Leaf " + this.id);
+        console.log("Type: " + this.type);
+        console.log("Args: " + this.args);
+    };
+}
+
+var printColor = function(c) {
+    return "(" + c.r + ", " + c.g + ", " + c.b + ", " + c.a + ")";
 };
