@@ -34,4 +34,26 @@
     </LIGHT>
   </LIGHTS>
 
+  <TEXTURES>
+    <TEXTURE id="1">
+      <file path="example/path/test.png" />
+      <amplif_factor s="1.0" t="1.0" />
+    </TEXTURE>
+
+    <TEXTURE id="2">
+      <file path="example/path/test2.png" />
+      <amplif_factor s="2.0" t="2.0" />
+    </TEXTURE>
+  </TEXTURES>
+
+  <MATERIALS>
+    <MATERIAL id="1">                                  
+      <shininess value="100" />
+      <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+      <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+      <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+      <emission r="1.0" g="1.0" b="1.0" a="1.0" />
+    </MATERIAL>
+  </MATERIALS>
+
 </SCENE>

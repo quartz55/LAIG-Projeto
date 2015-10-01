@@ -9,6 +9,8 @@ function LSXParser(filename, scene) {
     this.initials = new Initials();
     this.illumination = new Illumination();
     this.lights = [];
+    this.textures = [];
+    this.materials = [];
 
     console.log("LSXParser for " + filename + ".");
 
@@ -38,6 +40,18 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
+    error = this.parseTextures(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    error = this.parseMaterials(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
     this.loadedOK = true;
     this.scene.onGraphLoaded();
 };
@@ -48,24 +62,19 @@ LSXParser.prototype.onXMLError = function(message) {
 };
 
 LSXParser.prototype.parseInitials = function(mainElement) {
-    var initials_list = mainElement.getElementsByTagName('INITIALS');
-    if (initials_list == null || initials_list.length == 0)
-        return "<INITIALS> element is missing.";
-
-    initials_list = initials_list[0];
+    var initials_list = mainElement.getElementsByTagName('INITIALS')[0];
+    if (initials_list == null) return "<INITIALS> element is missing.";
 
     // Frustum
-    var frustum = initials_list.getElementsByTagName('frustum');
-    if (frustum.length < 1 || frustum == null) return "No <frustum> tag.";
-    frustum = frustum[0];
+    var frustum = initials_list.getElementsByTagName('frustum')[0];
+    if (frustum == null) return "<frustum> element is missing";
 
     this.initials.frustum.near = this.reader.getFloat(frustum, 'near');
     this.initials.frustum.far = this.reader.getFloat(frustum, 'far');
 
     //Translate
-    var translate = initials_list.getElementsByTagName('translate');
-    if (translate.length != 1 || translate == null) return "No <translate> tag.";
-    translate = translate[0];
+    var translate = initials_list.getElementsByTagName('translate')[0];
+    if (translate == null) return "<translate> element is missing";
 
     this.initials.translate.x = this.reader.getFloat(translate, 'x');
     this.initials.translate.y = this.reader.getFloat(translate, 'y');
@@ -73,7 +82,7 @@ LSXParser.prototype.parseInitials = function(mainElement) {
 
     //Rotations
     var rotations = initials_list.getElementsByTagName('rotation');
-    if (rotations.length != 3 || rotations == null) return "Not enough <rotation> tags.";
+    if (rotations.length != 3 || rotations == null) return "Needs 3 <rotation> elements";
 
     for (i = 0; i < rotations.length; i++) {
         var rot = {axis: null, angle: null};
@@ -83,18 +92,17 @@ LSXParser.prototype.parseInitials = function(mainElement) {
     }
 
     //Scale
-    var scale = initials_list.getElementsByTagName('scale');
-    if (scale.length != 1 || scale == null) return "No <scale> tag.";
-    scale = scale[0];
+    var scale = initials_list.getElementsByTagName('scale')[0];
+    if (scale == null) return "<scale> element is missing";
     this.initials.scale.sx = this.reader.getFloat(scale, 'sx');
     this.initials.scale.sy = this.reader.getFloat(scale, 'sy');
     this.initials.scale.sz = this.reader.getFloat(scale, 'sz');
 
     //Reference length
-    var r_length = initials_list.getElementsByTagName('reference');
-    if (r_length.length != 1 || r_length == null) return "No <reference> tag.";
+    var r_length = initials_list.getElementsByTagName('reference')[0];
+    if (r_length == null) return "<reference> element is missing";
 
-    this.initials.reference = this.reader.getFloat(r_length[0], 'length');
+    this.initials.reference = this.reader.getFloat(r_length, 'length');
 
     this.initials.print();
 
@@ -103,28 +111,24 @@ LSXParser.prototype.parseInitials = function(mainElement) {
 
 
 LSXParser.prototype.parseIllumination = function(mainElement) {
-    var illumination_list = mainElement.getElementsByTagName('ILLUMINATION');
-    if (illumination_list == null || illumination_list.length == 0)
-        return "<ILLUMINATION> element is missing.";
-
-    illumination_list = illumination_list[0];
+    var illumination_list = mainElement.getElementsByTagName('ILLUMINATION')[0];
+    if (illumination_list == null) return "<ILLUMINATION> element is missing.";
 
     //Ambient
-    var ambient = illumination_list.getElementsByTagName('ambient');
-    if (ambient.length != 1 || ambient == null) return "No <ambient> tag.";
+    var ambient = illumination_list.getElementsByTagName('ambient')[0];
+    if (ambient == null) return "<ambient> element is missing";
 
-    this.illumination.ambient = this.parseColor(ambient[0]);
+    this.illumination.ambient = this.parseColor(ambient);
 
     //Background
-    var background = illumination_list.getElementsByTagName('background');
-    if (background.length != 1 || background == null) return "No <background> tag.";
+    var background = illumination_list.getElementsByTagName('background')[0];
+    if (background == null) return "<background> element is missing";
 
-    this.illumination.background = this.parseColor(background[0]);
+    this.illumination.background = this.parseColor(background);
 
     //Doubleside
-    var doubleside = illumination_list.getElementsByTagName('doubleside');
-    if (doubleside.length != 1 || doubleside == null) return "No <doubleside> tag.";
-    doubleside = doubleside[0];
+    var doubleside = illumination_list.getElementsByTagName('doubleside')[0];
+    if (doubleside == null) return "<doubleside> element is missing";
 
     this.illumination.doubleside = this.reader.getBoolean(doubleside, 'value');
 
@@ -134,11 +138,8 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
 };
 
 LSXParser.prototype.parseLights = function(mainElement) {
-    var lights_list = mainElement.getElementsByTagName('LIGHTS');
-    if (lights_list == null || lights_list.length == 0)
-        return "<ILLUMINATION> element is missing.";
-
-    lights_list = lights_list[0];
+    var lights_list = mainElement.getElementsByTagName('LIGHTS')[0];
+    if (lights_list == null) return "<LIGHTS> element is missing.";
 
     var lights = lights_list.getElementsByTagName('LIGHT');
     for (i = 0; i < lights.length; i++) {
@@ -159,6 +160,49 @@ LSXParser.prototype.parseLights = function(mainElement) {
 
         light.print();
         this.lights.push(light);
+    }
+
+    return null;
+};
+
+LSXParser.prototype.parseTextures = function(mainElement) {
+    var textures_list = mainElement.getElementsByTagName('TEXTURES')[0];
+    if (textures_list == null) return "<TEXTURES> element is missing.";
+
+    var textures = textures_list.getElementsByTagName('TEXTURE');
+    for (i = 0; i < textures.length; i++) {
+        var texture = new Texture(textures[i].id);
+
+        var file = textures[i].getElementsByTagName('file')[0];
+        texture.path = this.reader.getString(file, 'path');
+
+        var aux = textures[i].getElementsByTagName('amplif_factor')[0];
+        texture.amplif_factor.s = this.reader.getFloat(aux, 's');
+        texture.amplif_factor.t = this.reader.getFloat(aux, 't');
+
+        texture.print();
+        this.textures.push(texture);
+    }
+
+    return null;
+};
+
+LSXParser.prototype.parseMaterials = function(mainElement) {
+    var materials_list = mainElement.getElementsByTagName('MATERIALS')[0];
+    if (materials_list == null) return "<MATERIALS> element is missing.";
+
+    var materials = materials_list.getElementsByTagName('MATERIAL');
+    for (i = 0; i < materials.length; i++) {
+        var mat = new Material(materials[i].id);
+        mat.ambient = this.parseColor(materials[i].getElementsByTagName('ambient')[0]);
+        mat.diffuse = this.parseColor(materials[i].getElementsByTagName('diffuse')[0]);
+        mat.specular = this.parseColor(materials[i].getElementsByTagName('specular')[0]);
+        mat.emission = this.parseColor(materials[i].getElementsByTagName('emission')[0]);
+
+        mat.shininess = this.reader.getFloat(materials[i].getElementsByTagName('shininess')[0], 'value');
+
+        mat.print();
+        this.materials.push(mat);
     }
 
     return null;
@@ -209,10 +253,10 @@ function Illumination() {
 function Light(id) {
     this.id = id;
     this.enabled = false;
-    this.position = {x:0, y:0, z:0, w:0};
-    this.ambient = {r:0, g:0, b:0, a:0};
-    this.diffuse = {r:0, g:0, b:0, a:0};
-    this.specular = {r:0, g:0, b:0, a:0};
+    this.position = {x:0.0, y:0.0, z:0.0, w:0.0};
+    this.ambient = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.diffuse = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.specular = {r:0.0, g:0.0, b:0.0, a:0.0};
 
     this.setColor = function(which, color){
         this[which] = color;
@@ -224,6 +268,36 @@ function Light(id) {
         console.log("Ambient: " + printColor(this.ambient));
         console.log("Diffuse: " + printColor(this.diffuse));
         console.log("Specular: " + printColor(this.specular));
+    };
+}
+
+function Texture(id) {
+    this.id = id;
+    this.path = "";
+    this.amplif_factor = {s:0.0, t:0.0};
+
+    this.print = function() {
+        console.log("Texture " + this.id);
+        console.log("Path: " + this.path);
+        console.log("Amplif Factor: " + "(s:" + this.amplif_factor.s + ", t:" + this.amplif_factor.t + ")");
+    };
+}
+
+function Material(id) {
+    this.id = id;
+    this.shininess = 0.0;
+    this.ambient = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.diffuse = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.specular = {r:0.0, g:0.0, b:0.0, a:0.0};
+    this.emission = {r:0.0, g:0.0, b:0.0, a:0.0};
+
+    this.print = function() {
+        console.log("Material " + this.id);
+        console.log("Shininess: " + this.shininess);
+        console.log("Ambient: " + printColor(this.ambient));
+        console.log("Diffuse: " + printColor(this.diffuse));
+        console.log("Specular: " + printColor(this.specular));
+        console.log("Emission: " + printColor(this.emission));
     };
 }
 
