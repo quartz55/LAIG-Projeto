@@ -5,16 +5,15 @@ function LSXParser(filename, scene) {
     scene.graph = this;
 
     this.reader = new CGFXMLreader();
+    this.reader.open('scenes/' + filename, this);
+    console.log("LSXParser for " + filename + ".");
 
+    // Scene graph data
     this.initials = new Initials();
     this.illumination = new Illumination();
     this.lights = [];
     this.textures = [];
     this.materials = [];
-
-    console.log("LSXParser for " + filename + ".");
-
-    this.reader.open('scenes/' + filename, this);
 }
 
 LSXParser.prototype.onXMLReady = function() {
@@ -222,11 +221,11 @@ LSXParser.prototype.parseColor = function(element) {
  * Data structures
  */
 function Initials() {
-    this.frustum = {near: null, far: null};
-    this.translate = {x: 0, y: 0, z: 0};
+    this.frustum = {near: 0.0, far: 0.0};
+    this.translate = {x: 0.0, y: 0.0, z: 0.0};
     this.rotations = [];
-    this.scale = {sx: 1, sy: 1, sz: 1};
-    this.reference = 0;
+    this.scale = {sx: 1.0, sy: 1.0, sz: 1.0};
+    this.reference = 0.0;
 
     this.print = function() {
         console.log("Frustum (near / far): " + this.frustum.near + " / " + this.frustum.far);
@@ -239,8 +238,8 @@ function Initials() {
 }
 
 function Illumination() {
-    this.ambient = {r:1, g:1, b:1, a:1};
-    this.background = {r:0, g:0, b:0, a:1};
+    this.ambient = {r:1.0, g:1.0, b:1.0, a:1.0};
+    this.background = {r:0.0, g:0.0, b:0.0, a:1.0};
     this.doubleside = false;
 
     this.print = function() {
