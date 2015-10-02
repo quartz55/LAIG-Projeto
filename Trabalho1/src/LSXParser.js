@@ -152,20 +152,17 @@ LSXParser.prototype.parseLights = function(mainElement) {
 
     var lights = lights_list.getElementsByTagName('LIGHT');
     for (i = 0; i < lights.length; i++) {
-        var light = new Light(lights[i].getAttribute('id'));
+        var light = new Light(this.reader.getString(lights[i], 'id'));
         light.enabled = this.reader.getBoolean(lights[i].getElementsByTagName('enable')[0], 'value');
         light.ambient = this.parseColor(lights[i].getElementsByTagName('ambient')[0]);
         light.diffuse = this.parseColor(lights[i].getElementsByTagName('diffuse')[0]);
         light.specular = this.parseColor(lights[i].getElementsByTagName('specular')[0]);
 
-        var temp_position = {};
         var aux = lights[i].getElementsByTagName('position')[0];
-        temp_position.x = this.reader.getFloat(aux, 'x');
-        temp_position.y = this.reader.getFloat(aux, 'y');
-        temp_position.z = this.reader.getFloat(aux, 'z');
-        temp_position.w = this.reader.getFloat(aux, 'w');
-
-        light.position = temp_position;
+        light.position.x = this.reader.getFloat(aux, 'x');
+        light.position.y = this.reader.getFloat(aux, 'y');
+        light.position.z = this.reader.getFloat(aux, 'z');
+        light.position.w = this.reader.getFloat(aux, 'w');
 
         light.print();
         this.lights.push(light);
@@ -354,10 +351,6 @@ function Light(id) {
         g: 0.0,
         b: 0.0,
         a: 0.0
-    };
-
-    this.setColor = function(which, color) {
-        this[which] = color;
     };
 
     this.print = function() {

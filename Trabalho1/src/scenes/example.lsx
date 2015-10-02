@@ -1,47 +1,47 @@
 <SCENE>
 
     <INITIALS>
-        <frustum near="1.5" far="2.5" />
-        <translate x="1" y="2" z="3" />
-        <rotation axis="x" angle="1" />
-        <rotation axis="y" angle="2" />
-        <rotation axis="z" angle="3" />
-        <scale sx="0.5" sy="0.8" sz="1" />
-        <reference length="0" />
+        <frustum near="1.5" far="500" />
+        <translate x="0" y="0" z="0" />
+        <rotation axis="x" angle="0" />
+        <rotation axis="y" angle="0" />
+        <rotation axis="z" angle="0" />
+        <scale sx="1" sy="1" sz="1" />
+        <reference length="1" />
     </INITIALS>
 
     <ILLUMINATION>
-        <ambient r="0.5" g="0.5" b="0.2" a="1" />
+        <ambient r="0.1" g="0.1" b="0.1" a="1" />
         <doubleside value="1" />
-        <background r="0.2" g="0.2" b="0.2" a="1" />
+        <background r="0.0" g="0.75" b="1.0" a="1" />
     </ILLUMINATION>
 
     <LIGHTS>
-        <LIGHT id="0">
+        <LIGHT id="green" >
             <enable value="1" />
-            <position x="5" y="8" z="2" w="1" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1" />
-            <diffuse r="0.8" g="0.8" b="0.8" a="1" />
-            <specular r="0.2" g="0.2" b="0.2" a="1" />
+            <position x="0.5" y="0.5" z="0.5" w="1" />
+            <ambient r="0.0" g="0.5" b="0.0" a="1" />
+            <diffuse r="0.0" g="0.8" b="0.0" a="1" />
+            <specular r="0.0" g="0.2" b="0.0" a="1" />
         </LIGHT>
 
-        <LIGHT id="1">
+        <LIGHT id="red">
             <enable value="1" />
-            <position x="5" y="8" z="2" w="1" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1" />
-            <diffuse r="0.8" g="0.8" b="0.8" a="1" />
-            <specular r="0.2" g="0.2" b="0.2" a="1" />
+            <position x="-0.5" y="-0.5" z="-0.5" w="1" />
+            <ambient r="0.5" g="0.0" b="0.0" a="1" />
+            <diffuse r="0.8" g="0.0" b="0.0" a="1" />
+            <specular r="0.2" g="0.0" b="0.0" a="1" />
         </LIGHT>
     </LIGHTS>
 
     <TEXTURES>
-        <TEXTURE id="1">
-            <file path="example/path/test.png" />
+        <TEXTURE id="concrete">
+            <file path="textures/concrete.jpg" />
             <amplif_factor s="1.0" t="1.0" />
         </TEXTURE>
 
-        <TEXTURE id="2">
-            <file path="example/path/test2.png" />
+        <TEXTURE id="wood">
+            <file path="textures/wood.jpg" />
             <amplif_factor s="2.0" t="2.0" />
         </TEXTURE>
     </TEXTURES>
@@ -56,14 +56,11 @@
         </MATERIAL>
     </MATERIALS>
 
-
     <LEAVES>
-
         <LEAF id="rect" type="rectangle" args="0.0 0.0 1.0 1.0" />
         <LEAF id="cylinder" type="cylinder" args="10.0 1.0 1.0 8 8" />
         <LEAF id="sphere" type="sphere" args="1.0 8 16" />
         <LEAF id="tri" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
-
     </LEAVES>
 
 </SCENE>
