@@ -3934,6 +3934,16 @@ CGFobject.prototype.initGLBuffers = function() {
     a.bindBuffer(a.ELEMENT_ARRAY_BUFFER, null);
     this.inited = true;
 };
+CGFobject.prototype.updateTexCoordsGLBuffers = function() {
+    var a = this.scene.gl;
+    if (!this.texCoords) this.hasTexCoords = false;
+    else {
+        this.hasTexCoords = true;
+        if (!this.texCoordsBuffer) this.texCoordsBuffer = a.createBuffer();
+        a.bindBuffer(a.ARRAY_BUFFER, this.texCoordsBuffer);
+        a.bufferData(a.ARRAY_BUFFER, new Float32Array(this.texCoords), a.STATIC_DRAW);
+    };
+};
 CGFobject.prototype.initBuffers = function() {
     this.vertices = [-0.5, -0.5, 0, 0.5, -0.5, 0, -0.5, 0.5, 0, 0.5, 0.5, 0];
     this.indices = [0, 1, 2, 3];
@@ -3980,7 +3990,7 @@ function CGFaxis(a, b, c) {
         case 3:
             this.thickness = c;
         case 2:
-            this.length = height;
+            this.length = b;
     }
     this.HALF_PI = 3.1415926536 / 2;
     this.pyr = new CGFquadPyramid(a, this.length - this.thickness / 2.0, this.thickness);
@@ -4222,6 +4232,9 @@ CGFscene.prototype.popMatrix = function() {
 };
 CGFscene.prototype.multMatrix = function(a) {
     mat4.multiply(this.activeMatrix, this.activeMatrix, a);
+};
+CGFscene.prototype.getMatrix = function() {
+    return mat4.clone(this.activeMatrix);
 };
 CGFscene.prototype.translate = function(a, b, c) {
     mat4.translate(this.activeMatrix, this.activeMatrix, [a, b, c]);
