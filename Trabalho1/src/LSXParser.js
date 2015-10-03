@@ -78,13 +78,13 @@ LSXParser.prototype.parseInitials = function(mainElement) {
     this.initials.frustum.near = this.reader.getFloat(frustum, 'near');
     this.initials.frustum.far = this.reader.getFloat(frustum, 'far');
 
-    //Translate
-    var translate = initials_list.getElementsByTagName('translate')[0];
-    if (translate == null) return "<translate> element is missing";
+    //Translation
+    var translation = initials_list.getElementsByTagName('translation')[0];
+    if (translation == null) return "<translation> element is missing";
 
-    this.initials.translate.x = this.reader.getFloat(translate, 'x');
-    this.initials.translate.y = this.reader.getFloat(translate, 'y');
-    this.initials.translate.z = this.reader.getFloat(translate, 'z');
+    this.initials.translation.x = this.reader.getFloat(translation, 'x');
+    this.initials.translation.y = this.reader.getFloat(translation, 'y');
+    this.initials.translation.z = this.reader.getFloat(translation, 'z');
 
     //Rotations
     var rotations = initials_list.getElementsByTagName('rotation');
@@ -118,7 +118,6 @@ LSXParser.prototype.parseInitials = function(mainElement) {
     return null;
 };
 
-
 LSXParser.prototype.parseIllumination = function(mainElement) {
     var illumination_list = mainElement.getElementsByTagName('ILLUMINATION')[0];
     if (illumination_list == null) return "<ILLUMINATION> element is missing.";
@@ -134,12 +133,6 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
     if (background == null) return "<background> element is missing";
 
     this.illumination.background = this.parseColor(background);
-
-    //Doubleside
-    var doubleside = illumination_list.getElementsByTagName('doubleside')[0];
-    if (doubleside == null) return "<doubleside> element is missing";
-
-    this.illumination.doubleside = this.reader.getBoolean(doubleside, 'value');
 
     this.illumination.print();
 
@@ -280,7 +273,7 @@ function Initials() {
         near: 0.0,
         far: 0.0
     };
-    this.translate = {
+    this.translation = {
         x: 0.0,
         y: 0.0,
         z: 0.0
@@ -295,7 +288,7 @@ function Initials() {
 
     this.print = function() {
         console.log("Frustum (near / far): " + this.frustum.near + " / " + this.frustum.far);
-        console.log("Translate: " + this.translate.x + " " + this.translate.y + " " + this.translate.z);
+        console.log("Translation: " + this.translation.x + " " + this.translation.y + " " + this.translation.z);
         for (i = 0; i < this.rotations.length; i++)
             console.log("Rotation " + (i + 1) + ": " + this.rotations[i].axis + "> " + this.rotations[i].angle);
         console.log("Scale: " + this.scale.sx + " " + this.scale.sy + " " + this.scale.sz);
@@ -316,7 +309,6 @@ function Illumination() {
         b: 0.0,
         a: 1.0
     };
-    this.doubleside = false;
 
     this.print = function() {
         console.log("Ambient: " + printColor(this.ambient));

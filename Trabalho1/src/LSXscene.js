@@ -1,13 +1,13 @@
 var deg2rad = Math.PI / 180;
 
-function XMLscene() {
+function LSXscene() {
     CGFscene.call(this);
 }
 
-XMLscene.prototype = Object.create(CGFscene.prototype);
-XMLscene.prototype.constructor = XMLscene;
+LSXscene.prototype = Object.create(CGFscene.prototype);
+LSXscene.prototype.constructor = LSXscene;
 
-XMLscene.prototype.init = function(application) {
+LSXscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
     this.initCameras();
@@ -22,18 +22,18 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
 };
 
-XMLscene.prototype.initCameras = function() {
+LSXscene.prototype.initCameras = function() {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 };
 
-XMLscene.prototype.setDefaultAppearance = function() {
+LSXscene.prototype.setDefaultAppearance = function() {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
 };
 
-XMLscene.prototype.onGraphLoaded = function() {
+LSXscene.prototype.onGraphLoaded = function() {
 
     this.camera.near = this.graph.initials.frustum.near;
     this.camera.far = this.graph.initials.frustum.far;
@@ -91,7 +91,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     }
 };
 
-XMLscene.prototype.display = function() {
+LSXscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
     this.shader.bind();
 
@@ -115,35 +115,35 @@ XMLscene.prototype.display = function() {
             this.lights[i].update();
     };
 
-    this.axis.display();
+    if (this.axis.length != 0) this.axis.display();
 
     this.shader.unbind();
 };
 
-XMLscene.prototype.applyInitials = function() {
+LSXscene.prototype.applyInitials = function() {
     var inits = this.graph.initials;
-    var trans = inits.translate;
+    var trans = inits.translation;
     var scale = inits.scale;
     var rots = inits.rotations;
 
     this.translate(trans.x, trans.y, trans.z);
     for (var i = 0; i < rots.length; i++) {
         switch (rots[i].axis) {
-            case 'x':
-                this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
-                break;
-            case 'y':
-                this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
-                break;
-            case 'z':
-                this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
-                break;
+        case 'x':
+            this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
+            break;
+        case 'y':
+            this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
+            break;
+        case 'z':
+            this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
+            break;
         }
     }
     this.scale(scale.sx, scale.sy, scale.sz);
 };
 
-XMLscene.prototype.initLights = function() {
+LSXscene.prototype.initLights = function() {
 
     this.shader.bind();
 
