@@ -54,8 +54,8 @@ MyQuad.prototype.initBuffers = function () {
 
 MyQuad.prototype.updateTex = function(S, T) {
     this.texCoords = [
-        0, T,
         0, 0,
+        0, T,
         S, 0,
         S, T
     ];

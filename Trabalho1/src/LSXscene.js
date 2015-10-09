@@ -28,7 +28,7 @@ LSXscene.prototype.init = function(application) {
 };
 
 LSXscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 10, 30), vec3.fromValues(0, 0, 0));
 };
 
 LSXscene.prototype.setDefaultAppearance = function() {
@@ -224,10 +224,10 @@ LSXscene.prototype.initNodes = function() {
     var nodes_list = this.graph.nodes;
 
     var root_node = this.graph.findNode(this.graph.root_id);
-    this.auxFunc(root_node, root_node.material, root_node.texture, root_node.matrix);
+    this.DFS(root_node, root_node.material, root_node.texture, root_node.matrix);
 };
 
-LSXscene.prototype.auxFunc = function(node, currMaterial, currTexture, currMatrix) {
+LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
     var nextMat = node.material;
     if (node.material == "null") nextMat = currMaterial;
 
@@ -257,7 +257,7 @@ LSXscene.prototype.auxFunc = function(node, currMaterial, currTexture, currMatri
             continue;
         }
 
-        this.auxFunc(nextNode, nextMat, nextTex, nextMatrix);
+        this.DFS(nextNode, nextMat, nextTex, nextMatrix);
     }
 };
 
