@@ -32,10 +32,12 @@ LSXscene.prototype.initCameras = function() {
 };
 
 LSXscene.prototype.setDefaultAppearance = function() {
-    this.setAmbient(0.2, 0.4, 0.8, 1.0);
-    this.setDiffuse(0.2, 0.4, 0.8, 1.0);
-    this.setSpecular(0.2, 0.4, 0.8, 1.0);
-    this.setShininess(10.0);
+    for (var i = 0; i < this.materials.length; i++) {
+        if (this.materials[i].id == "default") {
+            this.materials[i].apply();
+            break;
+        }
+    }
 };
 
 LSXscene.prototype.onGraphLoaded = function() {
@@ -110,10 +112,12 @@ LSXscene.prototype.display = function() {
 
     this.applyViewMatrix();
 
-    this.setDefaultAppearance();
-
     // If LSX has been loaded
     if (this.graph.loadedOK) {
+
+        this.setDefaultAppearance();
+
+        if (this.axis.length != 0) this.axis.display();
 
         // Apply initial transforms
         this.applyInitials();
@@ -126,15 +130,15 @@ LSXscene.prototype.display = function() {
 
         for (i = 0; i < this.nodes.length; i++) {
             var node = this.nodes[i];
-            if (node.isLeaf) {
-                this.pushMatrix();
+            this.pushMatrix();
                 node.material.setTexture(node.texture);
-                node.material.apply();
-                this.multMatrix(node.matrix);
+            if (node.texture != null) {
                 node.primitive.updateTex(node.texture.amplif_factor.s, node.texture.amplif_factor.t);
-                node.primitive.display();
-                this.popMatrix();
             }
+            node.material.apply();
+            this.multMatrix(node.matrix);
+            node.primitive.display();
+            this.popMatrix();
         }
         // this.pushMatrix();
 
@@ -146,7 +150,6 @@ LSXscene.prototype.display = function() {
 
         // this.popMatrix();
 
-        if (this.axis.length != 0) this.axis.display();
     };
 
     this.shader.unbind();
@@ -161,15 +164,15 @@ LSXscene.prototype.applyInitials = function() {
     this.translate(trans.x, trans.y, trans.z);
     for (var i = 0; i < rots.length; i++) {
         switch (rots[i].axis) {
-        case 'x':
-            this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
-            break;
-        case 'y':
-            this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
-            break;
-        case 'z':
-            this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
-            break;
+            case 'x':
+                this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
+                break;
+            case 'y':
+                this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
+                break;
+            case 'z':
+                this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
+                break;
         }
     }
     this.scale(scale.sx, scale.sy, scale.sz);
@@ -203,16 +206,16 @@ LSXscene.prototype.initLeaves = function() {
     for (var i = 0; i < this.graph.leaves.length; i++) {
         var leaf = this.graph.leaves[i];
         switch (leaf.type) {
-        case "rectangle":
-            var primitive = new MyQuad(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "cylinder":
-            primitive = new MyFullCylinder(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
+            case "rectangle":
+                var primitive = new MyQuad(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "cylinder":
+                primitive = new MyFullCylinder(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
         }
     }
 };

@@ -1,165 +1,439 @@
 <SCENE>
 
-  <INITIALS>
-    <frustum near="1.5" far="500" />
-    <translation x="0" y="0" z="0" />
-    <rotation axis="x" angle="0" />
-    <rotation axis="y" angle="0" />
-    <rotation axis="z" angle="0" />
-    <scale sx="1" sy="1" sz="1" />
-    <reference length="5" />
-  </INITIALS>
+    <INITIALS>
+        <frustum near="1.5" far="500" />
+        <translation x="0" y="0" z="0" />
+        <!-- <translation x="-2.5" y="0" z="-4" /> -->
+        <rotation axis="x" angle="0" />
+        <rotation axis="y" angle="0" />
+        <rotation axis="z" angle="0" />
+        <scale sx="1" sy="1" sz="1" />
+        <reference length="5" />
+    </INITIALS>
 
-  <ILLUMINATION>
-    <ambient r="0.1" g="0.1" b="0.1" a="1" />
-    <background r="0.0" g="0.75" b="1.0" a="1" />
-  </ILLUMINATION>
+    <ILLUMINATION>
+        <ambient r="0.1" g="0.1" b="0.1" a="1" />
+        <background r="0.0" g="0.75" b="1.0" a="1" />
+    </ILLUMINATION>
 
-  <LIGHTS>
-    <LIGHT id="white">
-      <enable value="1" />
-      <position x="2.5" y="2.5" z="2.5" w="1" />
-      <ambient r="0.5" g="0.5" b="0.5" a="1" />
-      <diffuse r="0.8" g="0.8" b="0.8" a="1" />
-      <specular r="0.2" g="0.2" b="0.2" a="1" />
-    </LIGHT>
+    <LIGHTS>
+        <LIGHT id="white">
+            <enable value="1" />
+            <position x="2.5" y="2.5" z="2.5" w="1" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="0.2" g="0.2" b="0.2" a="1" />
+        </LIGHT>
 
-    <LIGHT id="red">
-      <enable value="1" />
-      <position x="-0.5" y="-0.5" z="-0.5" w="1" />
-      <ambient r="0.5" g="0.0" b="0.0" a="1" />
-      <diffuse r="0.8" g="0.0" b="0.0" a="1" />
-      <specular r="0.2" g="0.0" b="0.0" a="1" />
-    </LIGHT>
-  </LIGHTS>
+        <LIGHT id="red">
+            <enable value="1" />
+            <position x="4.5" y="4" z="6.5" w="1" />
+            <ambient r="0.2" g="0.0" b="0.0" a="1" />
+            <diffuse r="0.8" g="0.0" b="0.0" a="1" />
+            <specular r="0.4" g="0.0" b="0.0" a="1" />
+        </LIGHT>
+    </LIGHTS>
 
-  <TEXTURES>
-    <TEXTURE id="concrete">
-      <file path="textures/concrete.jpg" />
-      <amplif_factor s="1.0" t="1.0" />
-    </TEXTURE>
+    <TEXTURES>
+        <TEXTURE id="concrete">
+            <file path="textures/concrete.jpg" />
+            <amplif_factor s="2.0" t="3.0" />
+        </TEXTURE>
 
-    <TEXTURE id="wood">
-      <file path="textures/wood.jpg" />
-      <amplif_factor s="2.5" t="2.0" />
-    </TEXTURE>
-  </TEXTURES>
+        <TEXTURE id="wood">
+            <file path="textures/wood.jpg" />
+            <amplif_factor s="2.5" t="2.0" />
+        </TEXTURE>
+    </TEXTURES>
 
-  <MATERIALS>
-    <MATERIAL id="default">
-      <shininess value="100" />
-      <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-      <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-      <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-      <emission r="1.0" g="1.0" b="1.0" a="1.0" />
-    </MATERIAL>
+    <MATERIALS>
+        <MATERIAL id="default">
+            <shininess value="100" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
 
-    <MATERIAL id="wood">
-      <shininess value="100" />
-      <specular r="1.0" g="1.0" b="1.0" a="0.2" />
-      <diffuse r="0.7" g="0.4" b="0" a="1.0" />
-      <ambient r="0.7" g="0.4" b="0" a="1.0" />
-      <emission r="0.7" g="0.4" b="0" a="0.1" />
-    </MATERIAL>
-  </MATERIALS>
+        <MATERIAL id="wood">
+            <shininess value="100" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.2" />
+            <diffuse r="0.7" g="0.4" b="0" a="1.0" />
+            <ambient r="0.7" g="0.4" b="0" a="1.0" />
+            <emission r="0.0" g="0.0" b="0" a="0.0" />
+        </MATERIAL>
 
-  <LEAVES>
-    <!-- Are drawn along the X axis  -->
-    <LEAF id="rect" type="rectangle" args="0.0 0.0 2.0 2.0" />
-    <LEAF id="square" type="rectangle" args="0.0 0.0 1.0 1.0" />
-    <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
-    <LEAF id="sphere" type="sphere" args="1.0 8 16" />
-    <LEAF id="tri" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
-  </LEAVES>
+        <MATERIAL id="gold">
+            <shininess value="100" />
+            <specular r="1.0" g="0.92" b="0" a="1.0" />
+            <diffuse r="1.0" g="0.92" b="0" a="1.0" />
+            <ambient r="1" g="0.92" b="0" a="1.0" />
+            <emission r="1" g="0.92" b="0" a="0" />
+        </MATERIAL>
+    </MATERIALS>
+
+    <LEAVES>
+        <!-- Are drawn along the X axis  -->
+        <LEAF id="square" type="rectangle" args="0.0 0.0 1.0 1.0" />
+        <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
+        <LEAF id="sphere" type="sphere" args="1.0 8 16" />
+        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
+    </LEAVES>
 
 
-  <NODES>
-    <ROOT id="scene" />
+    <NODES>
+        <ROOT id="scene" />
 
-    <NODE id="scene">
-      <MATERIAL id="default" />
-      <TEXTURE id="clear" />
+        <NODE id="scene">
+            <MATERIAL id="default" />
+            <TEXTURE id="clear" />
 
-      <DESCENDANTS>
-        <DESCENDANT id="floor" />
-        <DESCENDANT id="left-wall" />
-        <DESCENDANT id="back-wall" />
-        <DESCENDANT id="left-pillar" />
-        <DESCENDANT id="right-pillar" />
-      </DESCENDANTS>
+            <DESCENDANTS>
+                <DESCENDANT id="ceiling" />
+                <DESCENDANT id="podium" />
+                <DESCENDANT id="pillars" />
+                <DESCENDANT id="floor" />
+                <DESCENDANT id="stairs" />
+            </DESCENDANTS>
+        </NODE>
 
-    </NODE>
+        <!-- ######################### PODIUM -->
+        <NODE id="podium">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
 
-    <NODE id="floor">
-      <MATERIAL id="wood" />
-      <TEXTURE id="wood" />
+            <TRANSLATION x="2.5" y="0" z="4"  />
+            <TRANSLATION x="-1.25" y="0" z="-1.25"  />
 
-      <SCALE sx="5" sy="1" sz="8" />
+            <DESCENDANTS>
+                <DESCENDANT id="podium-treasure" />
+                <DESCENDANT id="podium-top" />
+                <DESCENDANT id="podium-pillar" />
+                <DESCENDANT id="podium-base" />
+            </DESCENDANTS>
+        </NODE>
 
-      <DESCENDANTS>
-        <DESCENDANT id="square" />
-      </DESCENDANTS>
-    </NODE>
+        <NODE id="podium-treasure">
+            <MATERIAL id="gold" />
+            <TEXTURE id="clear" />
 
-    <NODE id="left-wall">
-      <MATERIAL id="default" />
-      <TEXTURE id="concrete" />
+            <TRANSLATION x="0.25" y="1.90" z="0.25" />
+            <TRANSLATION x="1" y="0" z="1" />
+            <SCALE sx="0.2" sy="0.20" sz="0.2" />
+            <TRANSLATION x="-1" y="0" z="-1" />
 
-      <SCALE sx="1" sy="4" sz="8" />
-      <TRANSLATION x="0" y="1" z="0" />
-      <ROTATION axis="z" angle="-90" />
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+        </NODE>
 
-      <DESCENDANTS>
-        <DESCENDANT id="square" />
-      </DESCENDANTS>
-    </NODE>
+        <NODE id="podium-top">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
 
-    <NODE id="back-wall">
-      <MATERIAL id="default" />
-      <TEXTURE id="concrete" />
+            <TRANSLATION x="0.75" y="1.75" z="0.75" />
+            <TRANSLATION x="0.5" y="0" z="0.5" />
+            <SCALE sx="1" sy="0.15" sz="1" />
+            <TRANSLATION x="-0.5" y="0" z="-0.5" />
 
-      <SCALE sx="5" sy="4" sz="1" />
-      <TRANSLATION x="0" y="1" z="0" />
-      <ROTATION axis="x" angle="90" />
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
 
-      <DESCENDANTS>
-        <DESCENDANT id="square" />
-      </DESCENDANTS>
-    </NODE>
+        <NODE id="podium-pillar">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
 
-    <NODE id="left-pillar">
-      <MATERIAL id="default" />
-      <TEXTURE id="concrete" />
+            <TRANSLATION x="1.25" y="0.5" z="1.25" />
+            <SCALE sx="0.15" sy="1.25" sz="0.15" />
+            <TRANSLATION x="-1" y="0" z="-1" />
 
-      <TRANSLATION x="0" y="0" z="7" />
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+        </NODE>
 
-      <DESCENDANTS>
-        <DESCENDANT id="pillar" />
-      </DESCENDANTS>
-    </NODE>
+        <NODE id="podium-base">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
 
-    <NODE id="right-pillar">
-      <MATERIAL id="default" />
-      <TEXTURE id="concrete" />
+            <DESCENDANTS>
+                <DESCENDANT id="podium-base-step1" />
+                <DESCENDANT id="podium-base-step2" />
+            </DESCENDANTS>
+        </NODE>
 
-      <TRANSLATION x="4" y="0" z="7" />
+        <NODE id="podium-base-step1">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
 
-      <DESCENDANTS>
-        <DESCENDANT id="pillar" />
-      </DESCENDANTS>
-    </NODE>
+            <SCALE sx="1.25" sy="0.25" sz="1.25" />
 
-    <NODE id="pillar">
-      <MATERIAL id="default" />
-      <TEXTURE id="concrete" />
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+        </NODE>
 
-      <SCALE sx="0.5" sy="4" sz="0.5" />
+        <NODE id="podium-base-step2">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
 
-      <DESCENDANTS>
-        <DESCENDANT id="cylinder" />
-      </DESCENDANTS>
-    </NODE>
+            <TRANSLATION x="0.25" y="0.25" z="0.25" />
+            <SCALE sx="1" sy="0.25" sz="1" />
 
-  </NODES>
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- ######################### PILLARS -->
+        <NODE id="pillars">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="top-left-pillar" />
+                <DESCENDANT id="bottom-left-pillar" />
+                <DESCENDANT id="top-right-pillar" />
+                <DESCENDANT id="bottom-right-pillar" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="top-left-pillar">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0.5" y="0" z="0.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="pillar" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="bottom-left-pillar">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0.5" y="0" z="6.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="pillar" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="top-right-pillar">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="3.5" y="0" z="0.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="pillar" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="bottom-right-pillar">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="3.5" y="0" z="6.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="pillar" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="pillar">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <SCALE sx="0.5" sy="4" sz="0.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <!-- ######################### FLOOR and CEILING -->
+        <NODE id="floor">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <TRANSLATION x="0" y="-0.5" z="0" />
+            <SCALE sx="5" sy="0.5" sz="8" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="ceiling">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <TRANSLATION x="0" y="4" z="0" />
+            <SCALE sx="5" sy="0.5" sz="8" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- ######################### STAIRS -->
+        <NODE id="stairs">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="stair1" />
+                <DESCENDANT id="stair2" />
+                <DESCENDANT id="stair3" />
+                <DESCENDANT id="stair4" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="stair1">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="-0.5" y="-1" z="-0.5" />
+            <SCALE sx="6" sy="0.5" sz="9" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="stair2">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="-1" y="-1.5" z="-1" />
+            <SCALE sx="7" sy="0.5" sz="10" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="stair3">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="-1.5" y="-2" z="-1.5" />
+            <SCALE sx="8" sy="0.5" sz="11" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="stair4">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="-2" y="-2.5" z="-2" />
+            <SCALE sx="9" sy="0.5" sz="12" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- ######################### CUBE -->
+        <NODE id="cube">
+            <MATERIAL id="default" />
+            <TEXTURE id="concrete" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="side1" />
+                <DESCENDANT id="side2" />
+                <DESCENDANT id="side3" />
+                <DESCENDANT id="side4" />
+                <DESCENDANT id="side5" />
+                <DESCENDANT id="side6" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="side1">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="1" y="0" z="0" />
+            <ROTATION axis="z" angle="180" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="side2">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <ROTATION axis="z" angle="90" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="side3">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <ROTATION axis="x" angle="-90" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="side4">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="1" y="0" z="0" />
+            <ROTATION axis="z" angle="-90" />
+            <TRANSLATION x="-1" y="0" z="0" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="side5">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0" y="0" z="1" />
+            <ROTATION axis="x" angle="90" />
+            <TRANSLATION x="0" y="0" z="-1" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+        <NODE id="side6">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0" y="1" z="0" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+
+        </NODE>
+
+    </NODES>
 
 </SCENE>
