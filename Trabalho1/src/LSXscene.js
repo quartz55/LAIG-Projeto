@@ -19,6 +19,11 @@ LSXscene.prototype.init = function(application) {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    this.textures = [];
+    this.materials = [];
+    this.leaves = [];
+    this.nodes = [];
+
     this.axis = new CGFaxis(this);
 };
 
@@ -34,7 +39,7 @@ LSXscene.prototype.setDefaultAppearance = function() {
 };
 
 LSXscene.prototype.onGraphLoaded = function() {
-
+    // Frustum
     this.camera.near = this.graph.initials.frustum.near;
     this.camera.far = this.graph.initials.frustum.far;
 
@@ -60,62 +65,89 @@ LSXscene.prototype.onGraphLoaded = function() {
      * Textures
      */
     if (this.graph.textures.length > 0)
-        this.enableTextures();
+        this.enableTextures(true);
 
-    this.textures = [];
     var text = this.graph.textures;
-    for ( i = 0; i < text.length; i++) {
-        var aux = new CGFappearance(this);
-        aux.id = text[i].id;
-        aux.loadTexture(text[i].path);
-        aux.setTextureWrap(text[i].amplif_factor.s, text[i].amplif_factor.t);
+    for (var i = 0; i < text.length; i++) {
+        var aux = new SceneTexture(this, text[i].id, text[i].path, text[i].amplif_factor);
 
-        this.textures[i] = aux;
+        this.textures.push(aux);
     }
 
     /*
      * Materials
      */
-    this.materials = [];
     var mat = this.graph.materials;
     for (i = 0; i < mat.length; i++) {
-        var aux = new CGFappearance(this);
-        aux.id = mat[i].id;
+        aux = new SceneMaterial(this, mat[i].id);
         aux.setAmbient(mat[i].ambient.r, mat[i].ambient.g, mat[i].ambient.b, mat[i].ambient.a);
         aux.setDiffuse(mat[i].diffuse.r, mat[i].diffuse.g, mat[i].diffuse.b, mat[i].diffuse.a);
         aux.setSpecular(mat[i].specular.r, mat[i].specular.g, mat[i].specular.b, mat[i].specular.a);
         aux.setEmission(mat[i].emission.r, mat[i].emission.g, mat[i].emission.b, mat[i].emission.a);
         aux.setShininess(mat[i].shininess);
 
-        this.materials[i] = aux;
+        this.materials.push(aux);
     }
+
+    /*
+     * Leaves
+     */
+    this.initLeaves();
+
+    /*
+     * Nodes
+     */
+    this.initNodes();
 };
 
 LSXscene.prototype.display = function() {
-    // ---- BEGIN Background, camera and axis setup
     this.shader.bind();
-
-    // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-    // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
 
-    // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
     this.setDefaultAppearance();
 
-    // Lights update
+    // If LSX has been loaded
     if (this.graph.loadedOK) {
+
+        // Apply initial transforms
         this.applyInitials();
+
+        // Lights update
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
-    };
 
-    if (this.axis.length != 0) this.axis.display();
+        // Nodes
+
+        for (i = 0; i < this.nodes.length; i++) {
+            var node = this.nodes[i];
+            if (node.isLeaf) {
+                this.pushMatrix();
+                node.material.setTexture(node.texture);
+                node.material.apply();
+                this.multMatrix(node.matrix);
+                node.primitive.updateTex(node.texture.amplif_factor.s, node.texture.amplif_factor.t);
+                node.primitive.display();
+                this.popMatrix();
+            }
+        }
+        // this.pushMatrix();
+
+        // this.translate(4, 0, 4);
+        // for (i = 0; i < this.leaves.length; i++) {
+        //     this.leaves[i].display();
+        //     this.translate(0, 0.25, 0);
+        // }
+
+        // this.popMatrix();
+
+        if (this.axis.length != 0) this.axis.display();
+    };
 
     this.shader.unbind();
 };
@@ -144,8 +176,9 @@ LSXscene.prototype.applyInitials = function() {
 };
 
 LSXscene.prototype.initLights = function() {
-
     this.shader.bind();
+
+    this.lights = [];
 
     for (var i = 0; i < this.graph.lights.length; i++) {
         var l = this.graph.lights[i];
@@ -165,3 +198,103 @@ LSXscene.prototype.initLights = function() {
 
     this.shader.unbind();
 };
+
+LSXscene.prototype.initLeaves = function() {
+    for (var i = 0; i < this.graph.leaves.length; i++) {
+        var leaf = this.graph.leaves[i];
+        switch (leaf.type) {
+        case "rectangle":
+            var primitive = new MyQuad(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "cylinder":
+            primitive = new MyFullCylinder(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        }
+    }
+};
+
+LSXscene.prototype.initNodes = function() {
+    var nodes_list = this.graph.nodes;
+
+    var root_node = this.graph.findNode(this.graph.root_id);
+    this.auxFunc(root_node, root_node.material, root_node.texture, root_node.matrix);
+};
+
+LSXscene.prototype.auxFunc = function(node, currMaterial, currTexture, currMatrix) {
+    var nextMat = node.material;
+    if (node.material == "null") nextMat = currMaterial;
+
+    var nextTex = node.texture;
+    if (node.texture == "null") nextTex = currTexture;
+    else if (node.texture == "clear") nextTex = null;
+
+    var nextMatrix = mat4.create();
+    mat4.multiply(nextMatrix, currMatrix, node.matrix);
+
+    for (var i = 0; i < node.descendants.length; i++) {
+        var nextNode = this.graph.findNode(node.descendants[i]);
+
+        if (nextNode == null) {
+            var aux = new SceneObject(node.descendants[i]);
+            aux.material = this.getMaterial(nextMat);
+            aux.texture = this.getTexture(nextTex);
+            aux.matrix = nextMatrix;
+            aux.isLeaf = true;
+            for (var j = 0; j < this.leaves.length; j++) {
+                if (this.leaves[j].id == aux.id) {
+                    aux.primitive = this.leaves[j];
+                    break;
+                }
+            }
+            this.nodes.push(aux);
+            continue;
+        }
+
+        this.auxFunc(nextNode, nextMat, nextTex, nextMatrix);
+    }
+};
+
+LSXscene.prototype.getMaterial = function(id) {
+    if (id == null) return null;
+
+    for (var i = 0; i < this.materials.length; i++)
+        if (id == this.materials[i].id) return this.materials[i];
+
+    return null;
+};
+
+LSXscene.prototype.getTexture = function(id) {
+    if (id == null) return null;
+
+    for (var i = 0; i < this.textures.length; i++)
+        if (id == this.textures[i].id) return this.textures[i];
+
+    return null;
+};
+
+function SceneTexture(scene, id, path, amplif_factor) {
+    CGFtexture.call(this, scene, path);
+    this.id = id;
+    this.amplif_factor = amplif_factor;
+}
+SceneTexture.prototype = Object.create(CGFtexture.prototype);
+SceneTexture.prototype.constructor = SceneTexture;
+
+function SceneMaterial(scene, id) {
+    CGFappearance.call(this, scene);
+    this.id = id;
+}
+SceneMaterial.prototype = Object.create(CGFappearance.prototype);
+SceneMaterial.prototype.constructor = SceneMaterial;
+
+function SceneObject(id) {
+    this.id = id;
+    this.material = null;
+    this.texture = null;
+    this.matrix = null;
+    this.primitive = null;
+}

@@ -15,6 +15,8 @@ function LSXParser(filename, scene) {
     this.textures = [];
     this.materials = [];
     this.leaves = [];
+    this.root_id = null;
+    this.nodes = [];
 }
 
 LSXParser.prototype.onXMLReady = function() {
@@ -22,11 +24,15 @@ LSXParser.prototype.onXMLReady = function() {
 
     var mainElement = this.reader.xmlDoc.documentElement;
 
+    console.log("---------INITIALS----------");
+
     var error = this.parseInitials(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
     }
+
+    console.log("---------Illumination----------");
 
     error = this.parseIllumination(mainElement);
     if (error != null) {
@@ -34,11 +40,15 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
+    console.log("---------Lights----------");
+
     error = this.parseLights(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
     }
+
+    console.log("---------Textures----------");
 
     error = this.parseTextures(mainElement);
     if (error != null) {
@@ -46,17 +56,31 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
+    console.log("---------Materials----------");
+
     error = this.parseMaterials(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
     }
 
+    console.log("---------Leaves----------");
+
     error = this.parseLeaves(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
     }
+
+    console.log("---------Nodes----------");
+
+    error = this.parseNodes(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log("-------------------");
 
     this.loadedOK = true;
     this.scene.onGraphLoaded();
@@ -248,11 +272,80 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 leaf.args.push(parseFloat(args_aux[7]));
                 leaf.args.push(parseFloat(args_aux[8]));
                 break;
+        default:
+            return "Type " +  "\"" + leaf.type + "\" not valid.";
         }
 
         leaf.print();
         this.leaves.push(leaf);
     }
+
+    return null;
+};
+
+LSXParser.prototype.parseNodes = function(mainElement) {
+    var nodes_list = mainElement.getElementsByTagName('NODES')[0];
+    if (nodes_list == null) return "<NODES> element is missing.";
+
+    var root_node = nodes_list.getElementsByTagName('ROOT')[0];
+    this.root_id = this.reader.getString(root_node, 'id');
+    console.log("ROOT Node: " + this.root_id);
+
+    var nodes = nodes_list.getElementsByTagName('NODE');
+
+    for (i = 0; i < nodes.length; i++) {
+        var node = new Node(nodes[i].getAttribute('id'));
+        node.material = this.reader.getString(nodes[i].getElementsByTagName('MATERIAL')[0], 'id');
+        node.texture = this.reader.getString(nodes[i].getElementsByTagName('TEXTURE')[0], 'id');
+
+        // Transforms
+        var children = nodes[i].children;
+        for (j = 0; j < children.length; j++) {
+            switch(children[j].tagName) {
+            case "TRANSLATION":
+                var trans = [];
+                trans.push(this.reader.getFloat(children[j], "x"));
+                trans.push(this.reader.getFloat(children[j], "y"));
+                trans.push(this.reader.getFloat(children[j], "z"));
+                // console.log("trans: " + trans);
+                mat4.translate(node.matrix, node.matrix, trans);
+                break;
+            case "SCALE":
+                var scale = [];
+                scale.push(this.reader.getFloat(children[j], "sx"));
+                scale.push(this.reader.getFloat(children[j], "sy"));
+                scale.push(this.reader.getFloat(children[j], "sz"));
+                // console.log("scale: " + scale);
+                mat4.scale(node.matrix, node.matrix, scale);
+                break;
+            case "ROTATION":
+                var axis = this.reader.getItem(children[j], "axis", ["x", "y", "z"]);
+                var angle = this.reader.getFloat(children[j], "angle") * deg2rad;
+                var rot = [0, 0, 0];
+
+                // console.log("rot: " + axis + " " + angle + " ");
+                rot[["x", "y", "z"].indexOf(axis)] = 1;
+                mat4.rotate(node.matrix, node.matrix, angle, rot);
+                break;
+            }
+        }
+
+        //Descendants
+        var desc = nodes[i].getElementsByTagName('DESCENDANTS')[0];
+        if (desc == null) return "No <DESCENDANTS> tag found";
+
+        var d_list = desc.getElementsByTagName('DESCENDANT');
+        if (d_list.length < 1) return "Need at least 1 <DESCENDANT>";
+
+        for (j = 0; j < d_list.length; j++) {
+            node.descendants.push(d_list[j].getAttribute('id'));
+        }
+
+        node.print();
+        this.nodes.push(node);
+    }
+
+    return null;
 };
 
 LSXParser.prototype.parseColor = function(element) {
@@ -263,7 +356,12 @@ LSXParser.prototype.parseColor = function(element) {
     color.a = this.reader.getFloat(element, 'a');
     return color;
 };
+LSXParser.prototype.findNode = function(id) {
+    for (i = 0; i < this.nodes.length; i++)
+        if (this.nodes[i].id == id) return this.nodes[i];
 
+    return null;
+};
 
 /*
  * Data structures
@@ -416,6 +514,23 @@ function Leaf(id) {
         console.log("Leaf " + this.id);
         console.log("Type: " + this.type);
         console.log("Args: " + this.args);
+    };
+}
+
+function Node(id) {
+    this.id = id;
+    this.material = null;
+    this.texture = null;
+    this.matrix = mat4.create();
+
+    this.descendants = [];
+
+    this.print = function() {
+        console.log("Node " + this.id);
+        console.log("Material " + this.material);
+        console.log("Texture " + this.texture);
+        console.log("Matrix "+ this.matrix);
+        console.log("Descendants: " + this.descendants);
     };
 }
 

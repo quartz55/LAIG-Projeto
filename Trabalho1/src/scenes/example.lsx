@@ -16,12 +16,12 @@
   </ILLUMINATION>
 
   <LIGHTS>
-    <LIGHT id="green">
+    <LIGHT id="white">
       <enable value="1" />
-      <position x="0.5" y="0.5" z="0.5" w="1" />
-      <ambient r="0.0" g="0.5" b="0.0" a="1" />
-      <diffuse r="0.0" g="0.8" b="0.0" a="1" />
-      <specular r="0.0" g="0.2" b="0.0" a="1" />
+      <position x="2.5" y="2.5" z="2.5" w="1" />
+      <ambient r="0.5" g="0.5" b="0.5" a="1" />
+      <diffuse r="0.8" g="0.8" b="0.8" a="1" />
+      <specular r="0.2" g="0.2" b="0.2" a="1" />
     </LIGHT>
 
     <LIGHT id="red">
@@ -41,7 +41,7 @@
 
     <TEXTURE id="wood">
       <file path="textures/wood.jpg" />
-      <amplif_factor s="2.0" t="2.0" />
+      <amplif_factor s="2.5" t="2.0" />
     </TEXTURE>
   </TEXTURES>
 
@@ -67,7 +67,7 @@
     <!-- Are drawn along the X axis  -->
     <LEAF id="rect" type="rectangle" args="0.0 0.0 2.0 2.0" />
     <LEAF id="square" type="rectangle" args="0.0 0.0 1.0 1.0" />
-    <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 8 8" />
+    <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
     <LEAF id="sphere" type="sphere" args="1.0 8 16" />
     <LEAF id="tri" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
   </LEAVES>
@@ -80,13 +80,10 @@
       <MATERIAL id="default" />
       <TEXTURE id="clear" />
 
-      <TRANSLATION x="ff" y="ff" z="ff" />
-      <ROTATION axis="cc" angle="ff" />
-      <SCALE sx="ff" sy="ff" sz="ff" />
-
       <DESCENDANTS>
         <DESCENDANT id="floor" />
-        <DESCENDANT id="wall" />
+        <DESCENDANT id="left-wall" />
+        <DESCENDANT id="back-wall" />
         <DESCENDANT id="left-pillar" />
         <DESCENDANT id="right-pillar" />
       </DESCENDANTS>
@@ -98,19 +95,32 @@
       <TEXTURE id="wood" />
 
       <SCALE sx="5" sy="1" sz="8" />
-      <ROTATION axis="x" angle="-90" />
 
       <DESCENDANTS>
         <DESCENDANT id="square" />
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="wall">
+    <NODE id="left-wall">
       <MATERIAL id="default" />
-      <TEXTURE id="clear" />
+      <TEXTURE id="concrete" />
 
-      <TRANSLATION x="0" y="1.5" z="4" />
-      <SCALE sx="5" sy="3" sz="1" />
+      <SCALE sx="1" sy="4" sz="8" />
+      <TRANSLATION x="0" y="1" z="0" />
+      <ROTATION axis="z" angle="-90" />
+
+      <DESCENDANTS>
+        <DESCENDANT id="square" />
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="back-wall">
+      <MATERIAL id="default" />
+      <TEXTURE id="concrete" />
+
+      <SCALE sx="5" sy="4" sz="1" />
+      <TRANSLATION x="0" y="1" z="0" />
+      <ROTATION axis="x" angle="90" />
 
       <DESCENDANTS>
         <DESCENDANT id="square" />
@@ -118,10 +128,10 @@
     </NODE>
 
     <NODE id="left-pillar">
-      <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <MATERIAL id="default" />
+      <TEXTURE id="concrete" />
 
-      <TRANSLATION x="-2.5" y="0" z="4" />
+      <TRANSLATION x="0" y="0" z="7" />
 
       <DESCENDANTS>
         <DESCENDANT id="pillar" />
@@ -129,10 +139,10 @@
     </NODE>
 
     <NODE id="right-pillar">
-      <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <MATERIAL id="default" />
+      <TEXTURE id="concrete" />
 
-      <TRANSLATION x="2.5" y="0" z="4" />
+      <TRANSLATION x="4" y="0" z="7" />
 
       <DESCENDANTS>
         <DESCENDANT id="pillar" />
@@ -140,16 +150,16 @@
     </NODE>
 
     <NODE id="pillar">
-      <MATERIAL id="null" />
+      <MATERIAL id="default" />
       <TEXTURE id="concrete" />
 
-      <TRANSLATE x="0" y="2.5" z="0" />
-      <SCALE sx="2" sy="5" sz="2" />
+      <SCALE sx="0.5" sy="4" sz="0.5" />
 
       <DESCENDANTS>
         <DESCENDANT id="cylinder" />
       </DESCENDANTS>
     </NODE>
+
   </NODES>
 
 </SCENE>

@@ -42,10 +42,19 @@ function getUrlVars() {
     return vars;
 }
 
-serialInclude(['../lib/CGF.js', 'LSXscene.js', 'MySceneGraph.js','LSXParser.js',
+serialInclude(['../lib/CGF.js',
+    'LSXscene.js',
+    'MySceneGraph.js',
+    'LSXParser.js',
+    'primitives/MyCircle.js',
+    'primitives/MyCylinder.js',
+    'primitives/MyFullCylinder.js',
+    'primitives/MyPrism.js',
+    'primitives/MyQuad.js',
+    'primitives/MyTriangle.js',
+    'primitives/MyUnitCubeQuad.js',
 
     main = function() {
-        // Standard application, scene and interface setup
         var app = new CGFapplication(document.body);
         var myScene = new LSXscene();
         var myInterface = new CGFinterface();
@@ -57,16 +66,10 @@ serialInclude(['../lib/CGF.js', 'LSXscene.js', 'MySceneGraph.js','LSXParser.js',
 
         myInterface.setActiveCamera(myScene.camera);
 
-        // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
-        // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
-
         var filename = getUrlVars()['file'] || "example.lsx";
 
-        // create and load graph, and associate it to scene.
-        // Check console for loading errors
         var myGraph = new LSXParser(filename, myScene);
 
-        // start
         app.run();
     }
 
