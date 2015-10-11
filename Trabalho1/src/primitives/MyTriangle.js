@@ -3,44 +3,46 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
-function MyTriangle(scene, minS, maxS, minT, maxT) {
-	  CGFobject.call(this,scene);
+function MyTriangle(scene, args) {
+    CGFobject.call(this, scene);
 
-    this.minS = minS || 0.0;
-    this.maxS = maxS || 1.0;
-    this.minT = minT || 0.0;
-    this.maxT = maxT || 1.0;
+    this.args = args;
 
-	  this.initBuffers();
+    this.initBuffers();
 };
 
 MyTriangle.prototype = Object.create(CGFobject.prototype);
-MyTriangle.prototype.constructor=MyTriangle;
+MyTriangle.prototype.constructor = MyTriangle;
 
-MyTriangle.prototype.initBuffers = function () {
+MyTriangle.prototype.initBuffers = function() {
 
-	  this.vertices = [
-        0.5, 0.3, 0,
-        -0.5, 0.3, 0,
-        0.0, 0.3, 2
-		];
+    this.vertices = this.args;
 
-	  this.indices = [
-        2, 0, 1,
+    this.indices = [
+        0, 1, 2,
     ];
 
-    this.normals = [
-        0, 1, 0,
-        0, 1, 0,
-        0, 1, 0,
+    // Get normals
+    var A = vec3.fromValues(this.x1-this.x2, this.y1-this.y2, this.z1-this.z2);
+	  var B = vec3.fromValues(this.x1-this.x3, this.y1-this.y3, this.z1-this.z3);
+	  var N = vec3.create();
+	  vec3.cross(N, A, B);
+	  vec3.normalize(N, N);
+
+	  this.normals = [
+		    N[0], N[1], N[2],
+		    N[0], N[1], N[2],
+		    N[0], N[1], N[2],
     ];
 
-    this.texCoords = [
-        this.minS, this.maxT,
-        this.maxS, this.maxT,
-        (this.minS+this.maxS)/2, this.minT,
-    ];
+	  this.texCoords = [
+		    0, 0,
+		    1, 0,
+		    1, 1
+	  ];
 
-	  this.primitiveType=this.scene.gl.TRIANGLES;
-	  this.initGLBuffers();
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
 };
+
+MyTriangle.prototype.updateTex = function(S, T) {};

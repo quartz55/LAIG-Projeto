@@ -53,6 +53,7 @@ serialInclude(['../lib/CGF.js',
     'primitives/MyQuad.js',
     'primitives/MyTriangle.js',
     'primitives/MyUnitCubeQuad.js',
+    'primitives/MySphere.js',
 
     main = function() {
         var app = new CGFapplication(document.body);
@@ -66,7 +67,7 @@ serialInclude(['../lib/CGF.js',
 
         myInterface.setActiveCamera(myScene.camera);
 
-        var filename = getUrlVars()['file'] || "example.lsx";
+        var filename = getUrlVars()['file'] || "LAIG_TP1_LSX_T05_G03_v2/LAIG_TP1_LSX_T05_G03_v2.lsx";
 
         var myGraph = new LSXParser(filename, myScene);
 

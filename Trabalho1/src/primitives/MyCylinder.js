@@ -24,6 +24,7 @@ MyCylinder.prototype.initBuffers = function() {
 
     const angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
     var numVertices = this.slices * 2;
+    var delta_rad = (this.botRad - this.topRad) / this.stacks;
 
     var Z = 0.5;
     var currentIndex = 0;
@@ -34,12 +35,13 @@ MyCylinder.prototype.initBuffers = function() {
 
     for (s = 0; s < this.stacks; s++, currentIndex = s * numVertices) {
         for (i = 0; i < this.slices; i++, maxIndex += 2) {
-            this.vertices.push(Math.cos(i * angle), Math.sin(i * angle), Z);
+
+            this.vertices.push((this.topRad + delta_rad*s)*Math.cos(i * angle), (this.topRad + delta_rad*s)*Math.sin(i * angle), Z);
             this.normals.push(Math.cos(i * angle), Math.sin(i * angle), 0);
             this.texCoords.push(a, b);
 
 
-            this.vertices.push(Math.cos(i * angle), Math.sin(i * angle), Z - 1.0 / this.stacks);
+            this.vertices.push((this.topRad + delta_rad*(s+1))*Math.cos(i * angle), (this.topRad + delta_rad*(s+1))*Math.sin(i * angle), Z - 1.0 / this.stacks);
             this.normals.push(Math.cos(i * angle), Math.sin(i * angle), 0);
             this.texCoords.push(a, b + 1.0 / this.stacks);
 

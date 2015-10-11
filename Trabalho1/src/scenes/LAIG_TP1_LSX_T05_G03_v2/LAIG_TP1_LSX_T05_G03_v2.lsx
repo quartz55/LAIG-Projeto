@@ -3,7 +3,6 @@
     <INITIALS>
         <frustum near="1.5" far="500" />
         <translation x="0" y="0" z="0" />
-        <!-- <translation x="-2.5" y="0" z="-4" /> -->
         <rotation axis="x" angle="0" />
         <rotation axis="y" angle="0" />
         <rotation axis="z" angle="0" />
@@ -19,8 +18,8 @@
     <LIGHTS>
         <LIGHT id="sun">
             <enable value="1" />
-            <position x="3" y="30" z="2" w="1" />
-            <ambient r="0.43" g="0.40" b="0.25" a="1" />
+            <position x="3" y="15" z="8" w="1" />
+            <ambient r="0.23" g="0.20" b="0.05" a="1" />
             <diffuse r="0.7" g="0.623" b="0.44" a="1" />
             <specular r="0.7" g="0.623" b="0.44" a="1" />
         </LIGHT>
@@ -43,6 +42,11 @@
         <TEXTURE id="wood">
             <file path="textures/wood.jpg" />
             <amplif_factor s="2.5" t="2.0" />
+        </TEXTURE>
+
+        <TEXTURE id="gold">
+            <file path="textures/gold.jpg" />
+            <amplif_factor s="1" t="1" />
         </TEXTURE>
 
         <TEXTURE id="trunk">
@@ -82,10 +86,10 @@
         </MATERIAL>
 
         <MATERIAL id="marble">
-            <shininess value="100" />
-            <specular r="0.1" g="0.08" b="0.03" a="1.0" />
-            <diffuse r="1" g="0.98" b="0.6" a="1.0" />
-            <ambient r="0.8" g="0.78" b="0.4" a="1.0" />
+            <shininess value="5" />
+            <specular r="0.6" g="0.68" b="0.53" a="1.0" />
+            <diffuse r="0.9" g="0.98" b="0.9" a="1.0" />
+            <ambient r="0.9" g="0.88" b="0.9" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
@@ -110,7 +114,7 @@
             <specular r="1.0" g="0.92" b="0" a="1.0" />
             <diffuse r="0.1" g="0.08" b="0" a="1.0" />
             <ambient r="0.1" g="0.08" b="0" a="1.0" />
-            <emission r="0.9" g="0.82" b="0" a="1" />
+            <emission r="1" g="0.92" b="0" a="1" />
         </MATERIAL>
     </MATERIALS>
 
@@ -118,8 +122,10 @@
         <!-- Are drawn along the X axis  -->
         <LEAF id="square" type="rectangle" args="0.0 0.0 1.0 1.0" />
         <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
-        <LEAF id="sphere" type="sphere" args="1.0 8 16" />
-        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0 0.5 1.0 0.0 1.0 0.0 0.0" />
+        <LEAF id="trunk" type="cylinder" args="1.0 1.7 1.0 16 16" />
+        <LEAF id="cone" type="cylinder" args="1.0 1.0 0.01 16 16" />
+        <LEAF id="sphere" type="sphere" args="1.0 16 16" />
+        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0  0.5 0.0 1.0  1.0 0.0 0.0" />
     </LEAVES>
 
 
@@ -131,20 +137,33 @@
             <TEXTURE id="clear" />
 
             <DESCENDANTS>
-                <DESCENDANT id="ceiling" />
-                <DESCENDANT id="podium" />
-                <DESCENDANT id="pillars" />
-                <DESCENDANT id="floor" />
-                <DESCENDANT id="stairs" />
+                <DESCENDANT id="dome" />
                 <DESCENDANT id="trees" />
                 <DESCENDANT id="skybox"  />
                 <DESCENDANT id="ground" />
             </DESCENDANTS>
         </NODE>
 
+        <!-- ###############################-->
+        <!-- ######################### DOME -->
+        <!-- ###############################-->
+
+        <NODE id="dome">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling" />
+                <DESCENDANT id="podium" />
+                <DESCENDANT id="dome-pillars" />
+                <DESCENDANT id="dome-base" />
+                <DESCENDANT id="dome-stairs" />
+            </DESCENDANTS>
+        </NODE>
+
         <!-- ######################### PODIUM -->
         <NODE id="podium">
-            <MATERIAL id="default" />
+            <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
             <TRANSLATION x="2.5" y="0" z="4"  />
@@ -160,15 +179,13 @@
 
         <NODE id="podium-treasure">
             <MATERIAL id="gold" />
-            <TEXTURE id="clear" />
+            <TEXTURE id="gold" />
 
-            <TRANSLATION x="0.25" y="1.90" z="0.25" />
-            <TRANSLATION x="1" y="0" z="1" />
-            <SCALE sx="0.2" sy="0.20" sz="0.2" />
-            <TRANSLATION x="-1" y="0" z="-1" />
+            <TRANSLATION x="1.25" y="2.1" z="1.25" />
+            <SCALE sx="0.2" sy="0.2" sz="0.2" />
 
             <DESCENDANTS>
-                <DESCENDANT id="cylinder" />
+                <DESCENDANT id="sphere" />
             </DESCENDANTS>
         </NODE>
 
@@ -192,8 +209,6 @@
 
             <TRANSLATION x="1.25" y="0.5" z="1.25" />
             <SCALE sx="0.15" sy="1.25" sz="0.15" />
-            <TRANSLATION x="-1" y="0" z="-1" />
-
             <DESCENDANTS>
                 <DESCENDANT id="cylinder" />
             </DESCENDANTS>
@@ -202,6 +217,8 @@
         <NODE id="podium-base">
             <MATERIAL id="null" />
             <TEXTURE id="null" />
+
+            <TRANSLATION x="1.25" y="0" z="1.25" />
 
             <DESCENDANTS>
                 <DESCENDANT id="podium-base-step1" />
@@ -224,7 +241,7 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="0.25" y="0.25" z="0.25" />
+            <TRANSLATION x="0" y="0.25" z="0" />
             <SCALE sx="1" sy="0.25" sz="1" />
 
             <DESCENDANTS>
@@ -233,9 +250,11 @@
         </NODE>
 
         <!-- ######################### PILLARS -->
-        <NODE id="pillars">
-            <MATERIAL id="default" />
+        <NODE id="dome-pillars">
+            <MATERIAL id="marble" />
             <TEXTURE id="marble" />
+
+            <TRANSLATION x="0.5" y="0" z="0.5" />
 
             <DESCENDANTS>
                 <DESCENDANT id="top-left-pillar" />
@@ -290,7 +309,7 @@
         </NODE>
 
         <NODE id="pillar">
-            <MATERIAL id="default" />
+            <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
             <SCALE sx="0.5" sy="4" sz="0.5" />
@@ -301,10 +320,144 @@
 
         </NODE>
 
+        <!-- ######################### CEILING -->
+        <NODE id="dome-ceiling">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
 
-        <!-- ######################### FLOOR and CEILING -->
-        <NODE id="floor">
-            <MATERIAL id="default" />
+            <TRANSLATION x="0" y="4" z="0" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-sphere" />
+                <DESCENDANT id="dome-ceiling-cube" />
+                <DESCENDANT id="dome-ceiling-triangle" />
+                <DESCENDANT id="dome-ceiling-base" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-sphere">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="2.5" y="2.5" z="4" />
+            <SCALE sx="2" sy="2" sz="2" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="sphere" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-cube">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="0.5" y="0" z="0.5" />
+            <SCALE sx="4" sy="2.9" sz="7" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-base">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <SCALE sx="5" sy="0.5" sz="8" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-triangle">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="0" y="0.5" z="0" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-front" />
+                <DESCENDANT id="dome-ceiling-back" />
+                <DESCENDANT id="dome-ceiling-angle1" />
+                <DESCENDANT id="dome-ceiling-angle2" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-front">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="5" y="0" z="0" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-cover" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-back">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="0" y="0" z="8" />
+            <ROTATION axis="y" angle="180" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-cover" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-cover">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <SCALE sx="1" sy="1.9" sz="8" />
+            <ROTATION axis="y" angle="-90" />
+            <ROTATION axis="x" angle="-90" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="tri" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-angle1">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <ROTATION axis="x" angle="-25" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-angle" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-angle2">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <TRANSLATION x="5" y="0" z="8" />
+            <ROTATION axis="y" angle="180" />
+            <ROTATION axis="x" angle="-25" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="dome-ceiling-angle" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="dome-ceiling-angle">
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
+
+            <SCALE sx="5" sy="0.5" sz="4.5" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- ######################### BASE -->
+        <NODE id="dome-base">
+            <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
             <TRANSLATION x="0" y="-0.5" z="0" />
@@ -315,21 +468,9 @@
             </DESCENDANTS>
         </NODE>
 
-        <NODE id="ceiling">
-            <MATERIAL id="default" />
-            <TEXTURE id="marble" />
-
-            <TRANSLATION x="0" y="4" z="0" />
-            <SCALE sx="5" sy="0.5" sz="8" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="cube" />
-            </DESCENDANTS>
-        </NODE>
-
         <!-- ######################### STAIRS -->
-        <NODE id="stairs">
-            <MATERIAL id="default" />
+        <NODE id="dome-stairs">
+            <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
             <DESCENDANTS>
@@ -535,11 +676,10 @@
             <TEXTURE id="leaves" />
 
             <TRANSLATION x="0" y="4" z="0" />
-            <SCALE sx="3" sy="3" sz="3" />
-            <TRANSLATION x="-0.5" y="0" z="-0.5" />
-
+            <SCALE sx="1.5" sy="6" sz="1.5" />
+            <ROTATION axis="y" angle="90" />
             <DESCENDANTS>
-                <DESCENDANT id="cube" />
+                <DESCENDANT id="cone" />
             </DESCENDANTS>
         </NODE>
 
@@ -548,10 +688,8 @@
             <TEXTURE id="trunk" />
 
             <SCALE sx="0.5" sy="4" sz="0.5" />
-            <TRANSLATION x="-1" y="0" z="-1" />
-
             <DESCENDANTS>
-                <DESCENDANT id="cylinder" />
+                <DESCENDANT id="trunk" />
             </DESCENDANTS>
         </NODE>
 

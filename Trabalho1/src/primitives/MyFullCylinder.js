@@ -15,8 +15,11 @@ function MyFullCylinder(scene, args){
     this.cylinder = new MyCylinder(scene, this.slices, this.stacks, this.topRad, this.botRad);
     this.cylinder.initBuffers();
 
-    this.face = new MyCircle(scene, this.slices);
- 	  this.face.initBuffers();
+    this.topFace = new MyCircle(scene, this.topRad, this.slices);
+ 	  this.topFace.initBuffers();
+
+    this.botFace = new MyCircle(scene, this.botRad, this.slices);
+ 	  this.botFace.initBuffers();
 };
 
 MyFullCylinder.prototype = Object.create(CGFobject.prototype);
@@ -28,21 +31,21 @@ MyFullCylinder.prototype.display = function()
 
     this.scene.translate(0, this.height/2, 0);
     this.scene.scale(1, this.height, 1);
-    this.scene.translate(this.botRad, 0, this.botRad);
     this.scene.rotate(Math.PI/2, 1, 0, 0);
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0, 0.5);
-    this.face.display();
+    this.botFace.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0, -0.5);
     this.scene.rotate(Math.PI, 1, 0, 0);
-    this.face.display();
+    this.topFace.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
+    this.scene.rotate(Math.PI, 1, 0, 0);
     this.cylinder.display();
     this.scene.popMatrix();
 

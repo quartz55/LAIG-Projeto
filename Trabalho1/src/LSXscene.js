@@ -28,7 +28,7 @@ LSXscene.prototype.init = function(application) {
 };
 
 LSXscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 10, 30), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 10), vec3.fromValues(0, 0, 0));
 };
 
 LSXscene.prototype.setDefaultAppearance = function() {
@@ -131,7 +131,7 @@ LSXscene.prototype.display = function() {
         for (i = 0; i < this.nodes.length; i++) {
             var node = this.nodes[i];
             this.pushMatrix();
-                node.material.setTexture(node.texture);
+            node.material.setTexture(node.texture);
             if (node.texture != null) {
                 node.primitive.updateTex(node.texture.amplif_factor.s, node.texture.amplif_factor.t);
             }
@@ -213,6 +213,16 @@ LSXscene.prototype.initLeaves = function() {
                 break;
             case "cylinder":
                 primitive = new MyFullCylinder(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "sphere":
+                primitive = new MySphere(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "triangle":
+                primitive = new MyTriangle(this, leaf.args);
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
