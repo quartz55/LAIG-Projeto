@@ -29,23 +29,21 @@ MyFullCylinder.prototype.display = function()
 {
     this.scene.pushMatrix();
 
-    this.scene.translate(0, this.height/2, 0);
-    this.scene.scale(1, this.height, 1);
-    this.scene.rotate(Math.PI/2, 1, 0, 0);
+    this.scene.translate(0, 0, this.height/2);
+    this.scene.scale(1, 1, this.height);
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0, 0.5);
-    this.botFace.display();
+    this.topFace.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0, -0.5);
     this.scene.rotate(Math.PI, 1, 0, 0);
-    this.topFace.display();
+    this.botFace.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(Math.PI, 1, 0, 0);
     this.cylinder.display();
     this.scene.popMatrix();
 

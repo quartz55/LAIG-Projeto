@@ -67,7 +67,7 @@ serialInclude(['../lib/CGF.js',
 
         myInterface.setActiveCamera(myScene.camera);
 
-        var filename = getUrlVars()['file'] || "LAIG_TP1_LSX_T05_G03_v2/LAIG_TP1_LSX_T05_G03_v2.lsx";
+        var filename = getUrlVars()['file'] || "scene1/scene1.lsx";
 
         var myGraph = new LSXParser(filename, myScene);
 
