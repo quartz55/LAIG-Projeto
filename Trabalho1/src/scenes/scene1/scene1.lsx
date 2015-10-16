@@ -36,7 +36,7 @@
     <TEXTURES>
         <TEXTURE id="marble">
             <file path="textures/marble.jpg" />
-            <amplif_factor s="4" t="2" />
+            <amplif_factor s="0.5" t="0.5" />
         </TEXTURE>
 
         <TEXTURE id="wood">
@@ -56,7 +56,7 @@
 
         <TEXTURE id="grass">
             <file path="textures/grass.jpg" />
-            <amplif_factor s="10" t="10" />
+            <amplif_factor s="0.1" t="0.1" />
         </TEXTURE>
 
         <TEXTURE id="leaves">
@@ -120,12 +120,12 @@
 
     <LEAVES>
         <!-- Are drawn along the X axis  -->
-        <LEAF id="square" type="rectangle" args="0.0 0.0 1.0 1.0" />
+        <LEAF id="square" type="rectangle" args="0.0 1.0 1.0 0.0" />
         <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
         <LEAF id="trunk" type="cylinder" args="1.0 1.7 1.0 16 16" />
-        <LEAF id="cone" type="cylinder" args="1.0 1.0 0.01 16 16" />
+        <LEAF id="cone" type="cylinder" args="1.0 2 1.0 16 16" />
         <LEAF id="sphere" type="sphere" args="1.0 16 16" />
-        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0  0.5 0.0 1.0  1.0 0.0 0.0" />
+        <LEAF id="tri" type="triangle" args="0.0 0.0 0.0  1.0 0.0 0.0  0.5 0.866 0.0" />
     </LEAVES>
 
 
@@ -393,7 +393,8 @@
             <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
-            <TRANSLATION x="5" y="0" z="0" />
+            <TRANSLATION x="5" y="0" z="8" />
+            <ROTATION axis="y" angle="90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="dome-ceiling-cover" />
@@ -404,8 +405,8 @@
             <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
-            <TRANSLATION x="0" y="0" z="8" />
-            <ROTATION axis="y" angle="180" />
+            <TRANSLATION x="0" y="0" z="0" />
+            <ROTATION axis="y" angle="-90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="dome-ceiling-cover" />
@@ -416,9 +417,7 @@
             <MATERIAL id="marble" />
             <TEXTURE id="marble" />
 
-            <SCALE sx="1" sy="1.9" sz="8" />
-            <ROTATION axis="y" angle="-90" />
-            <ROTATION axis="x" angle="-90" />
+            <SCALE sx="8" sy="2.17" sz="1" />
 
             <DESCENDANTS>
                 <DESCENDANT id="tri" />
@@ -682,7 +681,7 @@
 
             <TRANSLATION x="0" y="4" z="0" />
             <SCALE sx="1.5" sy="6" sz="1.5" />
-            <ROTATION axis="y" angle="90" />
+            <!-- <ROTATION axis="y" angle="90" /> -->
             <ROTATION axis="x" angle="-90" />
 
             <DESCENDANTS>
@@ -717,12 +716,10 @@
             <MATERIAL id="default" />
             <TEXTURE id="skybox" />
 
-            <TRANSLATION x="-100" y="30" z="0" />
-            <SCALE sx="1" sy="80" sz="200" />
+            <TRANSLATION x="-100" y="35" z="0" />
             <ROTATION axis="y" angle="90" />
-            <ROTATION axis="x" angle="90" />
-            <TRANSLATION x="-0.5" y="0" z="-0.5" />
-            <ROTATION axis="x" angle="90" />
+            <SCALE sx="200" sy="80" sz="0" />
+            <TRANSLATION x="-0.5" y="-0.5" z="0" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -733,11 +730,9 @@
             <MATERIAL id="default" />
             <TEXTURE id="skybox-reverse" />
 
-            <TRANSLATION x="0" y="30" z="-100" />
-            <SCALE sx="200" sy="80" sz="1" />
-            <ROTATION axis="x" angle="90" />
-            <TRANSLATION x="-0.5" y="0" z="-0.5" />
-            <ROTATION axis="x" angle="90" />
+            <TRANSLATION x="0" y="35" z="-100" />
+            <SCALE sx="200" sy="80" sz="0" />
+            <TRANSLATION x="-0.5" y="-0.5" z="0" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -751,8 +746,8 @@
 
             <TRANSLATION x="0" y="-2.5" z="0" />
             <SCALE sx="200" sy="1" sz="200" />
-            <TRANSLATION x="-0.5" y="0" z="-0.5" />
-            <ROTATION axis="x" angle="90" />
+            <TRANSLATION x="-0.5" y="0" z="0.5" />
+            <ROTATION axis="x" angle="-90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -778,6 +773,9 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
+            <TRANSLATION x="0" y="1" z="0" />
+            <ROTATION axis="x" angle="180" />
+
             <DESCENDANTS>
                 <DESCENDANT id="square" />
             </DESCENDANTS>
@@ -788,8 +786,7 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="1" y="0" z="0" />
-            <ROTATION axis="y" angle="-90" />
+            <TRANSLATION x="0" y="0" z="1" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -801,8 +798,7 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="1" y="0" z="1" />
-            <ROTATION axis="y" angle="180" />
+            <ROTATION axis="x" angle="90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -814,8 +810,8 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="0" y="0" z="1" />
-            <ROTATION axis="y" angle="90" />
+            <TRANSLATION x="0" y="1" z="1" />
+            <ROTATION axis="x" angle="-90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -827,8 +823,7 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="0" y="1" z="0" />
-            <ROTATION axis="x" angle="90" />
+            <ROTATION axis="y" angle="-90" />
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />
@@ -840,8 +835,8 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <TRANSLATION x="0" y="0" z="1" />
-            <ROTATION axis="x"  angle="-90">
+            <TRANSLATION x="1" y="0" z="1" />
+            <ROTATION axis="y"  angle="90"/>
 
             <DESCENDANTS>
                 <DESCENDANT id="square" />

@@ -353,7 +353,7 @@ LSXParser.prototype.parseNodes = function(mainElement) {
             node.descendants.push(d_list[j].getAttribute('id'));
         }
 
-        node.print();
+        // node.print();
         this.nodes.push(node);
     }
 

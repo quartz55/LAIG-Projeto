@@ -12,7 +12,7 @@ function MyFullCylinder(scene, args){
     this.stacks = this.args[3];
 	  this.slices = this.args[4];
 
-    this.cylinder = new MyCylinder(scene, this.slices, this.stacks, this.topRad, this.botRad);
+    this.cylinder = new MyCylinder(scene, this.slices, this.stacks, this.topRad, this.botRad, this.height);
     this.cylinder.initBuffers();
 
     this.topFace = new MyCircle(scene, this.topRad, this.slices);
@@ -30,7 +30,7 @@ MyFullCylinder.prototype.display = function()
     this.scene.pushMatrix();
 
     this.scene.translate(0, 0, this.height/2);
-    this.scene.scale(1, 1, this.height);
+    // this.scene.scale(1, 1, this.height);
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0, 0.5);
