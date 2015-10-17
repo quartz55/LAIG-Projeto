@@ -1,5 +1,5 @@
 function Interface() {
-	  CGFinterface.call(this);
+    CGFinterface.call(this);
 };
 
 Interface.prototype = Object.create(CGFinterface.prototype);
@@ -10,16 +10,14 @@ Interface.prototype.constructor = Interface;
  * @param {CGFapplication} application
  */
 Interface.prototype.init = function(application) {
-	  CGFinterface.prototype.init.call(this, application);
+    CGFinterface.prototype.init.call(this, application);
 
     application.interface = this;
 
-	  this.gui = new dat.GUI();
+    this.gui = new dat.GUI();
 
-	  this.lights_group=this.gui.addFolder("Lights");
-	  this.lights_group.open();
 
-	  return true;
+    return true;
 };
 
 Interface.prototype.setScene = function(scene) {
@@ -27,6 +25,22 @@ Interface.prototype.setScene = function(scene) {
     scene.interface = this;
 };
 
-Interface.prototype.addLight = function(id) {
-    this.lights_group.add(id);
+Interface.prototype.initLights = function() {
+    var lights_group = this.gui.addFolder("Lights");
+    lights_group.open();
+
+    var self = this;
+
+    /*
+     Create a button for every light with the light's id as the name
+     Every button has an event handler for when it's clicked so it updates the
+     respective light in the scene
+     */
+    for (bool in this.scene.lightsID) {
+        var handler = lights_group.add(this.scene.lightsID, bool);
+
+        handler.onChange(function(value) {
+            self.scene.switchLight(this.property, value);
+        });
+    }
 };

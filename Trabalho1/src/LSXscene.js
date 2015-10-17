@@ -172,6 +172,7 @@ LSXscene.prototype.initLights = function() {
     this.shader.bind();
 
     this.lights = [];
+    this.lightsID = [];
 
     for (var i = 0; i < this.graph.lights.length; i++) {
         var l = this.graph.lights[i];
@@ -187,10 +188,12 @@ LSXscene.prototype.initLights = function() {
         aux.update();
 
         this.lights[i] = aux;
-        this.interface.addLight(aux.id);
+        this.lightsID[l.id] = l.enabled;
     }
 
     this.shader.unbind();
+
+    this.interface.initLights();
 
 };
 
@@ -279,6 +282,14 @@ LSXscene.prototype.getTexture = function(id) {
         if (id == this.textures[i].id) return this.textures[i];
 
     return null;
+};
+
+LSXscene.prototype.switchLight = function(id, _switch) {
+    for (var i = 0; i < this.lights.length; ++i) {
+        if (id == this.lights[i].id) {
+            _switch ? this.lights[i].enable() : this.lights[i].disable();
+        }
+    }
 };
 
 function SceneTexture(scene, id, path, amplif_factor) {
