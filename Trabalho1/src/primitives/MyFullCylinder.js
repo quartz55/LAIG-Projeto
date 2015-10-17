@@ -30,15 +30,14 @@ MyFullCylinder.prototype.display = function()
     this.scene.pushMatrix();
 
     this.scene.translate(0, 0, this.height/2);
-    // this.scene.scale(1, 1, this.height);
 
     this.scene.pushMatrix();
-    this.scene.translate(0, 0, 0.5);
+    this.scene.translate(0, 0, this.height/2);
     this.topFace.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(0, 0, -0.5);
+    this.scene.translate(0, 0, -this.height/2);
     this.scene.rotate(Math.PI, 1, 0, 0);
     this.botFace.display();
     this.scene.popMatrix();
@@ -51,4 +50,5 @@ MyFullCylinder.prototype.display = function()
 };
 
 MyFullCylinder.prototype.updateTex = function(S, T) {
+    this.cylinder.updateTex(S, T);
 };
