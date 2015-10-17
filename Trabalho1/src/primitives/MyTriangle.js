@@ -45,14 +45,11 @@ MyTriangle.prototype.initBuffers = function() {
     var ang = Math.acos(vec3.dot(AB,AC)/(vec3.len(AB)*vec3.len(AC)));
     var C = [Math.cos(ang) * vec3.len(AC), Math.sin(ang) * vec3.len(AC)];
 
-    console.log(ang + " | " + C);
     this.baseTexCoords = [
         0, 0,
         vec3.length(AB), 0,
         C[0], C[1]
     ];
-
-    console.log(this.baseTexCoords);
 
     this.texCoords = this.baseTexCoords.slice();
 

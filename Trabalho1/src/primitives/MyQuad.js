@@ -3,6 +3,7 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
+
 function MyQuad(scene, args) {
     CGFobject.call(this,scene);
 
@@ -54,8 +55,6 @@ MyQuad.prototype.initBuffers = function () {
         Math.abs(this.args[2]-this.args[0]), 0,
         Math.abs(this.args[2]-this.args[0]), Math.abs(this.args[1]-this.args[3])
     ];
-
-    console.log(this.baseTexCoords);
 
     this.texCoords = this.baseTexCoords.slice();
 

@@ -43,16 +43,25 @@ function getUrlVars() {
 }
 
 serialInclude(['../lib/CGF.js',
-    'LSXscene.js',
-    'MySceneGraph.js',
-    'LSXParser.js',
-    'Interface.js',
+    'lsxparser/LSXIllumination.js',
+    'lsxparser/LSXInitials.js',
+    'lsxparser/LSXLeaf.js',
+    'lsxparser/LSXLight.js',
+    'lsxparser/LSXMaterial.js',
+    'lsxparser/LSXNode.js',
+    'lsxparser/LSXTexture.js',
+    'lsxparser/LSXParser.js',
+
     'primitives/MyCircle.js',
     'primitives/MyCylinder.js',
     'primitives/MyFullCylinder.js',
     'primitives/MyQuad.js',
     'primitives/MyTriangle.js',
     'primitives/MySphere.js',
+
+    'LSXscene.js',
+    'MySceneGraph.js',
+    'Interface.js',
 
     main = function() {
         var app = new CGFapplication(document.body);
