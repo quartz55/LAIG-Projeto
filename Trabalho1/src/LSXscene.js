@@ -140,17 +140,7 @@ LSXscene.prototype.display = function() {
             node.primitive.display();
             this.popMatrix();
         }
-        // this.pushMatrix();
-
-        // this.translate(4, 0, 4);
-        // for (i = 0; i < this.leaves.length; i++) {
-        //     this.leaves[i].display();
-        //     this.translate(0, 0.25, 0);
-        // }
-
-        // this.popMatrix();
-
-    };
+    }
 
     this.shader.unbind();
 };
@@ -197,9 +187,11 @@ LSXscene.prototype.initLights = function() {
         aux.update();
 
         this.lights[i] = aux;
+        this.interface.addLight(aux.id);
     }
 
     this.shader.unbind();
+
 };
 
 LSXscene.prototype.initLeaves = function() {

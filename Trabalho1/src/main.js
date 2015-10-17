@@ -46,6 +46,7 @@ serialInclude(['../lib/CGF.js',
     'LSXscene.js',
     'MySceneGraph.js',
     'LSXParser.js',
+    'Interface.js',
     'primitives/MyCircle.js',
     'primitives/MyCylinder.js',
     'primitives/MyFullCylinder.js',
@@ -56,7 +57,8 @@ serialInclude(['../lib/CGF.js',
     main = function() {
         var app = new CGFapplication(document.body);
         var myScene = new LSXscene();
-        var myInterface = new CGFinterface();
+        var myInterface = new Interface();
+        myInterface.setScene(myScene);
 
         app.init();
 
