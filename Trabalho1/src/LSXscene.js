@@ -219,6 +219,14 @@ LSXscene.prototype.initLeaves = function() {
     }
 };
 
+/**
+ * @brief Function that parses the graph defined in the <NODES> section.
+ *
+ * It uses a Depth First Search algorithm to search for the
+ * final nodes of the graph (which should be leaves) and creates
+ * a {SceneObject} based on the transformations and materials/textures
+ * defined in previous nodes and the primitive which the leaf represents
+ */
 LSXscene.prototype.initNodes = function() {
     var nodes_list = this.graph.nodes;
 
@@ -260,6 +268,9 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
     }
 };
 
+/**
+ * @returns {SceneMaterial} with the {string} id specified
+ */
 LSXscene.prototype.getMaterial = function(id) {
     if (id == null) return null;
 
@@ -269,6 +280,9 @@ LSXscene.prototype.getMaterial = function(id) {
     return null;
 };
 
+/**
+ * @returns {SceneTexture} with the {string} id specified
+ */
 LSXscene.prototype.getTexture = function(id) {
     if (id == null) return null;
 
@@ -278,6 +292,10 @@ LSXscene.prototype.getTexture = function(id) {
     return null;
 };
 
+/**
+ * Called from interface when a button is pressed
+ * Switches light on or off
+ */
 LSXscene.prototype.switchLight = function(id, _switch) {
     for (var i = 0; i < this.lights.length; ++i) {
         if (id == this.lights[i].id) {
