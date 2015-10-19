@@ -59,8 +59,10 @@ serialInclude(['../lib/CGF.js',
     'primitives/MyTriangle.js',
     'primitives/MySphere.js',
 
+    'lsxscene/SceneMaterial.js',
+    'lsxscene/SceneTexture.js',
+    'lsxscene/SceneObject.js',
     'LSXscene.js',
-    'MySceneGraph.js',
     'Interface.js',
 
     main = function() {

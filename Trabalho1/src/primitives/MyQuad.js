@@ -1,9 +1,9 @@
 /**
  * MyQuad
- * @param gl {WebGLRenderingContext}
+ * @param {CGFscene} scene Scene which the object belongs to
+ * @param {array} args Arguments to create the object (top left and bottom left vertice)
  * @constructor
  */
-
 function MyQuad(scene, args) {
     CGFobject.call(this,scene);
 
@@ -25,6 +25,7 @@ MyQuad.prototype.initBuffers = function () {
     ];
 
     /*
+     Order of vertices
 
      0          2
      +---------+

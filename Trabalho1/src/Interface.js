@@ -6,7 +6,7 @@ Interface.prototype = Object.create(CGFinterface.prototype);
 Interface.prototype.constructor = Interface;
 
 /**
- * init
+ * Initializes interface
  * @param {CGFapplication} application
  */
 Interface.prototype.init = function(application) {
@@ -20,11 +20,20 @@ Interface.prototype.init = function(application) {
     return true;
 };
 
+/**
+ * Sets which scene the interfance belongs to, also sets the scene's interface
+ * as this for easier reference
+ * @param {CGFscene} scene
+ */
 Interface.prototype.setScene = function(scene) {
     this.scene = scene;
     scene.interface = this;
 };
 
+/**
+ * Function that adds a button to control the scene lights.
+ * Note: It's called when lights are created and added to the scene
+ */
 Interface.prototype.initLights = function() {
     var lights_group = this.gui.addFolder("Lights");
     lights_group.open();

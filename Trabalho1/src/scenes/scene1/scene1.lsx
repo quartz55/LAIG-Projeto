@@ -114,7 +114,6 @@
     </MATERIALS>
 
     <LEAVES>
-        <!-- Are drawn along the X axis  -->
         <LEAF id="square" type="rectangle" args="0.0 1.0 1.0 0.0" />
         <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
         <LEAF id="trunk" type="cylinder" args="1.0 1.7 1.0 16 16" />

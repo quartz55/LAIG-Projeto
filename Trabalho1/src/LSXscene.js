@@ -22,7 +22,7 @@ LSXscene.prototype.init = function(application) {
     this.textures = [];
     this.materials = [];
     this.leaves = [];
-    this.nodes = [];
+    this.objects = [];
 
     this.axis = new CGFaxis(this);
 };
@@ -31,6 +31,10 @@ LSXscene.prototype.initCameras = function() {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 10), vec3.fromValues(0, 0, 0));
 };
 
+/**
+ * Sets the default scene appearance based on an material named "default"
+ * if it is present in the .lsx scene file
+ */
 LSXscene.prototype.setDefaultAppearance = function() {
     for (var i = 0; i < this.materials.length; i++) {
         if (this.materials[i].id == "default") {
@@ -40,6 +44,10 @@ LSXscene.prototype.setDefaultAppearance = function() {
     }
 };
 
+/**
+ * Function called by a {LSXParser} once it is done parsing
+ * a scene in .lsx format
+ */
 LSXscene.prototype.onGraphLoaded = function() {
     // Frustum
     this.camera.near = this.graph.initials.frustum.near;
@@ -47,25 +55,17 @@ LSXscene.prototype.onGraphLoaded = function() {
 
     this.axis = new CGFaxis(this, this.graph.initials.reference);
 
-    /*
-     * Illumination
-     */
-    // Background
+    // Illumination
     var bg_illum = this.graph.illumination.background;
     this.gl.clearColor(bg_illum.r, bg_illum.g, bg_illum.b, bg_illum.a);
 
-    // Ambient
     var ambi_illum = this.graph.illumination.ambient;
     this.setGlobalAmbientLight(ambi_illum.r, ambi_illum.g, ambi_illum.b, ambi_illum.a);
 
-    /*
-     * Lights
-     */
+    // Lights
     this.initLights();
 
-    /*
-     * Textures
-     */
+    // Textures
     if (this.graph.textures.length > 0)
         this.enableTextures(true);
 
@@ -76,9 +76,7 @@ LSXscene.prototype.onGraphLoaded = function() {
         this.textures.push(aux);
     }
 
-    /*
-     * Materials
-     */
+    // Materials
     var mat = this.graph.materials;
     for (i = 0; i < mat.length; i++) {
         aux = new SceneMaterial(this, mat[i].id);
@@ -91,14 +89,10 @@ LSXscene.prototype.onGraphLoaded = function() {
         this.materials.push(aux);
     }
 
-    /*
-     * Leaves
-     */
+    // Leaves
     this.initLeaves();
 
-    /*
-     * Nodes
-     */
+    // Nodes
     this.initNodes();
 };
 
@@ -119,32 +113,26 @@ LSXscene.prototype.display = function() {
 
         if (this.axis.length != 0) this.axis.display();
 
-        // Apply initial transforms
+        // Apply initial transformations
         this.applyInitials();
 
-        // Lights update
+        // Update lights
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
-        // Nodes
-
-        for (i = 0; i < this.nodes.length; i++) {
-            var node = this.nodes[i];
-            this.pushMatrix();
-            node.material.setTexture(node.texture);
-            if (node.texture != null) {
-                node.primitive.updateTex(node.texture.amplif_factor.s, node.texture.amplif_factor.t);
-            }
-            node.material.apply();
-            this.multMatrix(node.matrix);
-            node.primitive.display();
-            this.popMatrix();
+        // Draw Objects to scene (nodes with leaves)
+        for (i = 0; i < this.objects.length; i++) {
+            var obj = this.objects[i];
+            obj.draw(this);
         }
     }
 
     this.shader.unbind();
 };
 
+/**
+ * Apply the initial transformations defined in <INITIALS>
+ */
 LSXscene.prototype.applyInitials = function() {
     var inits = this.graph.initials;
     var trans = inits.translation;
@@ -168,6 +156,9 @@ LSXscene.prototype.applyInitials = function() {
     this.scale(scale.sx, scale.sy, scale.sz);
 };
 
+/**
+ * Adds lights to scene defined in <LIGHTS>
+ */
 LSXscene.prototype.initLights = function() {
     this.shader.bind();
 
@@ -197,6 +188,9 @@ LSXscene.prototype.initLights = function() {
 
 };
 
+/**
+ * Adds leaves (primitives) defined in <LEAVES>
+ */
 LSXscene.prototype.initLeaves = function() {
     for (var i = 0; i < this.graph.leaves.length; i++) {
         var leaf = this.graph.leaves[i];
@@ -258,7 +252,7 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
                     break;
                 }
             }
-            this.nodes.push(aux);
+            this.objects.push(aux);
             continue;
         }
 
@@ -291,26 +285,3 @@ LSXscene.prototype.switchLight = function(id, _switch) {
         }
     }
 };
-
-function SceneTexture(scene, id, path, amplif_factor) {
-    CGFtexture.call(this, scene, path);
-    this.id = id;
-    this.amplif_factor = amplif_factor;
-}
-SceneTexture.prototype = Object.create(CGFtexture.prototype);
-SceneTexture.prototype.constructor = SceneTexture;
-
-function SceneMaterial(scene, id) {
-    CGFappearance.call(this, scene);
-    this.id = id;
-}
-SceneMaterial.prototype = Object.create(CGFappearance.prototype);
-SceneMaterial.prototype.constructor = SceneMaterial;
-
-function SceneObject(id) {
-    this.id = id;
-    this.material = null;
-    this.texture = null;
-    this.matrix = null;
-    this.primitive = null;
-}
