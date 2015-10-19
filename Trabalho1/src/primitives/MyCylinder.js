@@ -25,10 +25,10 @@ MyCylinder.prototype.initBuffers = function() {
 
     const angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
 
-    var numVertices = (this.slices+1) * 2;
+    var numVertices = (this.slices + 1) * 2;
     var delta_rad = (this.botRad - this.topRad) / this.stacks;
 
-    var Z = this.height/2;
+    var Z = this.height / 2;
 
     var currentIndex = 0;
 
@@ -38,24 +38,39 @@ MyCylinder.prototype.initBuffers = function() {
     for (var s = 0; s < this.stacks; s++) {
         for (var i = 0; i <= this.slices; i++) {
 
-            var currRad = (this.topRad + delta_rad*s);
-            var nextRad = (this.topRad + delta_rad*(s+1));
+            var currRad = (this.topRad + delta_rad * s);
+            var nextRad = (this.topRad + delta_rad * (s + 1));
 
-            var v1 = {x: currRad*Math.cos(i*angle),
-                      y: currRad*Math.sin(i*angle),
-                      z: Z};
+            var v1 = vec3.fromValues(currRad * Math.cos(i * angle),
+                currRad * Math.sin(i * angle),
+                Z);
 
-            this.vertices.push(v1.x, v1.y, v1.z);
-            this.normals.push(Math.cos(i * angle), Math.sin(i * angle), 0);
+            var v2 = vec3.fromValues(nextRad * Math.cos(i * angle),
+                nextRad * Math.sin(i * angle),
+                Z - this.height / this.stacks);
+
+            var vnext = vec3.fromValues(currRad * Math.cos((i + 1) * angle),
+                currRad * Math.sin((i + 1) * angle),
+                Z);
+
+            var vecNormal = vec3.create();
+
+            var vec1 = vec3.create();
+            var vec2 = vec3.create();
+            vec3.sub(vec1, v2, v1);
+            vec3.sub(vec2, vnext, v1);
+            vec3.cross(vecNormal, vec1, vec2);
+            vec3.normalize(vecNormal, vecNormal);
+
+            // console.log(vecNormal[0], vecNormal[1], vecNormal[2]);
+            // console.log(Math.cos(i*angle), Math.sin(i*angle), 0);
+
+            this.vertices.push(v1[0], v1[1], v1[2]);
+            this.normals.push(vecNormal[0], vecNormal[1], vecNormal[2]);
             this.texCoords.push(a, b);
 
-
-            var v2 = {x: nextRad*Math.cos(i*angle),
-                      y: nextRad*Math.sin(i*angle),
-                      z: Z-this.height/this.stacks};
-
-            this.vertices.push(v2.x, v2.y, v2.z);
-            this.normals.push(Math.cos(i * angle), Math.sin(i * angle), 0);
+            this.vertices.push(v2[0], v2[1], v2[2]);
+            this.normals.push(vecNormal[0], vecNormal[1], vecNormal[2]);
             this.texCoords.push(a, b + 1.0 / this.stacks);
 
             a += 1 / this.slices;
@@ -79,9 +94,9 @@ MyCylinder.prototype.initBuffers = function() {
 };
 
 MyCylinder.prototype.updateTex = function(S, T) {
-    for (var i = 0; i < this.texCoords.length; i+=2) {
-        this.texCoords[i] = this.baseTexCoords[i]/S;
-        this.texCoords[i+1] = this.baseTexCoords[i+1]/T;
+    for (var i = 0; i < this.texCoords.length; i += 2) {
+        this.texCoords[i] = this.baseTexCoords[i] / S;
+        this.texCoords[i + 1] = this.baseTexCoords[i + 1] / T;
     }
 
     this.updateTexCoordsGLBuffers();
