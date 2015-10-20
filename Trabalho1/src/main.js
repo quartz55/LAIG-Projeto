@@ -58,6 +58,7 @@ serialInclude(['../lib/CGF.js',
     'primitives/MyQuad.js',
     'primitives/MyTriangle.js',
     'primitives/MySphere.js',
+	'primitives/MyDiamond.js',
 
     'lsxscene/SceneMaterial.js',
     'lsxscene/SceneTexture.js',

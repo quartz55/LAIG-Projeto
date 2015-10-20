@@ -215,6 +215,11 @@ LSXscene.prototype.initLeaves = function() {
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
+		    case "diamond":
+                primitive = new MyDiamond(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
         }
     }
 };

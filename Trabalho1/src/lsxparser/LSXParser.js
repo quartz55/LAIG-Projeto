@@ -240,7 +240,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
     var leaves = leaves_list.getElementsByTagName('LEAF');
     for (i = 0; i < leaves.length; i++) {
         var leaf = new LSXLeaf(leaves[i].getAttribute('id'));
-        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'diamond']);
 
         var args_aux = leaves[i].getAttribute('args').split(" ");
         for (var j = 0; j < args_aux.length; j++) {
@@ -282,6 +282,13 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
 
                 for (j = 0; j < args_aux.length; j++)
                     leaf.args.push(parseFloat(args_aux[j]));
+
+                break;
+			case "diamond":
+                if (args_aux.length != 1)
+                    return "Invalid number of arguments for type 'diamond'";
+				
+                    leaf.args.push(parseInt(args_aux[0]));
 
                 break;
             default:
