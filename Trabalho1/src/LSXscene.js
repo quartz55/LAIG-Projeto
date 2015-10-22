@@ -120,6 +120,7 @@ LSXscene.prototype.display = function() {
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 
+		this.objects[0].draw(this);
         // Draw Objects to scene (nodes with leaves)
         for (i = 0; i < this.objects.length; i++) {
             var obj = this.objects[i];
@@ -215,6 +216,11 @@ LSXscene.prototype.initLeaves = function() {
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
+			case "circumv":
+                primitive = new MyCircumv(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
         }
     }
 };
@@ -232,6 +238,7 @@ LSXscene.prototype.initNodes = function() {
 
     var root_node = this.graph.findNode(this.graph.root_id);
     this.DFS(root_node, root_node.material, root_node.texture, root_node.matrix);
+	console.log(this.objects);
 };
 
 LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {

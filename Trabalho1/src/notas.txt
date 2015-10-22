@@ -1,0 +1,2 @@
+-> add My circumv
+->alterei lsxparser, lsxscene, main, .lsx

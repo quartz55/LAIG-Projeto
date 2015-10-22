@@ -240,7 +240,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
     var leaves = leaves_list.getElementsByTagName('LEAF');
     for (i = 0; i < leaves.length; i++) {
         var leaf = new LSXLeaf(leaves[i].getAttribute('id'));
-        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'circumv']);
 
         var args_aux = leaves[i].getAttribute('args').split(" ");
         for (var j = 0; j < args_aux.length; j++) {
@@ -284,6 +284,16 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                     leaf.args.push(parseFloat(args_aux[j]));
 
                 break;
+			case "circumv":
+                if (args_aux.length != 9)
+                    return "Invalid number of arguments for type 'circumv'";
+
+                    leaf.args.push(parseInt(args_aux[0]));
+					for(var j=1; j <=8; j++){
+						 leaf.args.push(parseFloat(args_aux[j]));
+					}
+                break;
+				
             default:
                 return "Type " + "\"" + leaf.type + "\" not valid.";
         }
