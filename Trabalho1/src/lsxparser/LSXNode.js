@@ -2,6 +2,8 @@ function LSXNode(id) {
     this.id = id;
     this.material = null;
     this.texture = null;
+	this.altMaterial = null;
+	this.alt = true;
     this.matrix = mat4.create();
 
     this.descendants = [];

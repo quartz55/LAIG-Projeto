@@ -1,0 +1,10 @@
+alterei:
+->interface,
+->LXSscene{ LSXscene.prototype.init = function(application)
+						LSXscene.prototype.onGraphLoaded = function() 
+						LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix)
+						LSXscene.prototype.switchAltMaterial = function() }
+						
+->scene1.lsx
+->LSXNode
+->LSXParser{LSXParser.prototype.parseNodes = function(mainElement)}

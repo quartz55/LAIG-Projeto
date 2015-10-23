@@ -274,7 +274,7 @@
         </NODE>
 
         <NODE id="bottom-left-pillar">
-            <MATERIAL id="null" />
+            <MATERIAL id="gold" />
             <TEXTURE id="null" />
 
             <TRANSLATION x="0.5" y="0" z="6.5" />
@@ -285,7 +285,7 @@
         </NODE>
 
         <NODE id="top-right-pillar">
-            <MATERIAL id="null" />
+            <MATERIAL id="wood" />
             <TEXTURE id="null" />
 
             <TRANSLATION x="3.5" y="0" z="0.5" />
@@ -296,7 +296,7 @@
         </NODE>
 
         <NODE id="bottom-right-pillar">
-            <MATERIAL id="null" />
+            <MATERIAL id="gold" />
             <TEXTURE id="null" />
 
             <TRANSLATION x="3.5" y="0" z="6.5" />
@@ -308,6 +308,7 @@
 
         <NODE id="pillar">
             <MATERIAL id="marble" />
+			<ALTMATERIAL id="null" />
             <TEXTURE id="marble" />
 
             <SCALE sx="0.5" sy="4" sz="0.5" />

@@ -19,6 +19,8 @@ LSXscene.prototype.init = function(application) {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+	this.AltMaterial=false;
+	
     this.textures = [];
     this.materials = [];
     this.leaves = [];
@@ -88,6 +90,8 @@ LSXscene.prototype.onGraphLoaded = function() {
 
         this.materials.push(aux);
     }
+	
+	this.interface.initAltMaterial();
 
     // Leaves
     this.initLeaves();
@@ -235,8 +239,14 @@ LSXscene.prototype.initNodes = function() {
 };
 
 LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
-    var nextMat = node.material;
-    if (node.material == "null") nextMat = currMaterial;
+   var nextMat;
+	
+	if(node.alt && this.AltMaterial) {
+		nextMat=node.altMaterial;
+	}
+	else nextMat=node.material;
+
+    if (nextMat == "null") nextMat = currMaterial;
 
     var nextTex = node.texture;
     if (node.texture == "null") nextTex = currTexture;
@@ -302,4 +312,9 @@ LSXscene.prototype.switchLight = function(id, _switch) {
             _switch ? this.lights[i].enable() : this.lights[i].disable();
         }
     }
+};
+
+LSXscene.prototype.switchAltMaterial = function() {
+       this.objects=[];
+	   this.initNodes();
 };

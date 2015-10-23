@@ -53,3 +53,13 @@ Interface.prototype.initLights = function() {
         });
     }
 };
+
+Interface.prototype.initAltMaterial = function() {
+    var self = this;
+	
+	var handler = this.gui.add(this.scene, "AltMaterial");
+	
+	handler.onChange(function(value) {
+            self.scene.switchAltMaterial();
+        });
+};

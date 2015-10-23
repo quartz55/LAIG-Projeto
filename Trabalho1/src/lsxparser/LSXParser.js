@@ -309,7 +309,13 @@ LSXParser.prototype.parseNodes = function(mainElement) {
         var node = new LSXNode(nodes[i].getAttribute('id'));
         node.material = this.reader.getString(nodes[i].getElementsByTagName('MATERIAL')[0], 'id');
         node.texture = this.reader.getString(nodes[i].getElementsByTagName('TEXTURE')[0], 'id');
-
+        
+		var altMaterial = nodes[i].getElementsByTagName('ALTMATERIAL')[0];
+		
+		if(altMaterial==null){
+			node.alt=false;
+		}
+		else  node.altMaterial = this.reader.getString(altMaterial,'id');
         // Transforms
         var children = nodes[i].children;
         for (j = 0; j < children.length; j++) {
