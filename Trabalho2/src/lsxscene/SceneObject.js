@@ -4,6 +4,7 @@ function SceneObject(id) {
     this.texture = null;
     this.matrix = null;
     this.primitive = null;
+    this.anims = [];
 }
 
 SceneObject.prototype.updateTex = function() {
@@ -18,7 +19,13 @@ SceneObject.prototype.draw = function(scene) {
     scene.pushMatrix();
     this.updateTex();
     this.material.apply();
+
+    // Anims transformations
+    for (var i = 0; i < this.anims.length; ++i)
+        scene.multMatrix(this.anims[i].matrix);
+
     scene.multMatrix(this.matrix);
+
     this.primitive.display();
     scene.popMatrix();
 };
