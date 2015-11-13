@@ -249,13 +249,15 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
     var leaves = leaves_list.getElementsByTagName('LEAF');
     for (i = 0; i < leaves.length; i++) {
         var leaf = new LSXLeaf(leaves[i].getAttribute('id'));
-        leaf.type = this.reader.getItem(leaves[i], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+        leaf.type = this.reader.getString(leaves[i], 'type');
 
-        var args_aux = leaves[i].getAttribute('args').split(" ");
-        for (var j = 0; j < args_aux.length; j++) {
-            if (args_aux[j] === ""){
-                args_aux.splice(j, 1);
-                --j;
+        if (leaf.type != 'terrain') {
+            var args_aux = leaves[i].getAttribute('args').split(" ");
+            for (var j = 0; j < args_aux.length; j++) {
+                if (args_aux[j] === "") {
+                    args_aux.splice(j, 1);
+                    --j;
+                }
             }
         }
         switch (leaf.type) {
@@ -263,7 +265,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 if (args_aux.length != 4)
                     return "Invalid number of arguments for type 'rectangle'";
 
-            for (var j = 0; j < args_aux.length; j++)
+                for (var j = 0; j < args_aux.length; j++)
                     leaf.args.push(parseFloat(args_aux[j]));
 
                 break;
@@ -292,6 +294,13 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 for (j = 0; j < args_aux.length; j++)
                     leaf.args.push(parseFloat(args_aux[j]));
 
+                break;
+            case "terrain":
+                var texture_path, heightmap_path;
+                texture_path = heightmap_path = this.texture_path;
+                texture_path += this.reader.getString(leaves[i], 'texture');
+                heightmap_path += this.reader.getString(leaves[i], 'heightmap');
+                leaf.args.push(texture_path, heightmap_path);
                 break;
             default:
                 return "Type " + "\"" + leaf.type + "\" not valid.";
@@ -326,8 +335,7 @@ LSXParser.prototype.parseAnims = function(mainElement) {
 
                 args.push(cp);
             }
-        }
-        else if (type == "circular") {
+        } else if (type == "circular") {
             args["center"] = this.reader.getVector3(anims[i], 'center');
             args["radius"] = this.reader.getFloat(anims[i], 'radius');
             args["startang"] = this.reader.getFloat(anims[i], 'startang');
@@ -364,31 +372,31 @@ LSXParser.prototype.parseNodes = function(mainElement) {
         var children = nodes[i].children;
         for (j = 0; j < children.length; j++) {
             switch (children[j].tagName) {
-            case "TRANSLATION":
-                var trans = [];
-                trans.push(this.reader.getFloat(children[j], "x"));
-                trans.push(this.reader.getFloat(children[j], "y"));
-                trans.push(this.reader.getFloat(children[j], "z"));
-                // console.log("trans: " + trans);
-                mat4.translate(node.matrix, node.matrix, trans);
-                break;
-            case "SCALE":
-                var scale = [];
-                scale.push(this.reader.getFloat(children[j], "sx"));
-                scale.push(this.reader.getFloat(children[j], "sy"));
-                scale.push(this.reader.getFloat(children[j], "sz"));
-                // console.log("scale: " + scale);
-                mat4.scale(node.matrix, node.matrix, scale);
-                break;
-            case "ROTATION":
-                var axis = this.reader.getItem(children[j], "axis", ["x", "y", "z"]);
-                var angle = this.reader.getFloat(children[j], "angle") * deg2rad;
-                var rot = [0, 0, 0];
+                case "TRANSLATION":
+                    var trans = [];
+                    trans.push(this.reader.getFloat(children[j], "x"));
+                    trans.push(this.reader.getFloat(children[j], "y"));
+                    trans.push(this.reader.getFloat(children[j], "z"));
+                    // console.log("trans: " + trans);
+                    mat4.translate(node.matrix, node.matrix, trans);
+                    break;
+                case "SCALE":
+                    var scale = [];
+                    scale.push(this.reader.getFloat(children[j], "sx"));
+                    scale.push(this.reader.getFloat(children[j], "sy"));
+                    scale.push(this.reader.getFloat(children[j], "sz"));
+                    // console.log("scale: " + scale);
+                    mat4.scale(node.matrix, node.matrix, scale);
+                    break;
+                case "ROTATION":
+                    var axis = this.reader.getItem(children[j], "axis", ["x", "y", "z"]);
+                    var angle = this.reader.getFloat(children[j], "angle") * deg2rad;
+                    var rot = [0, 0, 0];
 
-                // console.log("rot: " + axis + " " + angle + " ");
-                rot[["x", "y", "z"].indexOf(axis)] = 1;
-                mat4.rotate(node.matrix, node.matrix, angle, rot);
-                break;
+                    // console.log("rot: " + axis + " " + angle + " ");
+                    rot[["x", "y", "z"].indexOf(axis)] = 1;
+                    mat4.rotate(node.matrix, node.matrix, angle, rot);
+                    break;
             }
         }
 
