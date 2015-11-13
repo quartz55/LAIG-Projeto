@@ -159,9 +159,9 @@
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
-            <ANIMATION id="circ" />
-            <ANIMATION id="teste2" />
-            <ANIMATION id="teste" />
+            <animationref id="circ" />
+            <animationref id="teste2" />
+            <animationref id="teste" />
 
             <DESCENDANTS>
                 <DESCENDANT id="plane" />
