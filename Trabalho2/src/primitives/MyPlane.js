@@ -7,7 +7,7 @@ function MyPlane(scene,nrDivs){
 	CGFnurbsObject.cal(this,scene,getSurfacePoint, nrDivs, nrDivs);
 }
 
-Myplane.prototype = Object.creat(CGFnurbsObject.prototype);
-MyPlane.prototype.constructor = Myplane;
+MyPlane.prototype = Object.creat(CGFnurbsObject.prototype);
+MyPlane.prototype.constructor = MyPlane;
 
 MyPlane.prototype.scaleTexCoords = function(ampS, ampT){}
