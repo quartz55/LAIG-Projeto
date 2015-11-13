@@ -17,6 +17,7 @@ function LSXParser(filename, scene) {
     this.textures = [];
     this.materials = [];
     this.leaves = [];
+    this.anims = [];
     this.root_id = null;
     this.nodes = [];
 }
@@ -69,6 +70,14 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Leaves----------");
 
     error = this.parseLeaves(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log("---------Anims----------");
+
+    error = this.parseAnims(mainElement);
     if (error != null) {
         this.onXMLError(error);
         return;
@@ -295,6 +304,41 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
     return null;
 };
 
+LSXParser.prototype.parseAnims = function(mainElement) {
+    var anims_list = mainElement.getElementsByTagName('animations')[0];
+    if (anims_list == null) return "<animations> element is missing.";
+
+    var anims = anims_list.getElementsByTagName('animation');
+
+    for (var i = 0; i < anims.length; ++i) {
+        var id = anims[i].getAttribute('id');
+        var span = this.reader.getFloat(anims[i], 'span');
+        var type = this.reader.getString(anims[i], 'type');
+        var args = [];
+
+        if (type == "linear") {
+            var cps = anims[i].getElementsByTagName('controlpoint');
+            for (var k = 0; k < cps.length; ++k) {
+                var cp = [];
+                cp.push(this.reader.getFloat(cps[k], 'xx'));
+                cp.push(this.reader.getFloat(cps[k], 'yy'));
+                cp.push(this.reader.getFloat(cps[k], 'zz'));
+
+                args.push(cp);
+            }
+        }
+        else if (type == "circular") {
+            args["center"] = this.reader.getVector3(anims[i], 'center');
+            args["radius"] = this.reader.getFloat(anims[i], 'radius');
+            args["startang"] = this.reader.getFloat(anims[i], 'startang');
+            args["rotang"] = this.reader.getFloat(anims[i], 'rotang');
+        }
+
+        this.anims.push(new LSXAnim(id, span, type, args));
+
+    }
+};
+
 LSXParser.prototype.parseNodes = function(mainElement) {
     var nodes_list = mainElement.getElementsByTagName('NODES')[0];
     if (nodes_list == null) return "<NODES> element is missing.";
@@ -310,35 +354,41 @@ LSXParser.prototype.parseNodes = function(mainElement) {
         node.material = this.reader.getString(nodes[i].getElementsByTagName('MATERIAL')[0], 'id');
         node.texture = this.reader.getString(nodes[i].getElementsByTagName('TEXTURE')[0], 'id');
 
+        var node_anims = nodes[i].getElementsByTagName('ANIMATION');
+        for (var j = 0; j < node_anims.length; ++j) {
+            var anim_id = node_anims[j].getAttribute("id");
+            node.anims.push(anim_id);
+        }
+
         // Transforms
         var children = nodes[i].children;
         for (j = 0; j < children.length; j++) {
             switch (children[j].tagName) {
-                case "TRANSLATION":
-                    var trans = [];
-                    trans.push(this.reader.getFloat(children[j], "x"));
-                    trans.push(this.reader.getFloat(children[j], "y"));
-                    trans.push(this.reader.getFloat(children[j], "z"));
-                    // console.log("trans: " + trans);
-                    mat4.translate(node.matrix, node.matrix, trans);
-                    break;
-                case "SCALE":
-                    var scale = [];
-                    scale.push(this.reader.getFloat(children[j], "sx"));
-                    scale.push(this.reader.getFloat(children[j], "sy"));
-                    scale.push(this.reader.getFloat(children[j], "sz"));
-                    // console.log("scale: " + scale);
-                    mat4.scale(node.matrix, node.matrix, scale);
-                    break;
-                case "ROTATION":
-                    var axis = this.reader.getItem(children[j], "axis", ["x", "y", "z"]);
-                    var angle = this.reader.getFloat(children[j], "angle") * deg2rad;
-                    var rot = [0, 0, 0];
+            case "TRANSLATION":
+                var trans = [];
+                trans.push(this.reader.getFloat(children[j], "x"));
+                trans.push(this.reader.getFloat(children[j], "y"));
+                trans.push(this.reader.getFloat(children[j], "z"));
+                // console.log("trans: " + trans);
+                mat4.translate(node.matrix, node.matrix, trans);
+                break;
+            case "SCALE":
+                var scale = [];
+                scale.push(this.reader.getFloat(children[j], "sx"));
+                scale.push(this.reader.getFloat(children[j], "sy"));
+                scale.push(this.reader.getFloat(children[j], "sz"));
+                // console.log("scale: " + scale);
+                mat4.scale(node.matrix, node.matrix, scale);
+                break;
+            case "ROTATION":
+                var axis = this.reader.getItem(children[j], "axis", ["x", "y", "z"]);
+                var angle = this.reader.getFloat(children[j], "angle") * deg2rad;
+                var rot = [0, 0, 0];
 
-                    // console.log("rot: " + axis + " " + angle + " ");
-                    rot[["x", "y", "z"].indexOf(axis)] = 1;
-                    mat4.rotate(node.matrix, node.matrix, angle, rot);
-                    break;
+                // console.log("rot: " + axis + " " + angle + " ");
+                rot[["x", "y", "z"].indexOf(axis)] = 1;
+                mat4.rotate(node.matrix, node.matrix, angle, rot);
+                break;
             }
         }
 

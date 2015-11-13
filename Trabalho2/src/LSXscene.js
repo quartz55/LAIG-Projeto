@@ -22,9 +22,13 @@ LSXscene.prototype.init = function(application) {
     this.textures = [];
     this.materials = [];
     this.leaves = [];
+    this.anims = [];
     this.objects = [];
 
     this.axis = new CGFaxis(this);
+
+    this.currTime = new Date().getTime();
+    this.setUpdatePeriod(10);
 };
 
 LSXscene.prototype.initCameras = function() {
@@ -92,12 +96,28 @@ LSXscene.prototype.onGraphLoaded = function() {
     // Leaves
     this.initLeaves();
 
+    // Anims
+    var anims = this.graph.anims;
+    for (i = 0; i < anims.length; ++i) {
+        switch (anims[i].type) {
+        case "linear":
+            this.anims.push(new LinearAnimation(anims[i].id, anims[i].span, anims[i].args));
+            break;
+        case "circular":
+            this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
+                                                anims[i].args["center"],
+                                                anims[i].args["radius"],
+                                                deg2rad * anims[i].args["startang"],
+                                               deg2rad * anims[i].args["rotang"]));
+            break;
+        }
+    }
+
     // Nodes
     this.initNodes();
 };
 
 LSXscene.prototype.display = function() {
-    this.shader.bind();
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
@@ -127,7 +147,6 @@ LSXscene.prototype.display = function() {
         }
     }
 
-    this.shader.unbind();
 };
 
 /**
@@ -160,8 +179,6 @@ LSXscene.prototype.applyInitials = function() {
  * Adds lights to scene defined in <LIGHTS>
  */
 LSXscene.prototype.initLights = function() {
-    this.shader.bind();
-
     this.lights = [];
     this.lightsID = [];
 
@@ -169,7 +186,7 @@ LSXscene.prototype.initLights = function() {
         var l = this.graph.lights[i];
         var aux = new CGFlight(this, i);
 
-        aux.id = l.id;
+        aux.lsxid = l.id;
         l.enabled ? aux.enable() : aux.disable();
         aux.setPosition(l.position.x, l.position.y, l.position.z, l.position.w);
         aux.setAmbient(l.ambient.r, l.ambient.g, l.ambient.b, l.ambient.a);
@@ -181,8 +198,6 @@ LSXscene.prototype.initLights = function() {
         this.lights[i] = aux;
         this.lightsID[l.id] = l.enabled;
     }
-
-    this.shader.unbind();
 
     this.interface.initLights();
 
@@ -231,10 +246,10 @@ LSXscene.prototype.initNodes = function() {
     var nodes_list = this.graph.nodes;
 
     var root_node = this.graph.findNode(this.graph.root_id);
-    this.DFS(root_node, root_node.material, root_node.texture, root_node.matrix);
+    this.DFS(root_node, root_node.material, root_node.texture, root_node.matrix, root_node.anims);
 };
 
-LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
+LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, currAnims) {
     var nextMat = node.material;
     if (node.material == "null") nextMat = currMaterial;
 
@@ -245,6 +260,8 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
     var nextMatrix = mat4.create();
     mat4.multiply(nextMatrix, currMatrix, node.matrix);
 
+    var nextAnims = currAnims.concat(node.anims);
+
     for (var i = 0; i < node.descendants.length; i++) {
         var nextNode = this.graph.findNode(node.descendants[i]);
 
@@ -252,6 +269,9 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
             var aux = new SceneObject(node.descendants[i]);
             aux.material = this.getMaterial(nextMat);
             aux.texture = this.getTexture(nextTex);
+            for (var k = 0; k < nextAnims.length; ++k) {
+                aux.anims.push(this.getAnim(nextAnims[k]));
+            }
             aux.matrix = nextMatrix;
             aux.isLeaf = true;
             for (var j = 0; j < this.leaves.length; j++) {
@@ -264,8 +284,20 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix) {
             continue;
         }
 
-        this.DFS(nextNode, nextMat, nextTex, nextMatrix);
+        this.DFS(nextNode, nextMat, nextTex, nextMatrix, nextAnims);
     }
+};
+
+/**
+ * @returns {Anim} with the {string} id specified
+ */
+LSXscene.prototype.getAnim = function(id) {
+    if (id == null) return null;
+
+    for (var i = 0; i < this.anims.length; ++i)
+        if (id == this.anims[i].id) return this.anims[i];
+
+    return null;
 };
 
 /**
@@ -298,8 +330,16 @@ LSXscene.prototype.getTexture = function(id) {
  */
 LSXscene.prototype.switchLight = function(id, _switch) {
     for (var i = 0; i < this.lights.length; ++i) {
-        if (id == this.lights[i].id) {
+        if (id == this.lights[i].lsxid) {
             _switch ? this.lights[i].enable() : this.lights[i].disable();
         }
     }
+};
+
+LSXscene.prototype.update = function(currTime) {
+    var delta = currTime - this.currTime;
+    this.currTime = currTime;
+
+    for (var i = 0; i < this.objects.length; ++i)
+        this.objects[i].updateAnims(delta);
 };

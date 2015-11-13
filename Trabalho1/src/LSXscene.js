@@ -25,6 +25,7 @@ LSXscene.prototype.init = function(application) {
     this.objects = [];
 
     this.axis = new CGFaxis(this);
+
 };
 
 LSXscene.prototype.initCameras = function() {
