@@ -10,4 +10,4 @@ function MyPatch(scene,order,partsU,partsV,controlPoints){
 MyPatch.prototype = Object.creat(CGFnurbsObject.prototype);
 MyPatch.prototype.constructor = MyPatch;
 
-MyPatch.prototype.scaleTexCoords = function(ampS, ampT){}
+MyPatch.prototype.scaleTexCoords = function(ampS, ampT){};

@@ -10,4 +10,4 @@ function MyPlane(scene,nrDivs){
 MyPlane.prototype = Object.creat(CGFnurbsObject.prototype);
 MyPlane.prototype.constructor = MyPlane;
 
-MyPlane.prototype.scaleTexCoords = function(ampS, ampT){}
+MyPlane.prototype.scaleTexCoords = function(ampS, ampT){};
