@@ -8,24 +8,33 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 
 LinearAnimation.prototype.update = function(delta) {
     delta = delta/1000;
-    if (this.currTime <= this.time - delta)
-        this.currTime += delta;
-    else if (this.currTime + delta >= this.time && this.currTime != this.time)
-        this.currTime = this.time;
-    else return;
+
+    this.currTime = Math.min(this.time, this.currTime + delta);
+
+    if (this.currTime == this.time)
+        this.done = true;
 
     var nextPos = this.interp();
 
     // Calc rotations
     var dirVec = vec3.fromValues(nextPos[0]-this.pos[0],
-                                 nextPos[1]-this.pos[1],
+                                 0,
                                  nextPos[2]-this.pos[2]);
-    vec3.normalize(dirVec, dirVec);
+    var rotAng;
+    if (vec3.length(dirVec) > 0) {
+        vec3.normalize(dirVec, dirVec);
+        rotAng = Math.acos(vec3.dot(dirVec, vec3.fromValues(0, 0, 1)));
+    }
+    else rotAng = 0;
+
+    var sign = dirVec[0] < 0 ? -1 : 1;
+    rotAng *= sign;
 
     this.pos = nextPos;
 
     mat4.identity(this.matrix);
     mat4.translate(this.matrix, this.matrix, this.pos);
+    mat4.rotateY(this.matrix, this.matrix, rotAng);
 
 };
 

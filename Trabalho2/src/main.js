@@ -51,7 +51,7 @@ serialInclude(['../lib/CGF.js',
     'lsxparser/LSXNode.js',
     'lsxparser/LSXTexture.js',
     'lsxparser/LSXParser.js',
-               'lsxparser/LSXAnim.js',
+    'lsxparser/LSXAnim.js',
 
     'primitives/MyCircle.js',
     'primitives/MyCylinder.js',
@@ -62,6 +62,7 @@ serialInclude(['../lib/CGF.js',
 
     'anim/Animation.js',
     'anim/LinearAnimation.js',
+    'anim/CircularAnimation.js',
 
     'lsxscene/SceneMaterial.js',
     'lsxscene/SceneTexture.js',

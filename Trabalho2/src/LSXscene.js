@@ -107,8 +107,8 @@ LSXscene.prototype.onGraphLoaded = function() {
             this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
                                                 anims[i].args["center"],
                                                 anims[i].args["radius"],
-                                                anims[i].args["startang"],
-                                               anims[i].args["rotang"]));
+                                                deg2rad * anims[i].args["startang"],
+                                               deg2rad * anims[i].args["rotang"]));
             break;
         }
     }
@@ -262,8 +262,6 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
 
     var nextAnims = currAnims.concat(node.anims);
 
-    console.log(nextAnims);
-
     for (var i = 0; i < node.descendants.length; i++) {
         var nextNode = this.graph.findNode(node.descendants[i]);
 
@@ -272,7 +270,7 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
             aux.material = this.getMaterial(nextMat);
             aux.texture = this.getTexture(nextTex);
             for (var k = 0; k < nextAnims.length; ++k) {
-                aux.anims.push(this.getAnim(nextAnims[i]));
+                aux.anims.push(this.getAnim(nextAnims[k]));
             }
             aux.matrix = nextMatrix;
             aux.isLeaf = true;
@@ -342,6 +340,6 @@ LSXscene.prototype.update = function(currTime) {
     var delta = currTime - this.currTime;
     this.currTime = currTime;
 
-    for (var i = 0; i < this.anims.length; ++i)
-        this.anims[i].update(delta);
+    for (var i = 0; i < this.objects.length; ++i)
+        this.objects[i].updateAnims(delta);
 };
