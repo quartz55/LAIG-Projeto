@@ -120,7 +120,9 @@
         <LEAF id="cone" type="cylinder" args="1.5 2 0.01 16 16" />
         <LEAF id="sphere" type="sphere" args="1.0 16 16" />
         <LEAF id="tri" type="triangle" args="0.5 0.0 -0.5  -0.5 0.0 -0.5  0.0 0.0 1.0" />
+        <LEAF id="plane" type="plane" parts="20" />
         <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" />
+        <LEAF id="vehicle" type="vehicle" />
     </LEAVES>
 
     <animations>
@@ -152,6 +154,7 @@
                 <!-- <DESCENDANT id="plane1" /> -->
                 <!-- <DESCENDANT id="ground" /> -->
                 <DESCENDANT id="mountains" />
+                <DESCENDANT id="planetest" />
             </DESCENDANTS>
         </NODE>
 
@@ -169,7 +172,16 @@
             </DESCENDANTS>
         </NODE>
 
-        <NODE id="plane1">
+        <NODE id="planetest">
+            <MATERIAL id="gold" />
+            <TEXTURE id="gold" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="plane" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="airplane1">
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 
@@ -178,11 +190,11 @@
             <animationref id="teste" />
 
             <DESCENDANTS>
-                <DESCENDANT id="plane" />
+                <DESCENDANT id="airplane" />
             </DESCENDANTS>
         </NODE>
 
-        <NODE id="plane">
+        <NODE id="airplane">
             <MATERIAL id="null" />
             <TEXTURE id="null" />
 

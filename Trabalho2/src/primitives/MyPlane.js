@@ -1,4 +1,7 @@
-function MyPlane(scene,nrDivs){
+function MyPlane(scene, args){
+    this.args = args || [20];
+    this.nrParts = this.args[0];
+
     var nurbsSurface = new CGFnurbsSurface(1, 1, [0,0,1,1], [0,0,1,1],
                                            [
                                                [
@@ -14,7 +17,7 @@ function MyPlane(scene,nrDivs){
 		return nurbsSurface.getPoint(u,v);
   };
 
-    CGFnurbsObject.call(this, scene, getSurfacePoint, nrDivs, nrDivs);
+    CGFnurbsObject.call(this, scene, getSurfacePoint, this.nrParts, this.nrParts);
 }
 
 MyPlane.prototype = Object.create(CGFnurbsObject.prototype);

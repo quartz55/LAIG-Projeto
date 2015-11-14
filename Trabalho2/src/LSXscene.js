@@ -230,8 +230,18 @@ LSXscene.prototype.initLeaves = function() {
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
+            case "plane":
+                primitive = new MyPlane(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
             case "terrain":
                 primitive = new MyTerrain(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "vehicle":
+                primitive = new MyVehicle(this);
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;

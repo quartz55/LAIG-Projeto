@@ -16,7 +16,7 @@ function MyTerrain(scene, args){
     this.terrainShader.setUniformsValues({uSampler2: 1});
     this.terrainShader.setUniformsValues({multiplier: 0.5});
 
-    this.plane = new MyPlane(scene, 50);
+    this.plane = new MyPlane(scene, [50]);
 }
 
 MyTerrain.prototype = Object.create(CGFobject.prototype);

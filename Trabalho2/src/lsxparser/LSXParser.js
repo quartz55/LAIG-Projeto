@@ -251,7 +251,9 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
         var leaf = new LSXLeaf(leaves[i].getAttribute('id'));
         leaf.type = this.reader.getString(leaves[i], 'type');
 
-        if (leaf.type != 'terrain') {
+        var noargslist = ['terrain', 'plane', 'patch', 'vehicle'];
+
+        if (noargslist.indexOf(leaf.type) < 0) {
             var args_aux = leaves[i].getAttribute('args').split(" ");
             for (var j = 0; j < args_aux.length; j++) {
                 if (args_aux[j] === "") {
@@ -260,6 +262,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 }
             }
         }
+
         switch (leaf.type) {
             case "rectangle":
                 if (args_aux.length != 4)
@@ -301,6 +304,13 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 texture_path += this.reader.getString(leaves[i], 'texture');
                 heightmap_path += this.reader.getString(leaves[i], 'heightmap');
                 leaf.args.push(texture_path, heightmap_path);
+                break;
+            case "plane":
+                leaf.args.push(this.reader.getInteger(leaves[i], 'parts'));
+                break;
+            case "patch":
+                break;
+            case "vehicle":
                 break;
             default:
                 return "Type " + "\"" + leaf.type + "\" not valid.";
