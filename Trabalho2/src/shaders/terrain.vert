@@ -10,17 +10,20 @@ uniform mat4 uMVMatrix;
 uniform mat4 uPMatrix;
 uniform mat4 uNMatrix;
 
-varying vec2 vTextureCoord;
+uniform sampler2D uSampler;
 uniform sampler2D uSampler2;
+
+varying vec2 vTextureCoord;
 
 void main() {
     vTextureCoord = aTextureCoord;
 
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vec4 texColor = texture2D(uSampler2, aTextureCoord);
+    vec3 offset = vec3(0,0,0);
+    offset.z = texColor.r;
+    offset *= 3.0;
 
-    // vec3 offset = vec3(0.0,0.0,0.0);
-    // offset.y += texture2D(uSampler2, vTextureCoord).r;
-    // offset *= 3.0;
+    vec3 finalVertex = aVertexPosition + offset;
 
-    // gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
+    gl_Position = uPMatrix * uMVMatrix * vec4(finalVertex, 1.0);
 }
