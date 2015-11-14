@@ -12,8 +12,8 @@ function MyTerrain(scene, args){
     this.mat.setTexture(this.texture);
     this.mat.setTextureWrap('REPEAT', 'REPEAT');
 
-    // this.terrainShader = new CGFshader(scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
-    // this.terrainShader.setUniformsValues({uSampler2: 1});
+    this.terrainShader = new CGFshader(scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
+    this.terrainShader.setUniformsValues({uSampler2: 1});
 
     this.plane = new MyPlane(scene, 20);
 }
