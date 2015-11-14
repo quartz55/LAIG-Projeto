@@ -1,10 +1,12 @@
-function MyPatch(scene,order,partsU,partsV,controlPoints){
-	var nurbsSurface = new CGFnurbsSurface(1, 1, [0,0,1,1], [0,0,1,1],[[[0,0,0],[1,0,0]],[[1,0,0],[1,0,1]]]);
-	getSurfacePoint = function(u,v){
+Function MyPatch(scene,order,partsU,partsV,knots,controlPoints){
+    CGFobject.call(this,scene);
+
+	  var nurbsSurface = new CGFnurbsSurface(order, order, knots, knots, controlPoints);
+    getSurfacePoint = function(u,v){
 		return nurbsSurface.getPoint(u,v);
 	};
 	
-  CGFnurbsObject.call(this,scene,getSurfacePoint, partsU, partsV);
+    CGFnurbsObject.call(this,scene,getSurfacePoint, partsU, partsV);
 }
 
 MyPatch.prototype = Object.create(CGFnurbsObject.prototype);
