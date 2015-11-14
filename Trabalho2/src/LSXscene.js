@@ -26,7 +26,6 @@ LSXscene.prototype.init = function(application) {
     this.objects = [];
 
     this.axis = new CGFaxis(this);
-    this.terrain = new MyTerrain(this, ["scenes/scene1/textures/terrain.jpg", "scenes/scene1/textures/heightmap.jpg"]);
 
     this.currTime = new Date().getTime();
     this.setUpdatePeriod(10);
@@ -146,8 +145,6 @@ LSXscene.prototype.display = function() {
             var obj = this.objects[i];
             obj.draw(this);
         }
-
-        this.terrain.display();
     }
 
 };

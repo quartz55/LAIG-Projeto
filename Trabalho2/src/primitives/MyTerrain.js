@@ -14,8 +14,9 @@ function MyTerrain(scene, args){
 
     this.terrainShader = new CGFshader(scene.gl, "shaders/terrain.vert", "shaders/terrain.frag");
     this.terrainShader.setUniformsValues({uSampler2: 1});
+    this.terrainShader.setUniformsValues({multiplier: 0.5});
 
-    this.plane = new MyPlane(scene, 20);
+    this.plane = new MyPlane(scene, 50);
 }
 
 MyTerrain.prototype = Object.create(CGFobject.prototype);
@@ -36,3 +37,5 @@ MyTerrain.prototype.display = function() {
     this.scene.popMatrix();
 
 };
+
+MyTerrain.prototype.updateTex = function(ampS, ampT){};

@@ -2,15 +2,14 @@ function MyPlane(scene,nrDivs){
     var nurbsSurface = new CGFnurbsSurface(1, 1, [0,0,1,1], [0,0,1,1],
                                            [
                                                [
-                                                   [-2,-2,0,1],
-                                                   [-2,2,0,1]
+                                                   [0.5,0,-0.5,1],
+                                                   [0.5,0, 0.5,1]
                                                ],
                                                [
-                                                   [2,-2,0,1],
-                                                   [2,2,1,1]
+                                                   [-0.5,0,-0.5,1],
+                                                   [-0.5,0,0.5,1,1]
                                                ]
-                                           ],
-                                           [-7.5,0,0]);
+                                           ]);
   var getSurfacePoint = function(u,v){
 		return nurbsSurface.getPoint(u,v);
   };
@@ -21,4 +20,4 @@ function MyPlane(scene,nrDivs){
 MyPlane.prototype = Object.create(CGFnurbsObject.prototype);
 MyPlane.prototype.constructor = MyPlane;
 
-MyPlane.prototype.scaleTexCoords = function(ampS, ampT){};
+MyPlane.prototype.updateTex = function(ampS, ampT){};

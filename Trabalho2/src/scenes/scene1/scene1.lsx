@@ -149,12 +149,25 @@
             <TEXTURE id="leaves" />
 
             <DESCENDANTS>
-                <DESCENDANT id="plane1" />
-                <DESCENDANT id="ground" />
+                <!-- <DESCENDANT id="plane1" /> -->
+                <!-- <DESCENDANT id="ground" /> -->
+                <DESCENDANT id="mountains" />
             </DESCENDANTS>
         </NODE>
 
         <!-- ######################### LANDSCAPE -->
+
+        <NODE id="mountains">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0" y="-10" z="0" />
+            <SCALE sx="50" sy="50" sz="50" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="terrain" />
+            </DESCENDANTS>
+        </NODE>
 
         <NODE id="plane1">
             <MATERIAL id="null" />

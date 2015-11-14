@@ -13,6 +13,8 @@ uniform mat4 uNMatrix;
 uniform sampler2D uSampler;
 uniform sampler2D uSampler2;
 
+uniform float multiplier;
+
 varying vec2 vTextureCoord;
 
 void main() {
@@ -20,8 +22,8 @@ void main() {
 
     vec4 texColor = texture2D(uSampler2, aTextureCoord);
     vec3 offset = vec3(0,0,0);
-    offset.z = texColor.r;
-    offset *= 3.0;
+    offset.y = texColor.r;
+    offset *= multiplier;
 
     vec3 finalVertex = aVertexPosition + offset;
 
