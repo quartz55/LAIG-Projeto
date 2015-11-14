@@ -309,6 +309,23 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 leaf.args.push(this.reader.getInteger(leaves[i], 'parts'));
                 break;
             case "patch":
+                var order = this.reader.getInteger(leaves[i], 'order');
+                if (order < 1 || order > 3) return "Invalid order (1,2,3)";
+                leaf.args.push(order);
+                leaf.args.push(this.reader.getInteger(leaves[i], 'partsU'));
+                leaf.args.push(this.reader.getInteger(leaves[i], 'partsV'));
+                var cps = [];
+                var cps_list = leaves[i].getElementsByTagName('controlpoint');
+                for (var k = 0; k < cps_list.length; ++k) {
+                    var cp = [];
+                    cp[0] = this.reader.getFloat(cps_list[k], 'x');
+                    cp[1] = this.reader.getFloat(cps_list[k], 'y');
+                    cp[2] = this.reader.getFloat(cps_list[k], 'z');
+                    cp[3] = 1;
+                    cps.push(cp);
+                }
+                if (cps.length != Math.pow(order + 1, 2)) return "Invalid number of control points";
+                leaf.args.push(cps);
                 break;
             case "vehicle":
                 break;

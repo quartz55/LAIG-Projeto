@@ -18,23 +18,18 @@ LSXscene.prototype.init = function(application) {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-
     this.textures = [];
     this.materials = [];
     this.leaves = [];
     this.anims = [];
     this.objects = [];
-
     this.axis = new CGFaxis(this);
-
     this.currTime = new Date().getTime();
     this.setUpdatePeriod(10);
 };
-
 LSXscene.prototype.initCameras = function() {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 10), vec3.fromValues(0, 0, 0));
 };
-
 /**
  * Sets the default scene appearance based on an material named "default"
  * if it is present in the .lsx scene file
@@ -242,6 +237,11 @@ LSXscene.prototype.initLeaves = function() {
                 break;
             case "vehicle":
                 primitive = new MyVehicle(this);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "patch":
+                primitive = new MyPatch(this, leaf.args);
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;

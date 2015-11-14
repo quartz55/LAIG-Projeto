@@ -123,6 +123,17 @@
         <LEAF id="plane" type="plane" parts="20" />
         <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" />
         <LEAF id="vehicle" type="vehicle" />
+        <LEAF id="patch" type="patch" order="2" partsU="20" partsV="20">
+            <controlpoint x="0" y="0" z="0" />
+            <controlpoint x="8" y="2" z="2" />
+            <controlpoint x="2" y="2" z="2" />
+            <controlpoint x="3" y="-1.5" z="0" />
+            <controlpoint x="4" y="-2.0" z="2" />
+            <controlpoint x="5" y="2" z="2" />
+            <controlpoint x="6" y="-1.5" z="0" />
+            <controlpoint x="7" y="-2.0" z="2" />
+            <controlpoint x="8" y="2" z="2" />
+        </LEAF>
     </LEAVES>
 
     <animations>
@@ -153,33 +164,12 @@
             <DESCENDANTS>
                 <!-- <DESCENDANT id="plane1" /> -->
                 <!-- <DESCENDANT id="ground" /> -->
-                <DESCENDANT id="mountains" />
-                <DESCENDANT id="planetest" />
+                <!-- <DESCENDANT id="mountains" /> -->
+                <DESCENDANT id="patch" />
             </DESCENDANTS>
         </NODE>
 
-        <!-- ######################### LANDSCAPE -->
-
-        <NODE id="mountains">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <TRANSLATION x="0" y="-10" z="0" />
-            <SCALE sx="50" sy="50" sz="50" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="terrain" />
-            </DESCENDANTS>
-        </NODE>
-
-        <NODE id="planetest">
-            <MATERIAL id="gold" />
-            <TEXTURE id="gold" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="plane" />
-            </DESCENDANTS>
-        </NODE>
+        <!-- ######################### FOR TESTING ANIMATIONS -->
 
         <NODE id="airplane1">
             <MATERIAL id="null" />
@@ -202,6 +192,20 @@
 
             <DESCENDANTS>
                 <DESCENDANT id="tri" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- ######################### LANDSCAPE -->
+
+        <NODE id="mountains">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="0" y="-10" z="0" />
+            <SCALE sx="50" sy="50" sz="50" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="terrain" />
             </DESCENDANTS>
         </NODE>
 
