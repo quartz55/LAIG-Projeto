@@ -4,10 +4,10 @@ function MyPatch(scene,order,partsU,partsV,controlPoints){
 		return nurbsSurface.getPoint(u,v);
 	};
 	
-	CGFnurbsObject.cal(this,scene,getSurfacePoint, partsU, partsV);
+  CGFnurbsObject.call(this,scene,getSurfacePoint, partsU, partsV);
 }
 
-MyPatch.prototype = Object.creat(CGFnurbsObject.prototype);
+MyPatch.prototype = Object.create(CGFnurbsObject.prototype);
 MyPatch.prototype.constructor = MyPatch;
 
 MyPatch.prototype.scaleTexCoords = function(ampS, ampT){};

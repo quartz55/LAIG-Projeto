@@ -26,6 +26,7 @@ LSXscene.prototype.init = function(application) {
     this.objects = [];
 
     this.axis = new CGFaxis(this);
+    this.terrain = new MyTerrain(this, ["scenes/scene1/textures/terrain.jpg", "scenes/scene1/textures/heightmap.jpg"]);
 
     this.currTime = new Date().getTime();
     this.setUpdatePeriod(10);
@@ -100,16 +101,16 @@ LSXscene.prototype.onGraphLoaded = function() {
     var anims = this.graph.anims;
     for (i = 0; i < anims.length; ++i) {
         switch (anims[i].type) {
-        case "linear":
-            this.anims.push(new LinearAnimation(anims[i].id, anims[i].span, anims[i].args));
-            break;
-        case "circular":
-            this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
-                                                anims[i].args["center"],
-                                                anims[i].args["radius"],
-                                                deg2rad * anims[i].args["startang"],
-                                               deg2rad * anims[i].args["rotang"]));
-            break;
+            case "linear":
+                this.anims.push(new LinearAnimation(anims[i].id, anims[i].span, anims[i].args));
+                break;
+            case "circular":
+                this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
+                    anims[i].args["center"],
+                    anims[i].args["radius"],
+                    deg2rad * anims[i].args["startang"],
+                    deg2rad * anims[i].args["rotang"]));
+                break;
         }
     }
 
@@ -145,6 +146,8 @@ LSXscene.prototype.display = function() {
             var obj = this.objects[i];
             obj.draw(this);
         }
+
+        this.terrain.display();
     }
 
 };
@@ -227,6 +230,11 @@ LSXscene.prototype.initLeaves = function() {
                 break;
             case "triangle":
                 primitive = new MyTriangle(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "terrain":
+                primitive = new MyTerrain(this, leaf.args);
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
