@@ -285,7 +285,8 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
             aux.material = this.getMaterial(nextMat);
             aux.texture = this.getTexture(nextTex);
             for (var k = 0; k < nextAnims.length; ++k) {
-                aux.anims.push(this.getAnim(nextAnims[k]));
+                var anim = this.getAnim(nextAnims[k]).clone();
+                aux.anims.push(anim);
             }
             aux.matrix = nextMatrix;
             aux.isLeaf = true;

@@ -137,7 +137,7 @@
     </LEAVES>
 
     <animations>
-        <animation id="teste" span="5" type="linear">
+        <animation id="teste" span="1" type="linear">
             <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="3" yy="0" zz="0" />
             <controlpoint xx="0" yy="0" zz="0" />
@@ -149,7 +149,7 @@
             <controlpoint xx="0" yy="0" zz="0" />
         </animation>
 
-        <animation id="circ" span="5" type="circular" center="0 0 2" radius="2" startang="-180" rotang="360" />
+        <animation id="circ" span="1" type="circular" center="0 0 0" radius="0" startang="0" rotang="360" />
 
     </animations>
 
@@ -162,10 +162,10 @@
             <TEXTURE id="leaves" />
 
             <DESCENDANTS>
-                <!-- <DESCENDANT id="plane1" /> -->
+                <DESCENDANT id="airplane1" />
                 <!-- <DESCENDANT id="ground" /> -->
                 <!-- <DESCENDANT id="mountains" /> -->
-                <DESCENDANT id="patch" />
+                <!-- <DESCENDANT id="patch" /> -->
             </DESCENDANTS>
         </NODE>
 
@@ -176,8 +176,11 @@
             <TEXTURE id="null" />
 
             <animationref id="circ" />
-            <animationref id="teste2" />
-            <animationref id="teste" />
+            <animationref id="circ" />
+            <animationref id="circ" />
+            <animationref id="circ" />
+            <animationref id="circ" />
+            <animationref id="circ" />
 
             <DESCENDANTS>
                 <DESCENDANT id="airplane" />

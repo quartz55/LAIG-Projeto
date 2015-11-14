@@ -31,13 +31,10 @@ MyPatch.prototype.getControlPoints = function(CPList) {
         var vList = [];
         for (var Vorder = 0; Vorder <= this.order; ++Vorder) {
             var index = Uorder * (this.order+1) + Vorder;
-            console.log(index);
             vList.push(CPList[index]);
         }
         finalList.push(vList);
     }
-
-    console.log(finalList);
 
     return finalList;
 };
@@ -49,7 +46,6 @@ MyPatch.prototype.getKnots = function() {
     for (var i = 0; i < this.order+1; ++i)
         knot.push(1);
 
-    console.log(knot);
     return knot;
 };
 

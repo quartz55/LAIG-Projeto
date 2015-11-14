@@ -7,7 +7,7 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 LinearAnimation.prototype.update = function(delta) {
-    delta = delta/1000;
+    delta = delta / 1000;
 
     this.currTime = Math.min(this.time, this.currTime + delta);
 
@@ -17,15 +17,14 @@ LinearAnimation.prototype.update = function(delta) {
     var nextPos = this.interp();
 
     // Calc rotations
-    var dirVec = vec3.fromValues(nextPos[0]-this.pos[0],
-                                 0,
-                                 nextPos[2]-this.pos[2]);
+    var dirVec = vec3.fromValues(nextPos[0] - this.pos[0],
+        0,
+        nextPos[2] - this.pos[2]);
     var rotAng;
     if (vec3.length(dirVec) > 0) {
         vec3.normalize(dirVec, dirVec);
         rotAng = Math.acos(vec3.dot(dirVec, vec3.fromValues(0, 0, 1)));
-    }
-    else rotAng = 0;
+    } else rotAng = 0;
 
     var sign = dirVec[0] < 0 ? -1 : 1;
     rotAng *= sign;
@@ -39,10 +38,10 @@ LinearAnimation.prototype.update = function(delta) {
 };
 
 LinearAnimation.prototype.interp = function() {
-    var deltaTimeCP = this.time / (this.cp.length-1);
+    var deltaTimeCP = this.time / (this.cp.length - 1);
 
-    var currCPIndex = Math.floor(this.currTime/deltaTimeCP);
-    var nextCPIndex = Math.ceil(this.currTime/deltaTimeCP);
+    var currCPIndex = Math.floor(this.currTime / deltaTimeCP);
+    var nextCPIndex = Math.ceil(this.currTime / deltaTimeCP);
 
     var currCP = this.cp[currCPIndex];
     var nextCP = this.cp[nextCPIndex];
@@ -57,5 +56,11 @@ LinearAnimation.prototype.interp = function() {
 };
 
 function linearInterp(a, b, f) {
-    return (a * (1.0-f)) + (b * f);
+    return (a * (1.0 - f)) + (b * f);
 }
+
+LinearAnimation.prototype.clone = function(delta) {
+    return new LinearAnimation(this.id,
+        this.time,
+        this.cp);
+};
