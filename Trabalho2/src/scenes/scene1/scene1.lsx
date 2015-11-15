@@ -139,17 +139,17 @@
     <animations>
         <animation id="teste" span="1" type="linear">
             <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="3" yy="0" zz="0" />
+            <controlpoint xx="3" yy="1" zz="0" />
             <controlpoint xx="0" yy="0" zz="0" />
         </animation>
 
         <animation id="teste2" span="5" type="linear">
             <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="-3" yy="0" zz="0" />
+            <controlpoint xx="-3" yy="-1" zz="0" />
             <controlpoint xx="0" yy="0" zz="0" />
         </animation>
 
-        <animation id="circ" span="1" type="circular" center="0 0 0" radius="0" startang="0" rotang="360" />
+        <animation id="circ" span="2" type="circular" center="0 0 0" radius="0" startang="0" rotang="360" />
 
     </animations>
 
@@ -164,7 +164,7 @@
             <DESCENDANTS>
                 <DESCENDANT id="airplane1" />
                 <!-- <DESCENDANT id="ground" /> -->
-                <!-- <DESCENDANT id="mountains" /> -->
+                <DESCENDANT id="mountains" />
                 <!-- <DESCENDANT id="patch" /> -->
             </DESCENDANTS>
         </NODE>
@@ -177,10 +177,10 @@
 
             <animationref id="circ" />
             <animationref id="circ" />
-            <animationref id="circ" />
-            <animationref id="circ" />
-            <animationref id="circ" />
-            <animationref id="circ" />
+            <animationref id="teste" />
+            <animationref id="teste" />
+            <animationref id="teste2" />
+            <animationref id="teste2" />
 
             <DESCENDANTS>
                 <DESCENDANT id="airplane" />

@@ -21,9 +21,10 @@ SceneObject.prototype.draw = function(scene) {
     this.updateTex();
     this.material.apply();
 
-    // Anims transformations
-    if (this.currAnim < this.anims.length)
+    // Animation transformations
+    if (this.currAnim < this.anims.length) {
         scene.multMatrix(this.anims[this.currAnim].matrix);
+    }
 
     scene.multMatrix(this.matrix);
 
@@ -35,5 +36,5 @@ SceneObject.prototype.updateAnims = function(delta) {
     if (this.anims.length == 0 || this.currAnim >= this.anims.length) return;
 
     if (this.anims[this.currAnim].done) ++this.currAnim;
-    else if(this.currAnim < this.anims.length) this.anims[this.currAnim].update(delta);
+    if(this.currAnim < this.anims.length) this.anims[this.currAnim].update(delta);
 };

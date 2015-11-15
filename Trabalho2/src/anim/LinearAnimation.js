@@ -11,8 +11,10 @@ LinearAnimation.prototype.update = function(delta) {
 
     this.currTime = Math.min(this.time, this.currTime + delta);
 
-    if (this.currTime == this.time)
+    if (this.currTime == this.time) {
         this.done = true;
+        return;
+    }
 
     var nextPos = this.interp();
 
