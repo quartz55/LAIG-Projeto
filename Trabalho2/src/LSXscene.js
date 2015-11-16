@@ -28,7 +28,7 @@ LSXscene.prototype.init = function(application) {
     this.setUpdatePeriod(10);
 };
 LSXscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 10), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 0), vec3.fromValues(0, 0, 0));
 };
 /**
  * Sets the default scene appearance based on an material named "default"

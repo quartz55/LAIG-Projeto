@@ -19,98 +19,37 @@
         <LIGHT id="sun">
             <enable value="1" />
             <position x="3" y="15" z="8" w="1" />
-            <ambient r="0.23" g="0.20" b="0.05" a="1" />
+            <ambient r="0.43" g="0.40" b="0.35" a="1" />
             <diffuse r="0.7" g="0.623" b="0.44" a="1" />
             <specular r="0.7" g="0.623" b="0.44" a="1" />
-        </LIGHT>
-
-        <LIGHT id="gold">
-            <enable value="1" />
-            <position x="2.5" y="2" z="4" w="1" />
-            <specular r="1.0" g="0.92" b="0" a="1.0" />
-            <diffuse r="0.3" g="0.25" b="0" a="1.0" />
-            <ambient r="0.1" g="0.08" b="0" a="1.0" />
         </LIGHT>
     </LIGHTS>
 
     <TEXTURES>
-        <TEXTURE id="marble">
-            <file path="textures/marble.jpg" />
-            <amplif_factor s="0.5" t="0.5" />
-        </TEXTURE>
-
-        <TEXTURE id="gold">
-            <file path="textures/gold.jpg" />
+        <TEXTURE id="steel">
+            <file path="textures/steel.jpg" />
             <amplif_factor s="1" t="1" />
-        </TEXTURE>
-
-        <TEXTURE id="trunk">
-            <file path="textures/trunk.bmp" />
-            <amplif_factor s="1.0" t="0.5" />
-        </TEXTURE>
-
-        <TEXTURE id="grass">
-            <file path="textures/grass.jpg" />
-            <amplif_factor s="0.1" t="0.1" />
-        </TEXTURE>
-
-        <TEXTURE id="leaves">
-            <file path="textures/leaves.jpg" />
-            <amplif_factor s="1" t="1" />
-        </TEXTURE>
-
-        <TEXTURE id="skybox">
-            <file path="textures/skybox.jpg" />
-            <amplif_factor s="1" t="1" />
-        </TEXTURE>
-
-        <TEXTURE id="skybox-reverse">
-            <file path="textures/skybox.jpg" />
-            <amplif_factor s="-1" t="1" />
         </TEXTURE>
 
     </TEXTURES>
 
     <MATERIALS>
         <MATERIAL id="default">
-            <shininess value="100" />
+            <shininess value="10" />
             <specular r="1.0" g="1.0" b="1.0" a="0.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
-        <MATERIAL id="marble">
-            <shininess value="5" />
-            <specular r="0.6" g="0.68" b="0.53" a="1.0" />
-            <diffuse r="0.9" g="0.98" b="0.9" a="1.0" />
-            <ambient r="0.9" g="0.88" b="0.9" a="1.0" />
+        <MATERIAL id="steel">
+            <shininess value="120" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
-        <MATERIAL id="grass">
-            <shininess value="100" />
-            <specular r="0" g="0.0" b="0" a="0" />
-            <diffuse r="0" g="0.47" b="0.04" a="1.0" />
-            <ambient r="0" g="0.77" b="0.14" a="1.0" />
-            <emission r="0.0" g="0.0" b="0" a="0.0" />
-        </MATERIAL>
-
-        <MATERIAL id="wood">
-            <shininess value="100" />
-            <specular r="0.1" g="0.05" b="0" a="1.0" />
-            <diffuse r="0.7" g="0.4" b="0" a="1.0" />
-            <ambient r="0.7" g="0.4" b="0" a="1.0" />
-            <emission r="0.0" g="0.0" b="0" a="0.0" />
-        </MATERIAL>
-
-        <MATERIAL id="gold">
-            <shininess value="10" />
-            <specular r="1.0" g="0.92" b="0" a="1.0" />
-            <diffuse r="0.1" g="0.08" b="0" a="1.0" />
-            <ambient r="0.1" g="0.08" b="0" a="1.0" />
-            <emission r="1" g="0.92" b="0" a="1" />
-        </MATERIAL>
     </MATERIALS>
 
     <LEAVES>
@@ -139,6 +78,19 @@
     </LEAVES>
 
     <animations>
+        <animation id="liftoff" span="4" type="linear">
+            <controlpoint xx="0" yy="-2" zz="0" />
+            <controlpoint xx="0" yy="4" zz="0" />
+        </animation>
+
+        <animation id="rotation" span="2" type="circular" center="0 4 0" radius="0" startang="-90" rotang="180" />
+
+        <animation id="flyoff" span="5" type="linear">
+            <controlpoint xx="0" yy="4" zz="0" />
+            <controlpoint xx="0" yy="5" zz="-1" />
+            <controlpoint xx="14" yy="14" zz="-14" />
+        </animation>
+
         <animation id="teste" span="1" type="linear">
             <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="3" yy="1" zz="0" />
@@ -160,15 +112,27 @@
         <ROOT id="scene" />
 
         <NODE id="scene">
-            <MATERIAL id="marble" />
-            <TEXTURE id="marble" />
+            <MATERIAL id="default" />
+            <TEXTURE id="null" />
 
             <DESCENDANTS>
                 <!-- <DESCENDANT id="airplane1" /> -->
-                <DESCENDANT id="vehicle" />
-                <!-- <DESCENDANT id="ground" /> -->
+                <DESCENDANT id="chopper" />
                 <DESCENDANT id="mountains" />
                 <!-- <DESCENDANT id="patch" /> -->
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="chopper">
+            <MATERIAL id="steel" />
+            <TEXTURE id="steel" />
+
+            <animationref id="liftoff" />
+            <animationref id="rotation" />
+            <animationref id="flyoff" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="vehicle" />
             </DESCENDANTS>
         </NODE>
 
@@ -212,21 +176,6 @@
 
             <DESCENDANTS>
                 <DESCENDANT id="terrain" />
-            </DESCENDANTS>
-        </NODE>
-
-        <!-- ######################### GROUND -->
-        <NODE id="ground">
-            <MATERIAL id="grass" />
-            <TEXTURE id="grass" />
-
-            <TRANSLATION x="0" y="-2.5" z="0" />
-            <SCALE sx="200" sy="1" sz="200" />
-            <TRANSLATION x="-0.5" y="0" z="0.5" />
-            <ROTATION axis="x" angle="-90" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
             </DESCENDANTS>
         </NODE>
 
