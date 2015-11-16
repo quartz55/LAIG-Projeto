@@ -125,14 +125,16 @@
         <LEAF id="vehicle" type="vehicle" />
         <LEAF id="patch" type="patch" order="2" partsU="20" partsV="20">
             <controlpoint x="0" y="0" z="0" />
-            <controlpoint x="8" y="2" z="2" />
-            <controlpoint x="2" y="2" z="2" />
-            <controlpoint x="3" y="-1.5" z="0" />
-            <controlpoint x="4" y="-2.0" z="2" />
-            <controlpoint x="5" y="2" z="2" />
-            <controlpoint x="6" y="-1.5" z="0" />
-            <controlpoint x="7" y="-2.0" z="2" />
-            <controlpoint x="8" y="2" z="2" />
+            <controlpoint x="0" y="0.5" z="0.5" />
+            <controlpoint x="0" y="1" z="0" />
+
+            <controlpoint x="0.5" y="0" z="0" />
+            <controlpoint x="0.5" y="0.5" z="0.5" />
+            <controlpoint x="0.5" y="1" z="0" />
+
+            <controlpoint x="1" y="0" z="0" />
+            <controlpoint x="1" y="0.5" z="0.5" />
+            <controlpoint x="1" y="1" z="0" />
         </LEAF>
     </LEAVES>
 
@@ -158,11 +160,12 @@
         <ROOT id="scene" />
 
         <NODE id="scene">
-            <MATERIAL id="wood" />
-            <TEXTURE id="leaves" />
+            <MATERIAL id="marble" />
+            <TEXTURE id="marble" />
 
             <DESCENDANTS>
-                <DESCENDANT id="airplane1" />
+                <!-- <DESCENDANT id="airplane1" /> -->
+                <DESCENDANT id="vehicle" />
                 <!-- <DESCENDANT id="ground" /> -->
                 <DESCENDANT id="mountains" />
                 <!-- <DESCENDANT id="patch" /> -->
@@ -225,96 +228,6 @@
             <DESCENDANTS>
                 <DESCENDANT id="square" />
             </DESCENDANTS>
-        </NODE>
-
-        <!-- ######################### CUBE -->
-        <NODE id="cube">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="side1" />
-                <DESCENDANT id="side2" />
-                <DESCENDANT id="side3" />
-                <DESCENDANT id="side4" />
-                <DESCENDANT id="side5" />
-                <DESCENDANT id="side6" />
-            </DESCENDANTS>
-        </NODE>
-
-        <NODE id="side1">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <TRANSLATION x="0" y="1" z="0" />
-            <ROTATION axis="x" angle="180" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
-        </NODE>
-
-        <NODE id="side2">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <TRANSLATION x="0" y="0" z="1" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
-        </NODE>
-
-        <NODE id="side3">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <ROTATION axis="x" angle="90" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
-        </NODE>
-
-        <NODE id="side4">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <TRANSLATION x="0" y="1" z="1" />
-            <ROTATION axis="x" angle="-90" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
-        </NODE>
-
-        <NODE id="side5">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <ROTATION axis="y" angle="-90" />
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
-        </NODE>
-
-        <NODE id="side6">
-            <MATERIAL id="null" />
-            <TEXTURE id="null" />
-
-            <TRANSLATION x="1" y="0" z="1" />
-            <ROTATION axis="y"  angle="90"/>
-
-            <DESCENDANTS>
-                <DESCENDANT id="square" />
-            </DESCENDANTS>
-
         </NODE>
 
     </NODES>

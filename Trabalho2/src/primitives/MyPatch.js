@@ -1,6 +1,6 @@
 function MyPatch(scene, args) {
     this.args = args || [
-        1, 1, 1, [
+        1, 20, 20, [
             [1, 1, 1],
             [1, -1, 1],
             [-1, 1, 1],
