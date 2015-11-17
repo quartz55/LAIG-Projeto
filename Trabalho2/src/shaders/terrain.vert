@@ -11,6 +11,7 @@ uniform mat4 uPMatrix;
 uniform mat4 uNMatrix;
 
 uniform sampler2D uSampler2;
+uniform sampler2D uSampler3;
 
 uniform float multiplier;
 
@@ -22,5 +23,9 @@ void main() {
     vec4 filter = texture2D(uSampler2, aTextureCoord);
     vec3 offset = vec3(0, filter.r, 0) * multiplier;
 
-    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + offset, 1.0);
+	vec4 mask = texture2D(uSampler3, aTextureCoord);
+	if(mask.r >= 0.2)
+	offset = vec3(0,0,0);
+	
+	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + offset, 1.0);	
 }

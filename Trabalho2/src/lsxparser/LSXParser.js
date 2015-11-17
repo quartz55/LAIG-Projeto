@@ -299,11 +299,12 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
 
                 break;
             case "terrain":
-                var texture_path, heightmap_path;
-                texture_path = heightmap_path = this.texture_path;
+                var texture_path, heightmap_path, mask_path;
+                texture_path = heightmap_path = mask_path = this.texture_path;
                 texture_path += this.reader.getString(leaves[i], 'texture');
                 heightmap_path += this.reader.getString(leaves[i], 'heightmap');
-                leaf.args.push(texture_path, heightmap_path);
+				mask_path +=  this.reader.getString(leaves[i], 'maskmap');
+                leaf.args.push(texture_path, heightmap_path, mask_path);
                 break;
             case "plane":
                 leaf.args.push(this.reader.getInteger(leaves[i], 'parts'));
