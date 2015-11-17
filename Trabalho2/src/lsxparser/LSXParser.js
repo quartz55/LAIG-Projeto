@@ -362,6 +362,18 @@ LSXParser.prototype.parseAnims = function(mainElement) {
 
                 args.push(cp);
             }
+		}
+			else if(type=="linearRot"){
+			args[0] = this.reader.getInteger(anims[i],'rot');
+		    var cps = anims[i].getElementsByTagName('controlpoint');
+            for (var k = 0; k < cps.length; ++k) {
+                var cp = [];
+                cp.push(this.reader.getFloat(cps[k], 'xx'));
+                cp.push(this.reader.getFloat(cps[k], 'yy'));
+                cp.push(this.reader.getFloat(cps[k], 'zz'));
+
+                args.push(cp);
+			}
         } else if (type == "circular") {
             args["center"] = this.reader.getVector3(anims[i], 'center');
             args["radius"] = this.reader.getFloat(anims[i], 'radius');

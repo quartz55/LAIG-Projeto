@@ -66,6 +66,7 @@ serialInclude(['../lib/CGF.js',
     'primitives/MyCube.js',
 
     'anim/Animation.js',
+	'anim/LinearRotAnimation.js',
     'anim/LinearAnimation.js',
     'anim/CircularAnimation.js',
 

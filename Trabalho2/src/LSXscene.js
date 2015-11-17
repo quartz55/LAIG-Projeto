@@ -98,6 +98,14 @@ LSXscene.prototype.onGraphLoaded = function() {
             case "linear":
                 this.anims.push(new LinearAnimation(anims[i].id, anims[i].span, anims[i].args));
                 break;
+		   case "linearRot":
+		   var rot = anims[i].args[0];
+		   var cp = [];
+		   for(var k=1; k<anims[i].args.length; k++){
+			   cp.push(anims[i].args[k]);
+		   }
+                this.anims.push(new LinearRotAnimation(anims[i].id, anims[i].span, deg2rad*rot, cp));
+                break;
             case "circular":
                 this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
                     anims[i].args["center"],
@@ -222,6 +230,11 @@ LSXscene.prototype.initLeaves = function() {
                 break;
             case "triangle":
                 primitive = new MyTriangle(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+			case "piramide":
+                primitive = new MyFullCylinder(this, leaf.args);
                 primitive.id = leaf.id;
                 this.leaves.push(primitive);
                 break;
