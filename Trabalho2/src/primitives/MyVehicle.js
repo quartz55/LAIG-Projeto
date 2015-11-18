@@ -1,3 +1,11 @@
+/**
+ * Primitive that represents a flying vehicle (helicopter)
+ * @class MyVehicle
+ * @extends CGFobject
+ * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ */
 function MyVehicle(scene){
     CGFobject.call(this, scene);
 
@@ -34,6 +42,10 @@ function MyVehicle(scene){
 MyVehicle.prototype = Object.create(CGFobject.prototype);
 MyVehicle.prototype.constructor = MyVehicle;
 
+/**
+ * Method that renders the primitive to the WebGL context
+ * @method display
+ */
 MyVehicle.prototype.display = function() {
 
     // Supports
@@ -127,6 +139,11 @@ MyVehicle.prototype.display = function() {
     this.scene.popMatrix();
 };
 
+/**
+ * Auxiliar method used to draw helices with the length provided
+ * @method drawHelices
+ * @param {Float} length
+ */
 MyVehicle.prototype.drawHelices = function(length) {
     this.scene.pushMatrix();
     this.scene.translate(0, -0.3, 0);
@@ -145,4 +162,10 @@ MyVehicle.prototype.drawHelices = function(length) {
     this.scene.popMatrix();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyVehicle.prototype.updateTex = function(ampS, ampT){};

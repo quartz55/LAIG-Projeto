@@ -1,3 +1,10 @@
+/**
+ * Class that holds information for a LSX leaf
+ * @class LSXLeaf
+ * @constructor
+ * @module LSXParser
+ * @param {String} id
+ */
 function LSXLeaf(id) {
     this.id = id;
     this.type = "";

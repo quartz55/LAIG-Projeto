@@ -1,3 +1,14 @@
+/**
+ * Class responsible for animating an objects position and rotation
+ * linearly through the control points given
+ * @class LinearAnimation
+ * @extends Animation
+ * @constructor
+ * @module Animations
+ * @param {String} id
+ * @param {Float} time Time animation takes
+ * @param {Array} controlPoints
+ */
 function LinearAnimation(id, time, controlPoints) {
     Animation.call(this, id, time);
     this.cp = controlPoints;
@@ -6,6 +17,11 @@ function LinearAnimation(id, time, controlPoints) {
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
+/**
+ * Updates animation based on time passed
+ * @method update
+ * @param {Float} delta
+ */
 LinearAnimation.prototype.update = function(delta) {
     delta = delta / 1000;
 
@@ -39,6 +55,11 @@ LinearAnimation.prototype.update = function(delta) {
 
 };
 
+/**
+ * Interpolates position between two control points
+ * @method interp
+ * @return {Array} interpPoint
+ */
 LinearAnimation.prototype.interp = function() {
     var deltaTimeCP = this.time / (this.cp.length - 1);
 
@@ -57,11 +78,24 @@ LinearAnimation.prototype.interp = function() {
     return interpPoint;
 };
 
+/**
+ * Basic method for linear interpolation
+ * @method linearInterp
+ * @param {Float} a
+ * @param {Float} b
+ * @param {Float} f
+ * @return {Float} Interpolation
+ */
 function linearInterp(a, b, f) {
     return (a * (1.0 - f)) + (b * f);
 }
 
-LinearAnimation.prototype.clone = function(delta) {
+/**
+ * Clones the current animation object
+ * @method clone
+ * @return {LinearAnimation} clone
+ */
+LinearAnimation.prototype.clone = function() {
     return new LinearAnimation(this.id,
         this.time,
         this.cp);

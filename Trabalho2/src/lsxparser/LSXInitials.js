@@ -1,3 +1,9 @@
+/**
+ * Class that holds information for the LSX scene initials
+ * @class LSXInitials
+ * @constructor
+ * @module LSXParser
+ */
 function LSXInitials() {
     this.frustum = {
         near: 0.0,

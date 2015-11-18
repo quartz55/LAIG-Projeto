@@ -1,9 +1,24 @@
+/**
+ * Class that holds information for a LSX animation
+ * @class LSXAnim
+ * @constructor
+ * @param {String} id
+ * @param {Float} span
+ * @param {String} type
+ * @param {Array} args
+ * @module LSXParser
+ */
 function LSXAnim(id, span, type, args) {
     this.id = id;
     this.span = span;
     this.type = type;
     this.args = args;
 
+    /**
+     * Description
+     * @method print
+     * @return 
+     */
     this.print = function() {
         console.log("Anim " + this.id);
         console.log("Span " + this.span);

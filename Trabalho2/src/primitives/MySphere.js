@@ -1,6 +1,11 @@
 /**
- * MySphere
+ * Primitive that represents a sphere
+ * @class MySphere
+ * @extends CGFobject
  * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Array} args
  */
 function MySphere(scene, args) {
     CGFobject.call(this, scene);
@@ -17,6 +22,10 @@ function MySphere(scene, args) {
 MySphere.prototype = Object.create(CGFobject.prototype);
 MySphere.prototype.constructor = MySphere;
 
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
 MySphere.prototype.initBuffers = function() {
 
     var ang_0 = 360 * deg2rad / this.slices;
@@ -119,5 +128,11 @@ MySphere.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MySphere.prototype.updateTex = function(S, T) {
 };

@@ -1,7 +1,11 @@
 /**
- * MyTriangle
- * @param gl {WebGLRenderingContext}
+ * Primitive that represents a triangle
+ * @class MyTriangle
+ * @extends CGFobject
  * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Array} args
  */
 function MyTriangle(scene, args) {
     CGFobject.call(this, scene);
@@ -14,6 +18,10 @@ function MyTriangle(scene, args) {
 MyTriangle.prototype = Object.create(CGFobject.prototype);
 MyTriangle.prototype.constructor = MyTriangle;
 
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
 MyTriangle.prototype.initBuffers = function() {
 
     this.vertices = this.args;
@@ -57,6 +65,12 @@ MyTriangle.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyTriangle.prototype.updateTex = function(S, T) {
     for (var i = 0; i < this.texCoords.length; i+=2) {
         this.texCoords[i] = this.baseTexCoords[i]/S;

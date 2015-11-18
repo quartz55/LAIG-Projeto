@@ -1,8 +1,16 @@
 /**
- * MyQuad
- * @param {CGFscene} scene Scene which the object belongs to
- * @param {array} args Arguments to create the object (top left and bottom left vertice)
+ * Provides the primitives classes
+ * @module Primitives
+ * @main Primitives
+ */
+
+/**
+ * Primitive that represents a quad
+ * @class MyQuad
+ * @extends CGFobject
  * @constructor
+ * @param {CGFscene} scene
+ * @param {Array} args
  */
 function MyQuad(scene, args) {
     CGFobject.call(this,scene);
@@ -15,6 +23,10 @@ function MyQuad(scene, args) {
 MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
 
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
 MyQuad.prototype.initBuffers = function () {
 
     this.vertices = [
@@ -63,6 +75,12 @@ MyQuad.prototype.initBuffers = function () {
     this.initGLBuffers();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyQuad.prototype.updateTex = function(S, T) {
     for (var i = 0; i < this.texCoords.length; i+=2) {
         this.texCoords[i] = this.baseTexCoords[i]/S;

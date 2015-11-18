@@ -1,3 +1,9 @@
+/**
+ * Class that holds information for the LSX scene illumination
+ * @class LSXIllumination
+ * @constructor
+ * @module LSXParser
+ */
 function LSXIllumination() {
     this.ambient = {
         r: 1.0,

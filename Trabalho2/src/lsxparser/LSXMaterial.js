@@ -1,3 +1,10 @@
+/**
+ * Class that holds information for a LSX material
+ * @class LSXMaterial
+ * @constructor
+ * @module LSXParser
+ * @param {String} id
+ */
 function LSXMaterial(id) {
     this.id = id;
     this.shininess = 0.0;

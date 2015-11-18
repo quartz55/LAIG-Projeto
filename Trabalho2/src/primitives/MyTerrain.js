@@ -1,3 +1,12 @@
+/**
+ * Primitive that represents a terrain based on the heightmap provided
+ * @class MyTerrain
+ * @extends CGFobject
+ * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Array} args
+ */
 function MyTerrain(scene, args){
     CGFobject.call(this, scene);
     this.args = args || ["null", "null"];
@@ -18,6 +27,10 @@ function MyTerrain(scene, args){
 MyTerrain.prototype = Object.create(CGFobject.prototype);
 MyTerrain.prototype.constructor = MyTerrain;
 
+/**
+ * Method that renders the primitive to the WebGL context
+ * @method display
+ */
 MyTerrain.prototype.display = function() {
 
     this.mat.apply();
@@ -31,4 +44,10 @@ MyTerrain.prototype.display = function() {
 
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyTerrain.prototype.updateTex = function(ampS, ampT){};

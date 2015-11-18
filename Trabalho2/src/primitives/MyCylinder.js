@@ -1,6 +1,15 @@
 /**
- * MyCylinder
+ * Primitive that represents a cylinder
  * @constructor
+ * @class MyCylinder
+ * @extends CGFobject
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Integer} slices
+ * @param {Integer} stacks
+ * @param {Float} topRad
+ * @param {Float} botRad
+ * @param {Float} height
  */
 function MyCylinder(scene, slices, stacks, topRad, botRad, height) {
     CGFobject.call(this, scene);
@@ -17,6 +26,10 @@ function MyCylinder(scene, slices, stacks, topRad, botRad, height) {
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
 
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
 MyCylinder.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];
@@ -93,6 +106,12 @@ MyCylinder.prototype.initBuffers = function() {
     this.initGLBuffers();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyCylinder.prototype.updateTex = function(S, T) {
     for (var i = 0; i < this.texCoords.length; i += 2) {
         this.texCoords[i] = this.baseTexCoords[i] / S;

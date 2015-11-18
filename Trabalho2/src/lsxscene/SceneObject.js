@@ -1,3 +1,10 @@
+/**
+ * @constructor
+ * @class SceneObject
+ * @method SceneObject
+ * @param {} id
+ * @return 
+ */
 function SceneObject(id) {
     this.id = id;
     this.material = null;
@@ -8,6 +15,11 @@ function SceneObject(id) {
     this.currAnim = 0;
 }
 
+/**
+ * Description
+ * @method updateTex
+ * @return 
+ */
 SceneObject.prototype.updateTex = function() {
     this.material.setTexture(this.texture);
 
@@ -16,6 +28,12 @@ SceneObject.prototype.updateTex = function() {
     this.primitive.updateTex(this.texture.amplif_factor.s, this.texture.amplif_factor.t);
 };
 
+/**
+ * Description
+ * @method draw
+ * @param {} scene
+ * @return 
+ */
 SceneObject.prototype.draw = function(scene) {
     scene.pushMatrix();
     this.updateTex();
@@ -32,6 +50,12 @@ SceneObject.prototype.draw = function(scene) {
     scene.popMatrix();
 };
 
+/**
+ * Description
+ * @method updateAnims
+ * @param {} delta
+ * @return 
+ */
 SceneObject.prototype.updateAnims = function(delta) {
     if (this.anims.length == 0 || this.currAnim >= this.anims.length) return;
 

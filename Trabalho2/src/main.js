@@ -1,4 +1,8 @@
 //From https://github.com/EvanHahn/ScriptInclude
+/**
+ * @module main
+ * @main main
+ */
 include = function() {
     function f() {
         var a = this.readyState;
@@ -72,7 +76,7 @@ serialInclude(['../lib/CGF.js',
     'lsxscene/SceneMaterial.js',
     'lsxscene/SceneTexture.js',
     'lsxscene/SceneObject.js',
-    'LSXscene.js',
+    'lsxscene/LSXscene.js',
     'Interface.js',
 
     main = function() {

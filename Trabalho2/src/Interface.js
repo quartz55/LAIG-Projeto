@@ -1,3 +1,10 @@
+/**
+ * Basic interface to switch lights on and off
+ * @class Interface
+ * @extends CGFinterface
+ * @constructor
+ * @module main
+ */
 function Interface() {
     CGFinterface.call(this);
 };
@@ -7,7 +14,9 @@ Interface.prototype.constructor = Interface;
 
 /**
  * Initializes interface
+ * @method init
  * @param {CGFapplication} application
+ * @return {Boolean} True if successful, False if not
  */
 Interface.prototype.init = function(application) {
     CGFinterface.prototype.init.call(this, application);
@@ -23,6 +32,7 @@ Interface.prototype.init = function(application) {
 /**
  * Sets which scene the interfance belongs to, also sets the scene's interface
  * as this for easier reference
+ * @method setScene
  * @param {CGFscene} scene
  */
 Interface.prototype.setScene = function(scene) {
@@ -31,8 +41,8 @@ Interface.prototype.setScene = function(scene) {
 };
 
 /**
- * Function that adds a button to control the scene lights.
- * Note: It's called when lights are created and added to the scene
+ * Adds a button for all the lights in the scene to switch it on or off
+ * @method initLights
  */
 Interface.prototype.initLights = function() {
     var lights_group = this.gui.addFolder("Lights");

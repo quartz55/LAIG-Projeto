@@ -1,5 +1,18 @@
+
+/**
+ * Provides the LSXscene class
+ * @module LSXscene
+ * @main LSXscene
+ */
+
 var deg2rad = Math.PI / 180;
 
+/**
+ * Class responsible for rendering a scene read from a .lsx file from a LSXParser
+ * @class LSXscene
+ * @extends CGFscene
+ * @constructor
+ */
 function LSXscene() {
     CGFscene.call(this);
 }
@@ -7,6 +20,11 @@ function LSXscene() {
 LSXscene.prototype = Object.create(CGFscene.prototype);
 LSXscene.prototype.constructor = LSXscene;
 
+/**
+ * Initializes scene
+ * @method init
+ * @param {CGFapplication} application
+ */
 LSXscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
 
@@ -27,12 +45,19 @@ LSXscene.prototype.init = function(application) {
     this.currTime = new Date().getTime();
     this.setUpdatePeriod(10);
 };
+
+/**
+ * Initializes scene camera
+ * @method initCameras
+ */
 LSXscene.prototype.initCameras = function() {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 0), vec3.fromValues(0, 0, 0));
 };
+
 /**
  * Sets the default scene appearance based on an material named "default"
  * if it is present in the .lsx scene file
+ * @method setDefaultAppearance
  */
 LSXscene.prototype.setDefaultAppearance = function() {
     for (var i = 0; i < this.materials.length; i++) {
@@ -44,8 +69,9 @@ LSXscene.prototype.setDefaultAppearance = function() {
 };
 
 /**
- * Function called by a {LSXParser} once it is done parsing
+ * Function called by a LSXParser once it is done parsing
  * a scene in .lsx format
+ * @method onGraphLoaded
  */
 LSXscene.prototype.onGraphLoaded = function() {
     // Frustum
@@ -112,6 +138,10 @@ LSXscene.prototype.onGraphLoaded = function() {
     this.initNodes();
 };
 
+/**
+ * Draws the scene to the WebGL context
+ * @method display
+ */
 LSXscene.prototype.display = function() {
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -145,7 +175,8 @@ LSXscene.prototype.display = function() {
 };
 
 /**
- * Apply the initial transformations defined in <INITIALS>
+ * Apply the initial transformations
+ * @method applyInitials
  */
 LSXscene.prototype.applyInitials = function() {
     var inits = this.graph.initials;
@@ -171,7 +202,8 @@ LSXscene.prototype.applyInitials = function() {
 };
 
 /**
- * Adds lights to scene defined in <LIGHTS>
+ * Adds lights to scene
+ * @method initLights
  */
 LSXscene.prototype.initLights = function() {
     this.lights = [];
@@ -199,7 +231,8 @@ LSXscene.prototype.initLights = function() {
 };
 
 /**
- * Adds leaves (primitives) defined in <LEAVES>
+ * Adds leaves (primitives) defined in LEAVES
+ * @method initLeaves
  */
 LSXscene.prototype.initLeaves = function() {
     for (var i = 0; i < this.graph.leaves.length; i++) {
@@ -250,12 +283,11 @@ LSXscene.prototype.initLeaves = function() {
 };
 
 /**
- * @brief Function that parses the graph defined in the <NODES> section.
- *
- * It uses a Depth First Search algorithm to search for the
+ * Method that uses a Depth First Search algorithm to search the
  * final nodes of the graph (which should be leaves) and creates
- * a {SceneObject} based on the transformations and materials/textures
+ * a __SceneObject__ based on the transformations and materials/textures
  * defined in previous nodes and the primitive which the leaf represents
+ * @method initNodes
  */
 LSXscene.prototype.initNodes = function() {
     var nodes_list = this.graph.nodes;
@@ -264,6 +296,15 @@ LSXscene.prototype.initNodes = function() {
     this.DFS(root_node, root_node.material, root_node.texture, root_node.matrix, root_node.anims);
 };
 
+/**
+ * Depth First Search algorithm
+ * @method DFS
+ * @param {String} node
+ * @param {String} currMaterial
+ * @param {String} currTexture
+ * @param {mat4} currMatrix
+ * @param {Array} currAnims
+ */
 LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, currAnims) {
     var nextMat = node.material;
     if (node.material == "null") nextMat = currMaterial;
@@ -305,7 +346,9 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
 };
 
 /**
- * @returns {Anim} with the {string} id specified
+ * @method getAnim
+ * @param {String} id
+ * @return {Animation}
  */
 LSXscene.prototype.getAnim = function(id) {
     if (id == null) return null;
@@ -317,7 +360,9 @@ LSXscene.prototype.getAnim = function(id) {
 };
 
 /**
- * @returns {SceneMaterial} with the {string} id specified
+ * @method getMaterial
+ * @param {String} id
+ * @return {SceneMaterial}
  */
 LSXscene.prototype.getMaterial = function(id) {
     if (id == null) return null;
@@ -329,7 +374,9 @@ LSXscene.prototype.getMaterial = function(id) {
 };
 
 /**
- * @returns {SceneTexture} with the {string} id specified
+ * @method getTexture
+ * @param {String} id
+ * @return {SceneTexture}
  */
 LSXscene.prototype.getTexture = function(id) {
     if (id == null) return null;
@@ -343,6 +390,9 @@ LSXscene.prototype.getTexture = function(id) {
 /**
  * Called from interface when a button is pressed
  * Switches light on or off
+ * @method switchLight
+ * @param {String} id
+ * @param {Boolean} _switch
  */
 LSXscene.prototype.switchLight = function(id, _switch) {
     for (var i = 0; i < this.lights.length; ++i) {
@@ -352,6 +402,13 @@ LSXscene.prototype.switchLight = function(id, _switch) {
     }
 };
 
+/**
+ * Called based on the time provided in setUpdatePeriod()
+ *
+ * Updates all the objects animations
+ * @method update
+ * @param {Float} currTime
+ */
 LSXscene.prototype.update = function(currTime) {
     var delta = currTime - this.currTime;
     this.currTime = currTime;

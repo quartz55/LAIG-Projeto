@@ -1,3 +1,15 @@
+/**
+ * Provides the LSXParser class
+ * @module LSXParser
+ * @main LSXParser
+ */
+
+/**
+ * Parses and holds information for a scene based on a LSX file
+ * @class LSXParser
+ * @param {LSXscene} scene
+ * @param {String} filename
+ */
 function LSXParser(filename, scene) {
     this.loadedOK = null;
 
@@ -22,6 +34,10 @@ function LSXParser(filename, scene) {
     this.nodes = [];
 }
 
+/**
+ * Called after XML request is done
+ * @method onXMLReady
+ */
 LSXParser.prototype.onXMLReady = function() {
     console.log("LSX loaded successfully.");
 
@@ -97,11 +113,22 @@ LSXParser.prototype.onXMLReady = function() {
     this.scene.onGraphLoaded();
 };
 
+/**
+ * Called from onXMLReady when an error occurs while parsing, prints message to console
+ * @method onXMLError
+ * @param {String} message
+ */
 LSXParser.prototype.onXMLError = function(message) {
     console.error("LSX loading error: " + message);
     this.loadedOK = false;
 };
 
+/**
+ * Parses the INITIALS DOM Element
+ * @method parseInitials
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseInitials = function(mainElement) {
     var initials_list = mainElement.getElementsByTagName('INITIALS')[0];
     if (initials_list == null) return "<INITIALS> element is missing.";
@@ -153,6 +180,12 @@ LSXParser.prototype.parseInitials = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the ILLUMINATION DOM Element
+ * @method parseIllumination
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseIllumination = function(mainElement) {
     var illumination_list = mainElement.getElementsByTagName('ILLUMINATION')[0];
     if (illumination_list == null) return "<ILLUMINATION> element is missing.";
@@ -174,6 +207,12 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the LIGHTS DOM Element
+ * @method parseLights
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseLights = function(mainElement) {
     var lights_list = mainElement.getElementsByTagName('LIGHTS')[0];
     if (lights_list == null) return "<LIGHTS> element is missing.";
@@ -199,6 +238,12 @@ LSXParser.prototype.parseLights = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the TEXTURES DOM Element
+ * @method parseTextures
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseTextures = function(mainElement) {
     var textures_list = mainElement.getElementsByTagName('TEXTURES')[0];
     if (textures_list == null) return "<TEXTURES> element is missing.";
@@ -221,6 +266,12 @@ LSXParser.prototype.parseTextures = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the MATERIALS DOM Element
+ * @method parseMaterials
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseMaterials = function(mainElement) {
     var materials_list = mainElement.getElementsByTagName('MATERIALS')[0];
     if (materials_list == null) return "<MATERIALS> element is missing.";
@@ -242,6 +293,12 @@ LSXParser.prototype.parseMaterials = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the LEAVES DOM Element
+ * @method parseLeaves
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseLeaves = function(mainElement) {
     var leaves_list = mainElement.getElementsByTagName('LEAVES')[0];
     if (leaves_list == null) return "<LEAVES> element is missing.";
@@ -340,6 +397,12 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
     return null;
 };
 
+/**
+ * Parses the animations DOM Element
+ * @method parseAnims
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseAnims = function(mainElement) {
     var anims_list = mainElement.getElementsByTagName('animations')[0];
     if (anims_list == null) return "<animations> element is missing.";
@@ -374,6 +437,12 @@ LSXParser.prototype.parseAnims = function(mainElement) {
     }
 };
 
+/**
+ * Parses the NODES DOM Element
+ * @method parseNodes
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
 LSXParser.prototype.parseNodes = function(mainElement) {
     var nodes_list = mainElement.getElementsByTagName('NODES')[0];
     if (nodes_list == null) return "<NODES> element is missing.";
@@ -445,6 +514,12 @@ LSXParser.prototype.parseNodes = function(mainElement) {
     return null;
 };
 
+/**
+ * Helper method that parses a color from an Element with 'r', 'g', 'b', 'a' attributes
+ * @method parseColor
+ * @param {Element} element
+ * @return {Array} color
+ */
 LSXParser.prototype.parseColor = function(element) {
     var color = {};
     color.r = this.reader.getFloat(element, 'r');
@@ -453,6 +528,11 @@ LSXParser.prototype.parseColor = function(element) {
     color.a = this.reader.getFloat(element, 'a');
     return color;
 };
+/**
+ * @method findNode
+ * @param {String} id
+ * @return {LSXNode}
+ */
 LSXParser.prototype.findNode = function(id) {
     for (i = 0; i < this.nodes.length; i++)
         if (this.nodes[i].id == id) return this.nodes[i];
@@ -460,6 +540,12 @@ LSXParser.prototype.findNode = function(id) {
     return null;
 };
 
+/**
+ * Helper method that prints a color
+ * @method printColor
+ * @param {Array} c
+ * @return {String}
+ */
 function printColor(c) {
     return "(" + c.r + ", " + c.g + ", " + c.b + ", " + c.a + ")";
 }

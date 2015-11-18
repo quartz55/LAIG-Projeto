@@ -1,6 +1,11 @@
 /**
- * MyFullCylinder
+ * Primitive that represents a cylinder with top and bottom
+ * @class MyFullCylinder
+ * @extends CGFobject
  * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Array} args
  */
 function MyFullCylinder(scene, args){
 	  CGFobject.call(this,scene);
@@ -25,6 +30,10 @@ function MyFullCylinder(scene, args){
 MyFullCylinder.prototype = Object.create(CGFobject.prototype);
 MyFullCylinder.prototype.constructor = MyFullCylinder;
 
+/**
+ * Method that renders the primitive to the WebGL context
+ * @method display
+ */
 MyFullCylinder.prototype.display = function()
 {
     this.scene.pushMatrix();
@@ -49,6 +58,12 @@ MyFullCylinder.prototype.display = function()
     this.scene.popMatrix();
 };
 
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
 MyFullCylinder.prototype.updateTex = function(S, T) {
     this.cylinder.updateTex(S, T);
 };

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>primitives/MySphere.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Animation.html">Animation</a></li>
+                                <li><a href="../classes/CircularAnimation.html">CircularAnimation</a></li>
+                                <li><a href="../classes/Interface.html">Interface</a></li>
+                                <li><a href="../classes/LinearAnimation.html">LinearAnimation</a></li>
+                                <li><a href="../classes/LSXAnim.html">LSXAnim</a></li>
+                                <li><a href="../classes/LSXIllumination.html">LSXIllumination</a></li>
+                                <li><a href="../classes/LSXInitials.html">LSXInitials</a></li>
+                                <li><a href="../classes/LSXLeaf.html">LSXLeaf</a></li>
+                                <li><a href="../classes/LSXLight.html">LSXLight</a></li>
+                                <li><a href="../classes/LSXMaterial.html">LSXMaterial</a></li>
+                                <li><a href="../classes/LSXNode.html">LSXNode</a></li>
+                                <li><a href="../classes/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../classes/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../classes/LSXTexture.html">LSXTexture</a></li>
+                                <li><a href="../classes/MyCircle.html">MyCircle</a></li>
+                                <li><a href="../classes/MyCube.html">MyCube</a></li>
+                                <li><a href="../classes/MyCylinder.html">MyCylinder</a></li>
+                                <li><a href="../classes/MyFullCylinder.html">MyFullCylinder</a></li>
+                                <li><a href="../classes/MyPatch.html">MyPatch</a></li>
+                                <li><a href="../classes/MyPlane.html">MyPlane</a></li>
+                                <li><a href="../classes/MyQuad.html">MyQuad</a></li>
+                                <li><a href="../classes/MySphere.html">MySphere</a></li>
+                                <li><a href="../classes/MyTerrain.html">MyTerrain</a></li>
+                                <li><a href="../classes/MyTriangle.html">MyTriangle</a></li>
+                                <li><a href="../classes/MyVehicle.html">MyVehicle</a></li>
+                                <li><a href="../classes/SceneMaterial.html">SceneMaterial</a></li>
+                                <li><a href="../classes/SceneObject.html">SceneObject</a></li>
+                                <li><a href="../classes/SceneTexture.html">SceneTexture</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Animations.html">Animations</a></li>
+                                <li><a href="../modules/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../modules/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
+                                <li><a href="../modules/Primitives.html">Primitives</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: primitives/MySphere.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Primitive that represents a sphere
+ * @class MySphere
+ * @extends CGFobject
+ * @constructor
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Array} args
+ */
+function MySphere(scene, args) {
+    CGFobject.call(this, scene);
+
+    this.args = args || [1.0, 8, 8];
+
+    this.radius = this.args[0];
+    this.slices = this.args[1];
+    this.stacks = this.args[2];
+
+    this.initBuffers();
+};
+
+MySphere.prototype = Object.create(CGFobject.prototype);
+MySphere.prototype.constructor = MySphere;
+
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
+MySphere.prototype.initBuffers = function() {
+
+    var ang_0 = 360 * deg2rad / this.slices;
+    var ang_1 = 180 * deg2rad / this.stacks;
+
+    this.vertices = [];
+    this.indices = [];
+    this.normals = [];
+    this.texCoords = [];
+
+    var ang_1_now = 0;
+    var ang_1_then = ang_1;
+    var ind_j = 0;
+    var aux_j = 4 * this.slices;
+
+    for (j = 0; j &lt; this.stacks; j++) {
+
+        var ang_0_now = 0;
+        var ind_i = 0;
+
+        for (i = 0; i &lt; this.slices; i++) {
+
+            var x0 = this.radius*Math.sin(ang_1_now) * Math.cos(ang_0_now);
+            var y0 = this.radius*Math.cos(ang_1_now);
+            var z0 = this.radius*Math.sin(ang_1_now) * Math.sin(ang_0_now);
+
+            var x2 = this.radius*Math.sin(ang_1_then) * Math.cos(ang_0_now);
+            var y2 = this.radius*Math.cos(ang_1_then);
+            var z2 = this.radius*Math.sin(ang_1_then) * Math.sin(ang_0_now);
+
+            ang_0_now += ang_0;
+
+            var x1 = this.radius*Math.sin(ang_1_now) * Math.cos(ang_0_now);
+            var y1 = this.radius*Math.cos(ang_1_now);
+            var z1 = this.radius*Math.sin(ang_1_now) * Math.sin(ang_0_now);
+
+            var x3 = this.radius*Math.sin(ang_1_then) * Math.cos(ang_0_now);
+            var y3 = this.radius*Math.cos(ang_1_then);
+            var z3 = this.radius*Math.sin(ang_1_then) * Math.sin(ang_0_now);
+
+            this.vertices.push(x0);
+            this.vertices.push(y0);
+            this.vertices.push(z0); // vertice 0
+
+            this.vertices.push(x1);
+            this.vertices.push(y1);
+            this.vertices.push(z1); // vertice 1
+
+            this.vertices.push(x2);
+            this.vertices.push(y2);
+            this.vertices.push(z2); // vertice 2
+
+            this.vertices.push(x3);
+            this.vertices.push(y3);
+            this.vertices.push(z3); // vertice 3
+
+            var ind_i_j = ind_i + ind_j;
+
+            this.indices.push(ind_i_j); // 0
+            this.indices.push(ind_i_j + 1); // 1
+            this.indices.push(ind_i_j + 2); // 2
+
+            this.indices.push(ind_i_j + 3); // 3
+            this.indices.push(ind_i_j + 2); // 2
+            this.indices.push(ind_i_j + 1); // 1
+
+            ind_i += 4;
+
+            // normal a vertice 0
+            this.normals.push(x0);
+            this.normals.push(y0);
+            this.normals.push(z0);
+
+            // normal a vertice 1
+            this.normals.push(x1);
+            this.normals.push(y1);
+            this.normals.push(z1);
+
+            // normal a vertice 2
+            this.normals.push(x2);
+            this.normals.push(y2);
+            this.normals.push(z2);
+
+            // normal a vertice 3
+            this.normals.push(x3);
+            this.normals.push(y3);
+            this.normals.push(z3);
+
+            // coordenadas textura
+            this.texCoords.push(1 - i / this.slices, j / this.stacks);
+            this.texCoords.push(1 - (i + 1) / this.slices, j / this.stacks);
+            this.texCoords.push(1 - i / this.slices, (j + 1) / this.stacks);
+            this.texCoords.push(1 - (i + 1) / this.slices, (j + 1) / this.stacks);
+        }
+        ang_1_now += ang_1;
+        ang_1_then += ang_1;
+        ind_j += aux_j;
+    }
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
+};
+
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
+MySphere.prototype.updateTex = function(S, T) {
+};
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

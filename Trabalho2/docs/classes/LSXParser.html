@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LSXParser</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Animation.html">Animation</a></li>
+                                <li><a href="../classes/CircularAnimation.html">CircularAnimation</a></li>
+                                <li><a href="../classes/Interface.html">Interface</a></li>
+                                <li><a href="../classes/LinearAnimation.html">LinearAnimation</a></li>
+                                <li><a href="../classes/LSXAnim.html">LSXAnim</a></li>
+                                <li><a href="../classes/LSXIllumination.html">LSXIllumination</a></li>
+                                <li><a href="../classes/LSXInitials.html">LSXInitials</a></li>
+                                <li><a href="../classes/LSXLeaf.html">LSXLeaf</a></li>
+                                <li><a href="../classes/LSXLight.html">LSXLight</a></li>
+                                <li><a href="../classes/LSXMaterial.html">LSXMaterial</a></li>
+                                <li><a href="../classes/LSXNode.html">LSXNode</a></li>
+                                <li><a href="../classes/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../classes/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../classes/LSXTexture.html">LSXTexture</a></li>
+                                <li><a href="../classes/MyCircle.html">MyCircle</a></li>
+                                <li><a href="../classes/MyCube.html">MyCube</a></li>
+                                <li><a href="../classes/MyCylinder.html">MyCylinder</a></li>
+                                <li><a href="../classes/MyFullCylinder.html">MyFullCylinder</a></li>
+                                <li><a href="../classes/MyPatch.html">MyPatch</a></li>
+                                <li><a href="../classes/MyPlane.html">MyPlane</a></li>
+                                <li><a href="../classes/MyQuad.html">MyQuad</a></li>
+                                <li><a href="../classes/MySphere.html">MySphere</a></li>
+                                <li><a href="../classes/MyTerrain.html">MyTerrain</a></li>
+                                <li><a href="../classes/MyTriangle.html">MyTriangle</a></li>
+                                <li><a href="../classes/MyVehicle.html">MyVehicle</a></li>
+                                <li><a href="../classes/SceneMaterial.html">SceneMaterial</a></li>
+                                <li><a href="../classes/SceneObject.html">SceneObject</a></li>
+                                <li><a href="../classes/SceneTexture.html">SceneTexture</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Animations.html">Animations</a></li>
+                                <li><a href="../modules/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../modules/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
+                                <li><a href="../modules/Primitives.html">Primitives</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>LSXParser Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/lsxparser_LSXParser.js.html#l7"><code>lsxparser&#x2F;LSXParser.js:7</code></a>
+        </div>
+
+            Module: <a href="../modules/LSXParser.html">LSXParser</a>
+
+</div>
+
+
+<div class="box intro">
+    <p>Parses and holds information for a scene based on a LSX file</p>
+
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_findNode">findNode</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_onXMLError">onXMLError</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_onXMLReady">onXMLReady</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseAnims">parseAnims</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseColor">parseColor</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseIllumination">parseIllumination</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseInitials">parseInitials</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseLeaves">parseLeaves</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseLights">parseLights</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseMaterials">parseMaterials</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseNodes">parseNodes</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseTextures">parseTextures</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_printColor">printColor</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_findNode" class="method item">
+    <h3 class="name"><code>findNode</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/LSXNode.html" class="crosslink">LSXNode</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l531"><code>lsxparser&#x2F;LSXParser.js:531</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/LSXNode.html" class="crosslink">LSXNode</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_onXMLError" class="method item">
+    <h3 class="name"><code>onXMLError</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>message</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l116"><code>lsxparser&#x2F;LSXParser.js:116</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called from onXMLReady when an error occurs while parsing, prints message to console</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">message</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_onXMLReady" class="method item">
+    <h3 class="name"><code>onXMLReady</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l37"><code>lsxparser&#x2F;LSXParser.js:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called after XML request is done</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_parseAnims" class="method item">
+    <h3 class="name"><code>parseAnims</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l400"><code>lsxparser&#x2F;LSXParser.js:400</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the animations DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseColor" class="method item">
+    <h3 class="name"><code>parseColor</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>element</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l517"><code>lsxparser&#x2F;LSXParser.js:517</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Helper method that parses a color from an Element with 'r', 'g', 'b', 'a' attributes</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">element</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>color</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseIllumination" class="method item">
+    <h3 class="name"><code>parseIllumination</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l183"><code>lsxparser&#x2F;LSXParser.js:183</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the ILLUMINATION DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseInitials" class="method item">
+    <h3 class="name"><code>parseInitials</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l126"><code>lsxparser&#x2F;LSXParser.js:126</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the INITIALS DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseLeaves" class="method item">
+    <h3 class="name"><code>parseLeaves</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l296"><code>lsxparser&#x2F;LSXParser.js:296</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the LEAVES DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseLights" class="method item">
+    <h3 class="name"><code>parseLights</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l210"><code>lsxparser&#x2F;LSXParser.js:210</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the LIGHTS DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseMaterials" class="method item">
+    <h3 class="name"><code>parseMaterials</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l269"><code>lsxparser&#x2F;LSXParser.js:269</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the MATERIALS DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseNodes" class="method item">
+    <h3 class="name"><code>parseNodes</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l440"><code>lsxparser&#x2F;LSXParser.js:440</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the NODES DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseTextures" class="method item">
+    <h3 class="name"><code>parseTextures</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mainElement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l241"><code>lsxparser&#x2F;LSXParser.js:241</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parses the TEXTURES DOM Element</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mainElement</code>
+                        <span class="type">Element</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>Error message, null if none</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_printColor" class="method item">
+    <h3 class="name"><code>printColor</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>c</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lsxparser_LSXParser.js.html#l543"><code>lsxparser&#x2F;LSXParser.js:543</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Helper method that prints a color</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">c</code>
+                        <span class="type">Array</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

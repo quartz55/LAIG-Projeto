@@ -1,3 +1,10 @@
+/**
+ * Class that holds information for a LSX texture
+ * @class LSXTexture
+ * @constructor
+ * @module LSXParser
+ * @param {String} id
+ */
 function LSXTexture(id) {
     this.id = id;
     this.path = "";

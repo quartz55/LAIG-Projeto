@@ -1,3 +1,10 @@
+/**
+ * Class that holds information for a LSX node
+ * @class LSXNode
+ * @constructor
+ * @module LSXParser
+ * @param {String} id
+ */
 function LSXNode(id) {
     this.id = id;
     this.material = null;

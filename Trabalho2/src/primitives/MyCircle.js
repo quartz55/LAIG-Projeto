@@ -1,6 +1,12 @@
 /**
- * MyCircle
+ * Primitive that represents a circle
  * @constructor
+ * @class MyCircle
+ * @extends CGFobject
+ * @module Primitives
+ * @param {CGFscene} scene
+ * @param {Float} rad Circle radius
+ * @param {Integer} slices
  */
 function MyCircle(scene, rad, slices) {
     CGFobject.call(this, scene);
@@ -14,6 +20,10 @@ function MyCircle(scene, rad, slices) {
 MyCircle.prototype = Object.create(CGFobject.prototype);
 MyCircle.prototype.constructor = MyCircle;
 
+/**
+ * Initializes WebGL buffers for object
+ * @method initBuffers
+ */
 MyCircle.prototype.initBuffers = function() {
     this.vertices = [];
     this.indices = [];

@@ -1,0 +1,2169 @@
+{
+    "project": {},
+    "files": {
+        "anim/Animation.js": {
+            "name": "anim/Animation.js",
+            "modules": {
+                "Animations": 1
+            },
+            "classes": {
+                "Animation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "anim/CircularAnimation.js": {
+            "name": "anim/CircularAnimation.js",
+            "modules": {},
+            "classes": {
+                "CircularAnimation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "anim/LinearAnimation.js": {
+            "name": "anim/LinearAnimation.js",
+            "modules": {},
+            "classes": {
+                "LinearAnimation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXAnim.js": {
+            "name": "lsxparser/LSXAnim.js",
+            "modules": {},
+            "classes": {
+                "LSXAnim": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXIllumination.js": {
+            "name": "lsxparser/LSXIllumination.js",
+            "modules": {},
+            "classes": {
+                "LSXIllumination": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXInitials.js": {
+            "name": "lsxparser/LSXInitials.js",
+            "modules": {},
+            "classes": {
+                "LSXInitials": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXLeaf.js": {
+            "name": "lsxparser/LSXLeaf.js",
+            "modules": {},
+            "classes": {
+                "LSXLeaf": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXLight.js": {
+            "name": "lsxparser/LSXLight.js",
+            "modules": {},
+            "classes": {
+                "LSXLight": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXMaterial.js": {
+            "name": "lsxparser/LSXMaterial.js",
+            "modules": {},
+            "classes": {
+                "LSXMaterial": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXNode.js": {
+            "name": "lsxparser/LSXNode.js",
+            "modules": {},
+            "classes": {
+                "LSXNode": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXParser.js": {
+            "name": "lsxparser/LSXParser.js",
+            "modules": {
+                "LSXParser": 1
+            },
+            "classes": {
+                "LSXParser": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxparser/LSXTexture.js": {
+            "name": "lsxparser/LSXTexture.js",
+            "modules": {},
+            "classes": {
+                "LSXTexture": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxscene/LSXscene.js": {
+            "name": "lsxscene/LSXscene.js",
+            "modules": {
+                "LSXscene": 1
+            },
+            "classes": {
+                "LSXscene": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxscene/SceneMaterial.js": {
+            "name": "lsxscene/SceneMaterial.js",
+            "modules": {},
+            "classes": {
+                "SceneMaterial": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxscene/SceneObject.js": {
+            "name": "lsxscene/SceneObject.js",
+            "modules": {},
+            "classes": {
+                "SceneObject": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lsxscene/SceneTexture.js": {
+            "name": "lsxscene/SceneTexture.js",
+            "modules": {},
+            "classes": {
+                "SceneTexture": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyCircle.js": {
+            "name": "primitives/MyCircle.js",
+            "modules": {},
+            "classes": {
+                "MyCircle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyCube.js": {
+            "name": "primitives/MyCube.js",
+            "modules": {},
+            "classes": {
+                "MyCube": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyCylinder.js": {
+            "name": "primitives/MyCylinder.js",
+            "modules": {},
+            "classes": {
+                "MyCylinder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyFullCylinder.js": {
+            "name": "primitives/MyFullCylinder.js",
+            "modules": {},
+            "classes": {
+                "MyFullCylinder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyPatch.js": {
+            "name": "primitives/MyPatch.js",
+            "modules": {},
+            "classes": {
+                "MyPatch": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyPlane.js": {
+            "name": "primitives/MyPlane.js",
+            "modules": {},
+            "classes": {
+                "MyPlane": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyQuad.js": {
+            "name": "primitives/MyQuad.js",
+            "modules": {
+                "Primitives": 1
+            },
+            "classes": {
+                "MyQuad": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MySphere.js": {
+            "name": "primitives/MySphere.js",
+            "modules": {},
+            "classes": {
+                "MySphere": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyTerrain.js": {
+            "name": "primitives/MyTerrain.js",
+            "modules": {},
+            "classes": {
+                "MyTerrain": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyTriangle.js": {
+            "name": "primitives/MyTriangle.js",
+            "modules": {},
+            "classes": {
+                "MyTriangle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "primitives/MyVehicle.js": {
+            "name": "primitives/MyVehicle.js",
+            "modules": {},
+            "classes": {
+                "MyVehicle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Interface.js": {
+            "name": "Interface.js",
+            "modules": {},
+            "classes": {
+                "Interface": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "main.js": {
+            "name": "main.js",
+            "modules": {
+                "main": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "Animations": {
+            "name": "Animations",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Animation": 1,
+                "CircularAnimation": 1,
+                "LinearAnimation": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "anim/LinearAnimation.js",
+            "line": 1,
+            "description": "Provides the animation classes",
+            "itemtype": "main"
+        },
+        "LSXParser": {
+            "name": "LSXParser",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "LSXAnim": 1,
+                "LSXIllumination": 1,
+                "LSXInitials": 1,
+                "LSXLeaf": 1,
+                "LSXLight": 1,
+                "LSXMaterial": 1,
+                "LSXNode": 1,
+                "LSXParser": 1,
+                "LSXTexture": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "lsxparser/LSXTexture.js",
+            "line": 1,
+            "description": "Provides the LSXParser class",
+            "itemtype": "main"
+        },
+        "LSXscene": {
+            "name": "LSXscene",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "LSXscene": 1,
+                "SceneMaterial": 1,
+                "SceneObject": 1,
+                "SceneTexture": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "lsxscene/SceneTexture.js",
+            "line": 1,
+            "description": "Provides the LSXscene class",
+            "itemtype": "main"
+        },
+        "Primitives": {
+            "name": "Primitives",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "MyCircle": 1,
+                "MyCube": 1,
+                "MyCylinder": 1,
+                "MyFullCylinder": 1,
+                "MyPatch": 1,
+                "MyPlane": 1,
+                "MyQuad": 1,
+                "MySphere": 1,
+                "MyTerrain": 1,
+                "MyTriangle": 1,
+                "MyVehicle": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "primitives/MyVehicle.js",
+            "line": 1,
+            "description": "Provides the primitives classes",
+            "itemtype": "main"
+        },
+        "main": {
+            "name": "main",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Interface": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "Interface.js",
+            "line": 1,
+            "description": "Basic interface to switch lights on and off",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "Animation": {
+            "name": "Animation",
+            "shortname": "Animation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Animations",
+            "namespace": "",
+            "file": "anim/Animation.js",
+            "line": 7,
+            "description": "Base class for animations, extended by others",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "time",
+                    "description": "Time animation takes",
+                    "type": "Float"
+                }
+            ]
+        },
+        "CircularAnimation": {
+            "name": "CircularAnimation",
+            "shortname": "CircularAnimation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Animations",
+            "namespace": "",
+            "file": "anim/CircularAnimation.js",
+            "line": 1,
+            "description": "Class responsible for animating an objects position and rotation\nin a circle",
+            "extends": "Animation",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "time",
+                    "description": "Time animation takes",
+                    "type": "Float"
+                },
+                {
+                    "name": "center",
+                    "description": "Circle center",
+                    "type": "Array"
+                },
+                {
+                    "name": "rad",
+                    "description": "Circle radius",
+                    "type": "Float"
+                },
+                {
+                    "name": "iang",
+                    "description": "Initial angle",
+                    "type": "Float"
+                },
+                {
+                    "name": "rang",
+                    "description": "Rotation angle",
+                    "type": "Float"
+                }
+            ]
+        },
+        "LinearAnimation": {
+            "name": "LinearAnimation",
+            "shortname": "LinearAnimation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Animations",
+            "namespace": "",
+            "file": "anim/LinearAnimation.js",
+            "line": 1,
+            "description": "Class responsible for animating an objects position and rotation\nlinearly through the control points given",
+            "extends": "Animation",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "time",
+                    "description": "Time animation takes",
+                    "type": "Float"
+                },
+                {
+                    "name": "controlPoints",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "LSXAnim": {
+            "name": "LSXAnim",
+            "shortname": "LSXAnim",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXAnim.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX animation",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "span",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "LSXIllumination": {
+            "name": "LSXIllumination",
+            "shortname": "LSXIllumination",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXIllumination.js",
+            "line": 1,
+            "description": "Class that holds information for the LSX scene illumination",
+            "is_constructor": 1
+        },
+        "LSXInitials": {
+            "name": "LSXInitials",
+            "shortname": "LSXInitials",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXInitials.js",
+            "line": 1,
+            "description": "Class that holds information for the LSX scene initials",
+            "is_constructor": 1
+        },
+        "LSXLeaf": {
+            "name": "LSXLeaf",
+            "shortname": "LSXLeaf",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXLeaf.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX leaf",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXLight": {
+            "name": "LSXLight",
+            "shortname": "LSXLight",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXLight.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX light",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXMaterial": {
+            "name": "LSXMaterial",
+            "shortname": "LSXMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXMaterial.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX material",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXNode": {
+            "name": "LSXNode",
+            "shortname": "LSXNode",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXNode.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX node",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXParser": {
+            "name": "LSXParser",
+            "shortname": "LSXParser",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXParser.js",
+            "line": 7,
+            "description": "Parses and holds information for a scene based on a LSX file",
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "LSXscene"
+                },
+                {
+                    "name": "filename",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXTexture": {
+            "name": "LSXTexture",
+            "shortname": "LSXTexture",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXParser",
+            "namespace": "",
+            "file": "lsxparser/LSXTexture.js",
+            "line": 1,
+            "description": "Class that holds information for a LSX texture",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "LSXscene": {
+            "name": "LSXscene",
+            "shortname": "LSXscene",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXscene",
+            "namespace": "",
+            "file": "lsxscene/LSXscene.js",
+            "line": 10,
+            "description": "Class responsible for rendering a scene read from a .lsx file from a LSXParser",
+            "extends": "CGFscene",
+            "is_constructor": 1
+        },
+        "SceneMaterial": {
+            "name": "SceneMaterial",
+            "shortname": "SceneMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXscene",
+            "namespace": "",
+            "file": "lsxscene/SceneMaterial.js",
+            "line": 1,
+            "description": "Represents a LSX material",
+            "extends": "CGFappearance",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "SceneObject": {
+            "name": "SceneObject",
+            "shortname": "SceneObject",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXscene",
+            "namespace": "",
+            "file": "lsxscene/SceneObject.js",
+            "line": 1,
+            "is_constructor": 1,
+            "itemtype": "method",
+            "params": [
+                {
+                    "name": "id",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": ""
+            }
+        },
+        "SceneTexture": {
+            "name": "SceneTexture",
+            "shortname": "SceneTexture",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "LSXscene",
+            "namespace": "",
+            "file": "lsxscene/SceneTexture.js",
+            "line": 1,
+            "description": "Represents a LSX texture",
+            "extends": "CGFtexture",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "path",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "amplif_factor",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyCircle": {
+            "name": "MyCircle",
+            "shortname": "MyCircle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyCircle.js",
+            "line": 1,
+            "description": "Primitive that represents a circle",
+            "is_constructor": 1,
+            "extends": "CGFobject",
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "rad",
+                    "description": "Circle radius",
+                    "type": "Float"
+                },
+                {
+                    "name": "slices",
+                    "description": "",
+                    "type": "Integer"
+                }
+            ]
+        },
+        "MyCube": {
+            "name": "MyCube",
+            "shortname": "MyCube",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyCube.js",
+            "line": 1,
+            "description": "Primitive that represents a cube",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                }
+            ]
+        },
+        "MyCylinder": {
+            "name": "MyCylinder",
+            "shortname": "MyCylinder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyCylinder.js",
+            "line": 1,
+            "description": "Primitive that represents a cylinder",
+            "is_constructor": 1,
+            "extends": "CGFobject",
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "slices",
+                    "description": "",
+                    "type": "Integer"
+                },
+                {
+                    "name": "stacks",
+                    "description": "",
+                    "type": "Integer"
+                },
+                {
+                    "name": "topRad",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "botRad",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Float"
+                }
+            ]
+        },
+        "MyFullCylinder": {
+            "name": "MyFullCylinder",
+            "shortname": "MyFullCylinder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyFullCylinder.js",
+            "line": 1,
+            "description": "Primitive that represents a cylinder with top and bottom",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyPatch": {
+            "name": "MyPatch",
+            "shortname": "MyPatch",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyPatch.js",
+            "line": 1,
+            "description": "Primitive that represents a NURBS surface with the specified control points",
+            "extends": "CGFnurbsObject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyPlane": {
+            "name": "MyPlane",
+            "shortname": "MyPlane",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyPlane.js",
+            "line": 1,
+            "description": "Primitive that represents a plane with the divisions specified",
+            "extends": "CGFnurbsObject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyQuad": {
+            "name": "MyQuad",
+            "shortname": "MyQuad",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyQuad.js",
+            "line": 7,
+            "description": "Primitive that represents a quad",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MySphere": {
+            "name": "MySphere",
+            "shortname": "MySphere",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MySphere.js",
+            "line": 1,
+            "description": "Primitive that represents a sphere",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyTerrain": {
+            "name": "MyTerrain",
+            "shortname": "MyTerrain",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyTerrain.js",
+            "line": 1,
+            "description": "Primitive that represents a terrain based on the heightmap provided",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyTriangle": {
+            "name": "MyTriangle",
+            "shortname": "MyTriangle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyTriangle.js",
+            "line": 1,
+            "description": "Primitive that represents a triangle",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                },
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Array"
+                }
+            ]
+        },
+        "MyVehicle": {
+            "name": "MyVehicle",
+            "shortname": "MyVehicle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Primitives",
+            "namespace": "",
+            "file": "primitives/MyVehicle.js",
+            "line": 1,
+            "description": "Primitive that represents a flying vehicle (helicopter)",
+            "extends": "CGFobject",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                }
+            ]
+        },
+        "Interface": {
+            "name": "Interface",
+            "shortname": "Interface",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "main",
+            "namespace": "",
+            "file": "Interface.js",
+            "line": 1,
+            "description": "Basic interface to switch lights on and off",
+            "extends": "CGFinterface",
+            "is_constructor": 1
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "anim/Animation.js",
+            "line": 23,
+            "description": "Base method that updates the animation based on time passed.\n\n__NOTE__: Needs to be implemented by derived classes.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "Animation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/Animation.js",
+            "line": 32,
+            "description": "Clones the current animation object.\n\n__NOTE__: Needs to be implemented by derived classes",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "clone",
+                "type": "Animation"
+            },
+            "class": "Animation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/Animation.js",
+            "line": 41,
+            "description": "Resets animation",
+            "itemtype": "method",
+            "name": "reset",
+            "class": "Animation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/CircularAnimation.js",
+            "line": 31,
+            "description": "Updates animation based on time passed",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "CircularAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/CircularAnimation.js",
+            "line": 55,
+            "description": "Clones the current animation object",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "clone",
+                "type": "LinearAnimation"
+            },
+            "class": "CircularAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/LinearAnimation.js",
+            "line": 20,
+            "description": "Updates animation based on time passed",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "LinearAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/LinearAnimation.js",
+            "line": 58,
+            "description": "Interpolates position between two control points",
+            "itemtype": "method",
+            "name": "interp",
+            "return": {
+                "description": "interpPoint",
+                "type": "Array"
+            },
+            "class": "LinearAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/LinearAnimation.js",
+            "line": 81,
+            "description": "Basic method for linear interpolation",
+            "itemtype": "method",
+            "name": "linearInterp",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "f",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Interpolation",
+                "type": "Float"
+            },
+            "class": "LinearAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "anim/LinearAnimation.js",
+            "line": 93,
+            "description": "Clones the current animation object",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "clone",
+                "type": "LinearAnimation"
+            },
+            "class": "LinearAnimation",
+            "module": "Animations"
+        },
+        {
+            "file": "lsxparser/LSXAnim.js",
+            "line": 17,
+            "description": "Description",
+            "itemtype": "method",
+            "name": "print",
+            "return": {
+                "description": ""
+            },
+            "class": "LSXAnim",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 37,
+            "description": "Called after XML request is done",
+            "itemtype": "method",
+            "name": "onXMLReady",
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 116,
+            "description": "Called from onXMLReady when an error occurs while parsing, prints message to console",
+            "itemtype": "method",
+            "name": "onXMLError",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 126,
+            "description": "Parses the INITIALS DOM Element",
+            "itemtype": "method",
+            "name": "parseInitials",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 183,
+            "description": "Parses the ILLUMINATION DOM Element",
+            "itemtype": "method",
+            "name": "parseIllumination",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 210,
+            "description": "Parses the LIGHTS DOM Element",
+            "itemtype": "method",
+            "name": "parseLights",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 241,
+            "description": "Parses the TEXTURES DOM Element",
+            "itemtype": "method",
+            "name": "parseTextures",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 269,
+            "description": "Parses the MATERIALS DOM Element",
+            "itemtype": "method",
+            "name": "parseMaterials",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 296,
+            "description": "Parses the LEAVES DOM Element",
+            "itemtype": "method",
+            "name": "parseLeaves",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 400,
+            "description": "Parses the animations DOM Element",
+            "itemtype": "method",
+            "name": "parseAnims",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 440,
+            "description": "Parses the NODES DOM Element",
+            "itemtype": "method",
+            "name": "parseNodes",
+            "params": [
+                {
+                    "name": "mainElement",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "Error message, null if none",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 517,
+            "description": "Helper method that parses a color from an Element with 'r', 'g', 'b', 'a' attributes",
+            "itemtype": "method",
+            "name": "parseColor",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "color",
+                "type": "Array"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 531,
+            "itemtype": "method",
+            "name": "findNode",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "LSXNode"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxparser/LSXParser.js",
+            "line": 543,
+            "description": "Helper method that prints a color",
+            "itemtype": "method",
+            "name": "printColor",
+            "params": [
+                {
+                    "name": "c",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "LSXParser",
+            "module": "LSXParser"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 23,
+            "description": "Initializes scene",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "application",
+                    "description": "",
+                    "type": "CGFapplication"
+                }
+            ],
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 49,
+            "description": "Initializes scene camera",
+            "itemtype": "method",
+            "name": "initCameras",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 57,
+            "description": "Sets the default scene appearance based on an material named \"default\"\nif it is present in the .lsx scene file",
+            "itemtype": "method",
+            "name": "setDefaultAppearance",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 71,
+            "description": "Function called by a LSXParser once it is done parsing\na scene in .lsx format",
+            "itemtype": "method",
+            "name": "onGraphLoaded",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 141,
+            "description": "Draws the scene to the WebGL context",
+            "itemtype": "method",
+            "name": "display",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 177,
+            "description": "Apply the initial transformations",
+            "itemtype": "method",
+            "name": "applyInitials",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 204,
+            "description": "Adds lights to scene",
+            "itemtype": "method",
+            "name": "initLights",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 233,
+            "description": "Adds leaves (primitives) defined in LEAVES",
+            "itemtype": "method",
+            "name": "initLeaves",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 285,
+            "description": "Method that uses a Depth First Search algorithm to search the\nfinal nodes of the graph (which should be leaves) and creates\na __SceneObject__ based on the transformations and materials/textures\ndefined in previous nodes and the primitive which the leaf represents",
+            "itemtype": "method",
+            "name": "initNodes",
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 299,
+            "description": "Depth First Search algorithm",
+            "itemtype": "method",
+            "name": "DFS",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "currMaterial",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "currTexture",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "currMatrix",
+                    "description": "",
+                    "type": "Mat4"
+                },
+                {
+                    "name": "currAnims",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 348,
+            "itemtype": "method",
+            "name": "getAnim",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Animation"
+            },
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 362,
+            "itemtype": "method",
+            "name": "getMaterial",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "SceneMaterial"
+            },
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 376,
+            "itemtype": "method",
+            "name": "getTexture",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "SceneTexture"
+            },
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 390,
+            "description": "Called from interface when a button is pressed\nSwitches light on or off",
+            "itemtype": "method",
+            "name": "switchLight",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_switch",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/LSXscene.js",
+            "line": 405,
+            "description": "Called based on the time provided in setUpdatePeriod()\n\nUpdates all the objects animations",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "currTime",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "LSXscene",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/SceneObject.js",
+            "line": 18,
+            "description": "Description",
+            "itemtype": "method",
+            "name": "updateTex",
+            "return": {
+                "description": ""
+            },
+            "class": "SceneObject",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/SceneObject.js",
+            "line": 31,
+            "description": "Description",
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "scene",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": ""
+            },
+            "class": "SceneObject",
+            "module": "LSXscene"
+        },
+        {
+            "file": "lsxscene/SceneObject.js",
+            "line": 53,
+            "description": "Description",
+            "itemtype": "method",
+            "name": "updateAnims",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": ""
+            },
+            "class": "SceneObject",
+            "module": "LSXscene"
+        },
+        {
+            "file": "primitives/MyCircle.js",
+            "line": 23,
+            "description": "Initializes WebGL buffers for object",
+            "itemtype": "method",
+            "name": "initBuffers",
+            "class": "MyCircle",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyCube.js",
+            "line": 18,
+            "description": "Method that renders the primitive to the WebGL context",
+            "itemtype": "method",
+            "name": "display",
+            "class": "MyCube",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyCube.js",
+            "line": 59,
+            "description": "Auxiliar method used to draw a quad in the origin",
+            "itemtype": "method",
+            "name": "displayQuad",
+            "class": "MyCube",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyCylinder.js",
+            "line": 29,
+            "description": "Initializes WebGL buffers for object",
+            "itemtype": "method",
+            "name": "initBuffers",
+            "class": "MyCylinder",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyCylinder.js",
+            "line": 109,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyCylinder",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyFullCylinder.js",
+            "line": 33,
+            "description": "Method that renders the primitive to the WebGL context",
+            "itemtype": "method",
+            "name": "display",
+            "class": "MyFullCylinder",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyFullCylinder.js",
+            "line": 61,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyFullCylinder",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyPatch.js",
+            "line": 37,
+            "description": "Transforms the list of control points provided into a valid nurbsSurface control points list",
+            "itemtype": "method",
+            "name": "getControlPoints",
+            "params": [
+                {
+                    "name": "CPList",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "finalList",
+                "type": "Array"
+            },
+            "class": "MyPatch",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyPatch.js",
+            "line": 57,
+            "description": "Generate valid knots based on the U and V orders",
+            "itemtype": "method",
+            "name": "getKnots",
+            "return": {
+                "description": "knot"
+            },
+            "class": "MyPatch",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyPatch.js",
+            "line": 72,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyPatch",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyPlane.js",
+            "line": 34,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyPlane",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyQuad.js",
+            "line": 26,
+            "description": "Initializes WebGL buffers for object",
+            "itemtype": "method",
+            "name": "initBuffers",
+            "class": "MyQuad",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyQuad.js",
+            "line": 78,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyQuad",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MySphere.js",
+            "line": 25,
+            "description": "Initializes WebGL buffers for object",
+            "itemtype": "method",
+            "name": "initBuffers",
+            "class": "MySphere",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MySphere.js",
+            "line": 131,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MySphere",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyTerrain.js",
+            "line": 30,
+            "description": "Method that renders the primitive to the WebGL context",
+            "itemtype": "method",
+            "name": "display",
+            "class": "MyTerrain",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyTerrain.js",
+            "line": 47,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyTerrain",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyTriangle.js",
+            "line": 21,
+            "description": "Initializes WebGL buffers for object",
+            "itemtype": "method",
+            "name": "initBuffers",
+            "class": "MyTriangle",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyTriangle.js",
+            "line": 68,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyTriangle",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyVehicle.js",
+            "line": 45,
+            "description": "Method that renders the primitive to the WebGL context",
+            "itemtype": "method",
+            "name": "display",
+            "class": "MyVehicle",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyVehicle.js",
+            "line": 142,
+            "description": "Auxiliar method used to draw helices with the length provided",
+            "itemtype": "method",
+            "name": "drawHelices",
+            "params": [
+                {
+                    "name": "length",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyVehicle",
+            "module": "Primitives"
+        },
+        {
+            "file": "primitives/MyVehicle.js",
+            "line": 165,
+            "description": "Updates the texture coordinates of the primitive",
+            "itemtype": "method",
+            "name": "updateTex",
+            "params": [
+                {
+                    "name": "S",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "T",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "MyVehicle",
+            "module": "Primitives"
+        },
+        {
+            "file": "Interface.js",
+            "line": 15,
+            "description": "Initializes interface",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "application",
+                    "description": "",
+                    "type": "CGFapplication"
+                }
+            ],
+            "return": {
+                "description": "True if successful, False if not",
+                "type": "Boolean"
+            },
+            "class": "Interface",
+            "module": "main"
+        },
+        {
+            "file": "Interface.js",
+            "line": 32,
+            "description": "Sets which scene the interfance belongs to, also sets the scene's interface\nas this for easier reference",
+            "itemtype": "method",
+            "name": "setScene",
+            "params": [
+                {
+                    "name": "scene",
+                    "description": "",
+                    "type": "CGFscene"
+                }
+            ],
+            "class": "Interface",
+            "module": "main"
+        },
+        {
+            "file": "Interface.js",
+            "line": 43,
+            "description": "Adds a button for all the lights in the scene to switch it on or off",
+            "itemtype": "method",
+            "name": "initLights",
+            "class": "Interface",
+            "module": "main"
+        }
+    ],
+    "warnings": []
+}

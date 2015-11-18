@@ -1,3 +1,10 @@
+/**
+ * Class that holds information for a LSX light
+ * @class LSXLight
+ * @constructor
+ * @module LSXParser
+ * @param {String} id
+ */
 function LSXLight(id) {
     this.id = id;
     this.enabled = false;
