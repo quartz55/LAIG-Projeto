@@ -23,9 +23,7 @@ MyTerrain.prototype.display = function() {
     this.mat.apply();
     this.scene.setActiveShader(this.terrainShader);
     this.heightmap.bind(1);
-
     this.plane.display();
-
     this.heightmap.unbind(1);
     this.scene.setActiveShader(this.scene.defaultShader);
 

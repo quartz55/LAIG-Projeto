@@ -21,6 +21,6 @@ void main() {
 
     vec4 filter = texture2D(uSampler2, aTextureCoord);
     vec3 offset = vec3(0, filter.r, 0) * multiplier;
-
+	
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + offset, 1.0);
 }

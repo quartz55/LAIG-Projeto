@@ -60,20 +60,25 @@
         <LEAF id="sphere" type="sphere" args="1.0 16 16" />
         <LEAF id="tri" type="triangle" args="0.5 0.0 -0.5  -0.5 0.0 -0.5  0.0 0.0 1.0" />
         <LEAF id="plane" type="plane" parts="20" />
-        <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" />
-        <LEAF id="vehicle" type="vehicle" />
-        <LEAF id="patch" type="patch" order="2" partsU="20" partsV="20">
-            <controlpoint x="0" y="0" z="0" />
-            <controlpoint x="0" y="0.5" z="0.5" />
-            <controlpoint x="0" y="1" z="0" />
-
-            <controlpoint x="0.5" y="0" z="0" />
-            <controlpoint x="0.5" y="0.5" z="0.5" />
-            <controlpoint x="0.5" y="1" z="0" />
-
-            <controlpoint x="1" y="0" z="0" />
-            <controlpoint x="1" y="0.5" z="0.5" />
-            <controlpoint x="1" y="1" z="0" />
+        <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" maskmap="textures/mask.jpg" />
+       <!-- <LEAF id="vehicle" type="vehicle" /> -->
+        <LEAF id="patch" type="patch" orderU="3" orderV="2" partsU="10" partsV="15">
+             <controlpoint x="-2" y="0" z="2" />
+            <controlpoint x="-2" y="0.5" z="2.6" />
+			<controlpoint x="-2" y="1" z="2" />
+			
+			<controlpoint x="-1" y="0" z="1.6" />
+            <controlpoint x="-1" y="0.5" z="1.8" />
+			<controlpoint x="-1" y="1" z="1.6" />
+			
+			<controlpoint x="0" y="0" z="2.4" />
+            <controlpoint x="0" y="0.5" z="2.6" />
+			<controlpoint x="0" y="1" z="2.4" />
+			
+			<controlpoint x="2" y="0" z="2" />
+            <controlpoint x="2" y="0.5" z="2.6" />
+			<controlpoint x="2" y="1" z="2" />
+			
         </LEAF>
     </LEAVES>
 
@@ -117,12 +122,12 @@
 
             <DESCENDANTS>
                 <!-- <DESCENDANT id="airplane1" /> -->
-                <DESCENDANT id="chopper" />
-                <DESCENDANT id="mountains" />
-                <!-- <DESCENDANT id="patch" /> -->
+                <!-- <DESCENDANT id="chopper" /> -->
+                <!-- <DESCENDANT id="mountains" /> -->
+                 <DESCENDANT id="patch" />
             </DESCENDANTS>
         </NODE>
-
+		
         <NODE id="chopper">
             <MATERIAL id="steel" />
             <TEXTURE id="steel" />

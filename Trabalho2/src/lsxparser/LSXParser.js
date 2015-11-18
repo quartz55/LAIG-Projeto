@@ -309,8 +309,11 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 leaf.args.push(this.reader.getInteger(leaves[i], 'parts'));
                 break;
             case "patch":
-                var order = this.reader.getInteger(leaves[i], 'order');
-                if (order < 1 || order > 3) return "Invalid order (1,2,3)";
+                var order =[];
+				order[0]=this.reader.getInteger(leaves[i], 'orderU');
+				order[1]=this.reader.getInteger(leaves[i], 'orderV');
+                if (order[0] < 1 || order[1] < 1 || order[0] > 3 || order[1] > 3) 
+				return "Invalid order (1,2,3)";
                 leaf.args.push(order);
                 leaf.args.push(this.reader.getInteger(leaves[i], 'partsU'));
                 leaf.args.push(this.reader.getInteger(leaves[i], 'partsV'));
@@ -324,7 +327,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                     cp[3] = 1;
                     cps.push(cp);
                 }
-                if (cps.length != Math.pow(order + 1, 2)) return "Invalid number of control points";
+                if (cps.length != ((order[0] + 1) * (order[1] + 1))) return "Invalid number of control points";
                 leaf.args.push(cps);
                 break;
             case "vehicle":
@@ -362,7 +365,8 @@ LSXParser.prototype.parseAnims = function(mainElement) {
 
                 args.push(cp);
             }
-        } else if (type == "circular") {
+        }
+		else if (type == "circular") {
             args["center"] = this.reader.getVector3(anims[i], 'center');
             args["radius"] = this.reader.getFloat(anims[i], 'radius');
             args["startang"] = this.reader.getFloat(anims[i], 'startang');
