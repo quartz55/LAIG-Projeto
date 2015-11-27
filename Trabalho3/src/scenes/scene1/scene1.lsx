@@ -1,0 +1,208 @@
+<SCENE>
+
+    <INITIALS>
+        <frustum near="1.5" far="500" />
+        <translation x="0" y="0" z="0" />
+        <rotation axis="x" angle="0" />
+        <rotation axis="y" angle="0" />
+        <rotation axis="z" angle="0" />
+        <scale sx="1" sy="1" sz="1" />
+        <reference length="5" />
+    </INITIALS>
+
+    <ILLUMINATION>
+        <ambient r="0.1" g="0.1" b="0.1" a="1" />
+        <background r="0.0" g="0.75" b="1.0" a="1" />
+    </ILLUMINATION>
+
+    <LIGHTS>
+        <LIGHT id="sun">
+            <enable value="1" />
+            <position x="3" y="15" z="8" w="1" />
+            <ambient r="0.43" g="0.40" b="0.35" a="1" />
+            <diffuse r="0.7" g="0.623" b="0.44" a="1" />
+            <specular r="0.7" g="0.623" b="0.44" a="1" />
+        </LIGHT>
+    </LIGHTS>
+
+    <TEXTURES>
+        <TEXTURE id="wood">
+            <file path="textures/wood.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="steel">
+            <file path="textures/steel.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <!-- PIECE TEXTURES -->
+        <TEXTURE id="round-dark-piece">
+            <file path="textures/round-dark-piece.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="round-light-piece">
+            <file path="textures/round-light-piece.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="square-dark-piece">
+            <file path="textures/square-dark-piece.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+
+        <TEXTURE id="square-dark-piece">
+            <file path="textures/square-light-piece.jpg" />
+            <amplif_factor s="1" t="1" />
+        </TEXTURE>
+    </TEXTURES>
+
+    <MATERIALS>
+        <MATERIAL id="default">
+            <shininess value="10" />
+            <specular r="0.0" g="0.0" b="0.0" a="0.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+        <MATERIAL id="dark-piece">
+            <shininess value="120" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.3" g="0.15" b="0.15" a="1.0" />
+            <ambient r="0.3" g="0.15" b="0.15" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+        <MATERIAL id="light-piece">
+            <shininess value="120" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.9" g="0.45" b="0.2" a="1.0" />
+            <ambient r="0.9" g="0.45" b="0.2" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+    </MATERIALS>
+
+    <LEAVES>
+        <LEAF id="square" type="rectangle" args="0.0 1.0 1.0 0.0" />
+        <LEAF id="cube" type="cube" args="" />
+        <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
+        <LEAF id="trunk" type="cylinder" args="1.0 1.7 1.0 16 16" />
+        <LEAF id="cone" type="cylinder" args="1.5 2 0.01 16 16" />
+        <LEAF id="sphere" type="sphere" args="1.0 16 16" />
+        <LEAF id="tri" type="triangle" args="0.5 0.0 -0.5  -0.5 0.0 -0.5  0.0 0.0 1.0" />
+        <LEAF id="plane" type="plane" parts="20" />
+        <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" />
+        <LEAF id="vehicle" type="vehicle" />
+        <LEAF id="patch" type="patch" order="2" partsU="20" partsV="20">
+            <controlpoint x="0" y="0" z="0" />
+            <controlpoint x="0" y="0.5" z="0.5" />
+            <controlpoint x="0" y="1" z="0" />
+
+            <controlpoint x="0.5" y="0" z="0" />
+            <controlpoint x="0.5" y="0.5" z="0.5" />
+            <controlpoint x="0.5" y="1" z="0" />
+
+            <controlpoint x="1" y="0" z="0" />
+            <controlpoint x="1" y="0.5" z="0.5" />
+            <controlpoint x="1" y="1" z="0" />
+        </LEAF>
+    </LEAVES>
+
+    <animations>
+        <animation id="liftoff" span="4" type="linear">
+            <controlpoint xx="0" yy="-2" zz="0" />
+            <controlpoint xx="0" yy="4" zz="0" />
+        </animation>
+
+        <animation id="rotation" span="2" type="circular" center="0 4 0" radius="0" startang="-90" rotang="180" />
+
+    </animations>
+
+
+    <NODES>
+        <ROOT id="scene" />
+
+        <NODE id="scene">
+            <MATERIAL id="default" />
+            <TEXTURE id="null" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="airplane" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- BASE NODES -->
+        <!-- Towers -->
+        <NODE id="round-tower">
+            <MATERIAL id="light" />
+            <TEXTURE id="wood" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cylinder" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="square-tower">
+            <MATERIAL id="dark" />
+            <TEXTURE id="wood" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="cube" />
+            </DESCENDANTS>
+        </NODE>
+
+        <!-- PIECES -->
+        <NODE id="round-light-piece">
+            <MATERIAL id="default" />
+            <TEXTURE id="round-light-piece" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="base-piece" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="round-dark-piece">
+            <MATERIAL id="default" />
+            <TEXTURE id="round-dark-piece" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="base-piece" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="square-light-piece">
+            <MATERIAL id="default" />
+            <TEXTURE id="square-light-piece" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="base-piece" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="square-dark-piece">
+            <MATERIAL id="default" />
+            <TEXTURE id="square-dark-piece" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="base-piece" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="base-piece" >
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <TRANSLATION x="-0.5" y="0" z="0.5" />
+            <ROTATION axis="x" angle="-90" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square">
+            </DESCENDANTS>
+        </NODE>
+
+    </NODES>
+
+</SCENE>

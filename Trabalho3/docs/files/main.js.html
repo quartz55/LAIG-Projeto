@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>main.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Animation.html">Animation</a></li>
+                                <li><a href="../classes/CircularAnimation.html">CircularAnimation</a></li>
+                                <li><a href="../classes/Interface.html">Interface</a></li>
+                                <li><a href="../classes/LinearAnimation.html">LinearAnimation</a></li>
+                                <li><a href="../classes/LSXAnim.html">LSXAnim</a></li>
+                                <li><a href="../classes/LSXIllumination.html">LSXIllumination</a></li>
+                                <li><a href="../classes/LSXInitials.html">LSXInitials</a></li>
+                                <li><a href="../classes/LSXLeaf.html">LSXLeaf</a></li>
+                                <li><a href="../classes/LSXLight.html">LSXLight</a></li>
+                                <li><a href="../classes/LSXMaterial.html">LSXMaterial</a></li>
+                                <li><a href="../classes/LSXNode.html">LSXNode</a></li>
+                                <li><a href="../classes/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../classes/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../classes/LSXTexture.html">LSXTexture</a></li>
+                                <li><a href="../classes/MyCircle.html">MyCircle</a></li>
+                                <li><a href="../classes/MyCube.html">MyCube</a></li>
+                                <li><a href="../classes/MyCylinder.html">MyCylinder</a></li>
+                                <li><a href="../classes/MyFullCylinder.html">MyFullCylinder</a></li>
+                                <li><a href="../classes/MyPatch.html">MyPatch</a></li>
+                                <li><a href="../classes/MyPlane.html">MyPlane</a></li>
+                                <li><a href="../classes/MyQuad.html">MyQuad</a></li>
+                                <li><a href="../classes/MySphere.html">MySphere</a></li>
+                                <li><a href="../classes/MyTerrain.html">MyTerrain</a></li>
+                                <li><a href="../classes/MyTriangle.html">MyTriangle</a></li>
+                                <li><a href="../classes/MyVehicle.html">MyVehicle</a></li>
+                                <li><a href="../classes/SceneMaterial.html">SceneMaterial</a></li>
+                                <li><a href="../classes/SceneObject.html">SceneObject</a></li>
+                                <li><a href="../classes/SceneTexture.html">SceneTexture</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Animations.html">Animations</a></li>
+                                <li><a href="../modules/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../modules/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
+                                <li><a href="../modules/Primitives.html">Primitives</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: main.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+//From https://github.com/EvanHahn/ScriptInclude
+/**
+ * @module main
+ * @main main
+ */
+include = function() {
+    function f() {
+        var a = this.readyState;
+        (!a || /ded|te/.test(a)) &amp;&amp; (c--, !c &amp;&amp; e &amp;&amp; d());
+    }
+    var a = arguments,
+        b = document,
+        c = a.length,
+        d = a[c - 1],
+        e = d.call;
+    e &amp;&amp; c--;
+    for (var g, h = 0; c &gt; h; h++) g = b.createElement(&quot;script&quot;), g.src = arguments[h], g.async = !0, g.onload = g.onerror = g.onreadystatechange = f, (b.head || b.getElementsByTagName(&quot;head&quot;)[0]).appendChild(g);
+};
+serialInclude = function(a) {
+    var b = console,
+        c = serialInclude.l;
+    if (a.length &gt; 0) c.splice(0, 0, a);
+    else b.log(&quot;Done!&quot;);
+    if (c.length &gt; 0) {
+        if (c[0].length &gt; 1) {
+            var d = c[0].splice(0, 1);
+            b.log(&quot;Loading &quot; + d + &quot;...&quot;);
+            include(d, function() {
+                serialInclude([]);
+            });
+        } else {
+            var e = c[0][0];
+            c.splice(0, 1);
+            e.call();
+        };
+    } else b.log(&quot;Finished.&quot;);
+};
+serialInclude.l = new Array();
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&amp;]+([^=&amp;]+)=([^&amp;]*)/gi,
+        function(m, key, value) {
+            vars[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+    return vars;
+}
+
+serialInclude([&#x27;../lib/CGF.js&#x27;,
+    &#x27;lsxparser/LSXIllumination.js&#x27;,
+    &#x27;lsxparser/LSXInitials.js&#x27;,
+    &#x27;lsxparser/LSXLeaf.js&#x27;,
+    &#x27;lsxparser/LSXLight.js&#x27;,
+    &#x27;lsxparser/LSXMaterial.js&#x27;,
+    &#x27;lsxparser/LSXNode.js&#x27;,
+    &#x27;lsxparser/LSXTexture.js&#x27;,
+    &#x27;lsxparser/LSXParser.js&#x27;,
+    &#x27;lsxparser/LSXAnim.js&#x27;,
+
+    &#x27;primitives/MyCircle.js&#x27;,
+    &#x27;primitives/MyCylinder.js&#x27;,
+    &#x27;primitives/MyFullCylinder.js&#x27;,
+    &#x27;primitives/MyQuad.js&#x27;,
+    &#x27;primitives/MyTriangle.js&#x27;,
+    &#x27;primitives/MySphere.js&#x27;,
+    &#x27;primitives/MyPlane.js&#x27;,
+    &#x27;primitives/MyPatch.js&#x27;,
+    &#x27;primitives/MyTerrain.js&#x27;,
+    &#x27;primitives/MyVehicle.js&#x27;,
+    &#x27;primitives/MyCube.js&#x27;,
+
+    &#x27;anim/Animation.js&#x27;,
+    &#x27;anim/LinearAnimation.js&#x27;,
+    &#x27;anim/CircularAnimation.js&#x27;,
+
+    &#x27;lsxscene/SceneMaterial.js&#x27;,
+    &#x27;lsxscene/SceneTexture.js&#x27;,
+    &#x27;lsxscene/SceneObject.js&#x27;,
+    &#x27;lsxscene/LSXscene.js&#x27;,
+    &#x27;Interface.js&#x27;,
+
+    main = function() {
+        var app = new CGFapplication(document.body);
+        var myScene = new LSXscene();
+        var myInterface = new Interface();
+        myInterface.setScene(myScene);
+
+        app.init();
+
+        app.setScene(myScene);
+        app.setInterface(myInterface);
+
+        myInterface.setActiveCamera(myScene.camera);
+
+        var filename = getUrlVars()[&#x27;file&#x27;] || &quot;scene1/scene1.lsx&quot;;
+
+        var myGraph = new LSXParser(filename, myScene);
+
+        app.run();
+    }
+
+]);
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lsxparser/LSXParser.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Animation.html">Animation</a></li>
+                                <li><a href="../classes/CircularAnimation.html">CircularAnimation</a></li>
+                                <li><a href="../classes/Interface.html">Interface</a></li>
+                                <li><a href="../classes/LinearAnimation.html">LinearAnimation</a></li>
+                                <li><a href="../classes/LSXAnim.html">LSXAnim</a></li>
+                                <li><a href="../classes/LSXIllumination.html">LSXIllumination</a></li>
+                                <li><a href="../classes/LSXInitials.html">LSXInitials</a></li>
+                                <li><a href="../classes/LSXLeaf.html">LSXLeaf</a></li>
+                                <li><a href="../classes/LSXLight.html">LSXLight</a></li>
+                                <li><a href="../classes/LSXMaterial.html">LSXMaterial</a></li>
+                                <li><a href="../classes/LSXNode.html">LSXNode</a></li>
+                                <li><a href="../classes/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../classes/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../classes/LSXTexture.html">LSXTexture</a></li>
+                                <li><a href="../classes/MyCircle.html">MyCircle</a></li>
+                                <li><a href="../classes/MyCube.html">MyCube</a></li>
+                                <li><a href="../classes/MyCylinder.html">MyCylinder</a></li>
+                                <li><a href="../classes/MyFullCylinder.html">MyFullCylinder</a></li>
+                                <li><a href="../classes/MyPatch.html">MyPatch</a></li>
+                                <li><a href="../classes/MyPlane.html">MyPlane</a></li>
+                                <li><a href="../classes/MyQuad.html">MyQuad</a></li>
+                                <li><a href="../classes/MySphere.html">MySphere</a></li>
+                                <li><a href="../classes/MyTerrain.html">MyTerrain</a></li>
+                                <li><a href="../classes/MyTriangle.html">MyTriangle</a></li>
+                                <li><a href="../classes/MyVehicle.html">MyVehicle</a></li>
+                                <li><a href="../classes/SceneMaterial.html">SceneMaterial</a></li>
+                                <li><a href="../classes/SceneObject.html">SceneObject</a></li>
+                                <li><a href="../classes/SceneTexture.html">SceneTexture</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Animations.html">Animations</a></li>
+                                <li><a href="../modules/LSXParser.html">LSXParser</a></li>
+                                <li><a href="../modules/LSXscene.html">LSXscene</a></li>
+                                <li><a href="../modules/main.html">main</a></li>
+                                <li><a href="../modules/Primitives.html">Primitives</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: lsxparser/LSXParser.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Provides the LSXParser class
+ * @module LSXParser
+ * @main LSXParser
+ */
+
+/**
+ * Parses and holds information for a scene based on a LSX file
+ * @class LSXParser
+ * @param {LSXscene} scene
+ * @param {String} filename
+ */
+function LSXParser(filename, scene) {
+    this.loadedOK = null;
+
+    this.scene = scene;
+    scene.graph = this;
+
+    this.path = &quot;scenes/&quot; + filename;
+    this.reader = new CGFXMLreader();
+    this.reader.open(this.path, this);
+    this.texture_path = this.path.substring(0, this.path.lastIndexOf(&quot;/&quot;)) + &quot;/&quot;;
+    console.log(&quot;LSXParser for &quot; + this.path + &quot;.&quot;);
+
+    // Scene graph data
+    this.initials = new LSXInitials();
+    this.illumination = new LSXIllumination();
+    this.lights = [];
+    this.textures = [];
+    this.materials = [];
+    this.leaves = [];
+    this.anims = [];
+    this.root_id = null;
+    this.nodes = [];
+}
+
+/**
+ * Called after XML request is done
+ * @method onXMLReady
+ */
+LSXParser.prototype.onXMLReady = function() {
+    console.log(&quot;LSX loaded successfully.&quot;);
+
+    var mainElement = this.reader.xmlDoc.documentElement;
+
+    console.log(&quot;---------INITIALS----------&quot;);
+
+    var error = this.parseInitials(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Illumination----------&quot;);
+
+    error = this.parseIllumination(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Lights----------&quot;);
+
+    error = this.parseLights(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Textures----------&quot;);
+
+    error = this.parseTextures(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Materials----------&quot;);
+
+    error = this.parseMaterials(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Leaves----------&quot;);
+
+    error = this.parseLeaves(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Anims----------&quot;);
+
+    error = this.parseAnims(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;---------Nodes----------&quot;);
+
+    error = this.parseNodes(mainElement);
+    if (error != null) {
+        this.onXMLError(error);
+        return;
+    }
+
+    console.log(&quot;-------------------&quot;);
+
+    this.loadedOK = true;
+    this.scene.onGraphLoaded();
+};
+
+/**
+ * Called from onXMLReady when an error occurs while parsing, prints message to console
+ * @method onXMLError
+ * @param {String} message
+ */
+LSXParser.prototype.onXMLError = function(message) {
+    console.error(&quot;LSX loading error: &quot; + message);
+    this.loadedOK = false;
+};
+
+/**
+ * Parses the INITIALS DOM Element
+ * @method parseInitials
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseInitials = function(mainElement) {
+    var initials_list = mainElement.getElementsByTagName(&#x27;INITIALS&#x27;)[0];
+    if (initials_list == null) return &quot;&lt;INITIALS&gt; element is missing.&quot;;
+
+    // Frustum
+    var frustum = initials_list.getElementsByTagName(&#x27;frustum&#x27;)[0];
+    if (frustum == null) return &quot;&lt;frustum&gt; element is missing&quot;;
+
+    this.initials.frustum.near = this.reader.getFloat(frustum, &#x27;near&#x27;);
+    this.initials.frustum.far = this.reader.getFloat(frustum, &#x27;far&#x27;);
+
+    //Translation
+    var translation = initials_list.getElementsByTagName(&#x27;translation&#x27;)[0];
+    if (translation == null) return &quot;&lt;translation&gt; element is missing&quot;;
+
+    this.initials.translation.x = this.reader.getFloat(translation, &#x27;x&#x27;);
+    this.initials.translation.y = this.reader.getFloat(translation, &#x27;y&#x27;);
+    this.initials.translation.z = this.reader.getFloat(translation, &#x27;z&#x27;);
+
+    //Rotations
+    var rotations = initials_list.getElementsByTagName(&#x27;rotation&#x27;);
+    if (rotations.length != 3 || rotations == null) return &quot;Needs 3 &lt;rotation&gt; elements&quot;;
+
+    for (i = 0; i &lt; rotations.length; i++) {
+        var rot = {
+            axis: null,
+            angle: null
+        };
+        rot.axis = this.reader.getItem(rotations[i], &#x27;axis&#x27;, [&#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;]);
+        rot.angle = this.reader.getFloat(rotations[i], &#x27;angle&#x27;);
+        this.initials.rotations.push(rot);
+    }
+
+    //Scale
+    var scale = initials_list.getElementsByTagName(&#x27;scale&#x27;)[0];
+    if (scale == null) return &quot;&lt;scale&gt; element is missing&quot;;
+    this.initials.scale.sx = this.reader.getFloat(scale, &#x27;sx&#x27;);
+    this.initials.scale.sy = this.reader.getFloat(scale, &#x27;sy&#x27;);
+    this.initials.scale.sz = this.reader.getFloat(scale, &#x27;sz&#x27;);
+
+    //Reference length
+    var r_length = initials_list.getElementsByTagName(&#x27;reference&#x27;)[0];
+    if (r_length == null) return &quot;&lt;reference&gt; element is missing&quot;;
+
+    this.initials.reference = this.reader.getFloat(r_length, &#x27;length&#x27;);
+
+    this.initials.print();
+
+    return null;
+};
+
+/**
+ * Parses the ILLUMINATION DOM Element
+ * @method parseIllumination
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseIllumination = function(mainElement) {
+    var illumination_list = mainElement.getElementsByTagName(&#x27;ILLUMINATION&#x27;)[0];
+    if (illumination_list == null) return &quot;&lt;ILLUMINATION&gt; element is missing.&quot;;
+
+    //Ambient
+    var ambient = illumination_list.getElementsByTagName(&#x27;ambient&#x27;)[0];
+    if (ambient == null) return &quot;&lt;ambient&gt; element is missing&quot;;
+
+    this.illumination.ambient = this.parseColor(ambient);
+
+    //Background
+    var background = illumination_list.getElementsByTagName(&#x27;background&#x27;)[0];
+    if (background == null) return &quot;&lt;background&gt; element is missing&quot;;
+
+    this.illumination.background = this.parseColor(background);
+
+    this.illumination.print();
+
+    return null;
+};
+
+/**
+ * Parses the LIGHTS DOM Element
+ * @method parseLights
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseLights = function(mainElement) {
+    var lights_list = mainElement.getElementsByTagName(&#x27;LIGHTS&#x27;)[0];
+    if (lights_list == null) return &quot;&lt;LIGHTS&gt; element is missing.&quot;;
+
+    var lights = lights_list.getElementsByTagName(&#x27;LIGHT&#x27;);
+    for (i = 0; i &lt; lights.length; i++) {
+        var light = new LSXLight(this.reader.getString(lights[i], &#x27;id&#x27;));
+        light.enabled = this.reader.getBoolean(lights[i].getElementsByTagName(&#x27;enable&#x27;)[0], &#x27;value&#x27;);
+        light.ambient = this.parseColor(lights[i].getElementsByTagName(&#x27;ambient&#x27;)[0]);
+        light.diffuse = this.parseColor(lights[i].getElementsByTagName(&#x27;diffuse&#x27;)[0]);
+        light.specular = this.parseColor(lights[i].getElementsByTagName(&#x27;specular&#x27;)[0]);
+
+        var aux = lights[i].getElementsByTagName(&#x27;position&#x27;)[0];
+        light.position.x = this.reader.getFloat(aux, &#x27;x&#x27;);
+        light.position.y = this.reader.getFloat(aux, &#x27;y&#x27;);
+        light.position.z = this.reader.getFloat(aux, &#x27;z&#x27;);
+        light.position.w = this.reader.getFloat(aux, &#x27;w&#x27;);
+
+        light.print();
+        this.lights.push(light);
+    }
+
+    return null;
+};
+
+/**
+ * Parses the TEXTURES DOM Element
+ * @method parseTextures
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseTextures = function(mainElement) {
+    var textures_list = mainElement.getElementsByTagName(&#x27;TEXTURES&#x27;)[0];
+    if (textures_list == null) return &quot;&lt;TEXTURES&gt; element is missing.&quot;;
+
+    var textures = textures_list.getElementsByTagName(&#x27;TEXTURE&#x27;);
+    for (i = 0; i &lt; textures.length; i++) {
+        var texture = new LSXTexture(textures[i].getAttribute(&#x27;id&#x27;));
+
+        var relpath = textures[i].getElementsByTagName(&#x27;file&#x27;)[0].getAttribute(&#x27;path&#x27;);
+        texture.path = this.texture_path + relpath;
+
+        var aux = textures[i].getElementsByTagName(&#x27;amplif_factor&#x27;)[0];
+        texture.amplif_factor.s = this.reader.getFloat(aux, &#x27;s&#x27;);
+        texture.amplif_factor.t = this.reader.getFloat(aux, &#x27;t&#x27;);
+
+        texture.print();
+        this.textures.push(texture);
+    }
+
+    return null;
+};
+
+/**
+ * Parses the MATERIALS DOM Element
+ * @method parseMaterials
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseMaterials = function(mainElement) {
+    var materials_list = mainElement.getElementsByTagName(&#x27;MATERIALS&#x27;)[0];
+    if (materials_list == null) return &quot;&lt;MATERIALS&gt; element is missing.&quot;;
+
+    var materials = materials_list.getElementsByTagName(&#x27;MATERIAL&#x27;);
+    for (i = 0; i &lt; materials.length; i++) {
+        var mat = new LSXMaterial(materials[i].getAttribute(&#x27;id&#x27;));
+        mat.ambient = this.parseColor(materials[i].getElementsByTagName(&#x27;ambient&#x27;)[0]);
+        mat.diffuse = this.parseColor(materials[i].getElementsByTagName(&#x27;diffuse&#x27;)[0]);
+        mat.specular = this.parseColor(materials[i].getElementsByTagName(&#x27;specular&#x27;)[0]);
+        mat.emission = this.parseColor(materials[i].getElementsByTagName(&#x27;emission&#x27;)[0]);
+
+        mat.shininess = this.reader.getFloat(materials[i].getElementsByTagName(&#x27;shininess&#x27;)[0], &#x27;value&#x27;);
+
+        mat.print();
+        this.materials.push(mat);
+    }
+
+    return null;
+};
+
+/**
+ * Parses the LEAVES DOM Element
+ * @method parseLeaves
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseLeaves = function(mainElement) {
+    var leaves_list = mainElement.getElementsByTagName(&#x27;LEAVES&#x27;)[0];
+    if (leaves_list == null) return &quot;&lt;LEAVES&gt; element is missing.&quot;;
+
+    var leaves = leaves_list.getElementsByTagName(&#x27;LEAF&#x27;);
+    for (i = 0; i &lt; leaves.length; i++) {
+        var leaf = new LSXLeaf(leaves[i].getAttribute(&#x27;id&#x27;));
+        leaf.type = this.reader.getString(leaves[i], &#x27;type&#x27;);
+
+        var noargslist = [&#x27;terrain&#x27;, &#x27;plane&#x27;, &#x27;patch&#x27;, &#x27;vehicle&#x27;];
+
+        if (noargslist.indexOf(leaf.type) &lt; 0) {
+            var args_aux = leaves[i].getAttribute(&#x27;args&#x27;).split(&quot; &quot;);
+            for (var j = 0; j &lt; args_aux.length; j++) {
+                if (args_aux[j] === &quot;&quot;) {
+                    args_aux.splice(j, 1);
+                    --j;
+                }
+            }
+        }
+
+        switch (leaf.type) {
+            case &quot;rectangle&quot;:
+                if (args_aux.length != 4)
+                    return &quot;Invalid number of arguments for type &#x27;rectangle&#x27;&quot;;
+
+                for (var j = 0; j &lt; args_aux.length; j++)
+                    leaf.args.push(parseFloat(args_aux[j]));
+
+                break;
+            case &quot;cylinder&quot;:
+                if (args_aux.length != 5)
+                    return &quot;Invalid number of arguments for type &#x27;cylinder&#x27;&quot;;
+
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseFloat(args_aux[1]));
+                leaf.args.push(parseFloat(args_aux[2]));
+                leaf.args.push(parseInt(args_aux[3]));
+                leaf.args.push(parseInt(args_aux[4]));
+                break;
+            case &quot;sphere&quot;:
+                if (args_aux.length != 3)
+                    return &quot;Invalid number of arguments for type &#x27;sphere&#x27;&quot;;
+
+                leaf.args.push(parseFloat(args_aux[0]));
+                leaf.args.push(parseInt(args_aux[1]));
+                leaf.args.push(parseInt(args_aux[2]));
+                break;
+            case &quot;triangle&quot;:
+                if (args_aux.length != 9)
+                    return &quot;Invalid number of arguments for type &#x27;triangle&#x27;&quot;;
+
+                for (j = 0; j &lt; args_aux.length; j++)
+                    leaf.args.push(parseFloat(args_aux[j]));
+
+                break;
+            case &quot;terrain&quot;:
+                var texture_path, heightmap_path;
+                texture_path = heightmap_path = this.texture_path;
+                texture_path += this.reader.getString(leaves[i], &#x27;texture&#x27;);
+                heightmap_path += this.reader.getString(leaves[i], &#x27;heightmap&#x27;);
+                leaf.args.push(texture_path, heightmap_path);
+                break;
+            case &quot;plane&quot;:
+                leaf.args.push(this.reader.getInteger(leaves[i], &#x27;parts&#x27;));
+                break;
+            case &quot;patch&quot;:
+                var order = this.reader.getInteger(leaves[i], &#x27;order&#x27;);
+                if (order &lt; 1 || order &gt; 3) return &quot;Invalid order (1,2,3)&quot;;
+                leaf.args.push(order);
+                leaf.args.push(this.reader.getInteger(leaves[i], &#x27;partsU&#x27;));
+                leaf.args.push(this.reader.getInteger(leaves[i], &#x27;partsV&#x27;));
+                var cps = [];
+                var cps_list = leaves[i].getElementsByTagName(&#x27;controlpoint&#x27;);
+                for (var k = 0; k &lt; cps_list.length; ++k) {
+                    var cp = [];
+                    cp[0] = this.reader.getFloat(cps_list[k], &#x27;x&#x27;);
+                    cp[1] = this.reader.getFloat(cps_list[k], &#x27;y&#x27;);
+                    cp[2] = this.reader.getFloat(cps_list[k], &#x27;z&#x27;);
+                    cp[3] = 1;
+                    cps.push(cp);
+                }
+                if (cps.length != Math.pow(order + 1, 2)) return &quot;Invalid number of control points&quot;;
+                leaf.args.push(cps);
+                break;
+            case &quot;vehicle&quot;:
+                break;
+            default:
+                return &quot;Type &quot; + &quot;\&quot;&quot; + leaf.type + &quot;\&quot; not valid.&quot;;
+        }
+
+        leaf.print();
+        this.leaves.push(leaf);
+    }
+
+    return null;
+};
+
+/**
+ * Parses the animations DOM Element
+ * @method parseAnims
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseAnims = function(mainElement) {
+    var anims_list = mainElement.getElementsByTagName(&#x27;animations&#x27;)[0];
+    if (anims_list == null) return &quot;&lt;animations&gt; element is missing.&quot;;
+
+    var anims = anims_list.getElementsByTagName(&#x27;animation&#x27;);
+
+    for (var i = 0; i &lt; anims.length; ++i) {
+        var id = anims[i].getAttribute(&#x27;id&#x27;);
+        var span = this.reader.getFloat(anims[i], &#x27;span&#x27;);
+        var type = this.reader.getString(anims[i], &#x27;type&#x27;);
+        var args = [];
+
+        if (type == &quot;linear&quot;) {
+            var cps = anims[i].getElementsByTagName(&#x27;controlpoint&#x27;);
+            for (var k = 0; k &lt; cps.length; ++k) {
+                var cp = [];
+                cp.push(this.reader.getFloat(cps[k], &#x27;xx&#x27;));
+                cp.push(this.reader.getFloat(cps[k], &#x27;yy&#x27;));
+                cp.push(this.reader.getFloat(cps[k], &#x27;zz&#x27;));
+
+                args.push(cp);
+            }
+        } else if (type == &quot;circular&quot;) {
+            args[&quot;center&quot;] = this.reader.getVector3(anims[i], &#x27;center&#x27;);
+            args[&quot;radius&quot;] = this.reader.getFloat(anims[i], &#x27;radius&#x27;);
+            args[&quot;startang&quot;] = this.reader.getFloat(anims[i], &#x27;startang&#x27;);
+            args[&quot;rotang&quot;] = this.reader.getFloat(anims[i], &#x27;rotang&#x27;);
+        }
+
+        this.anims.push(new LSXAnim(id, span, type, args));
+
+    }
+};
+
+/**
+ * Parses the NODES DOM Element
+ * @method parseNodes
+ * @param {Element} mainElement
+ * @return {String} Error message, null if none
+ */
+LSXParser.prototype.parseNodes = function(mainElement) {
+    var nodes_list = mainElement.getElementsByTagName(&#x27;NODES&#x27;)[0];
+    if (nodes_list == null) return &quot;&lt;NODES&gt; element is missing.&quot;;
+
+    var root_node = nodes_list.getElementsByTagName(&#x27;ROOT&#x27;)[0];
+    this.root_id = this.reader.getString(root_node, &#x27;id&#x27;);
+    console.log(&quot;ROOT Node: &quot; + this.root_id);
+
+    var nodes = nodes_list.getElementsByTagName(&#x27;NODE&#x27;);
+
+    for (i = 0; i &lt; nodes.length; i++) {
+        var node = new LSXNode(nodes[i].getAttribute(&#x27;id&#x27;));
+        node.material = this.reader.getString(nodes[i].getElementsByTagName(&#x27;MATERIAL&#x27;)[0], &#x27;id&#x27;);
+        node.texture = this.reader.getString(nodes[i].getElementsByTagName(&#x27;TEXTURE&#x27;)[0], &#x27;id&#x27;);
+
+        var node_anims = nodes[i].getElementsByTagName(&#x27;animationref&#x27;);
+        for (var j = 0; j &lt; node_anims.length; ++j) {
+            var anim_id = node_anims[j].getAttribute(&quot;id&quot;);
+            node.anims.push(anim_id);
+        }
+
+        // Transforms
+        var children = nodes[i].children;
+        for (j = 0; j &lt; children.length; j++) {
+            switch (children[j].tagName) {
+                case &quot;TRANSLATION&quot;:
+                    var trans = [];
+                    trans.push(this.reader.getFloat(children[j], &quot;x&quot;));
+                    trans.push(this.reader.getFloat(children[j], &quot;y&quot;));
+                    trans.push(this.reader.getFloat(children[j], &quot;z&quot;));
+                    // console.log(&quot;trans: &quot; + trans);
+                    mat4.translate(node.matrix, node.matrix, trans);
+                    break;
+                case &quot;SCALE&quot;:
+                    var scale = [];
+                    scale.push(this.reader.getFloat(children[j], &quot;sx&quot;));
+                    scale.push(this.reader.getFloat(children[j], &quot;sy&quot;));
+                    scale.push(this.reader.getFloat(children[j], &quot;sz&quot;));
+                    // console.log(&quot;scale: &quot; + scale);
+                    mat4.scale(node.matrix, node.matrix, scale);
+                    break;
+                case &quot;ROTATION&quot;:
+                    var axis = this.reader.getItem(children[j], &quot;axis&quot;, [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;]);
+                    var angle = this.reader.getFloat(children[j], &quot;angle&quot;) * deg2rad;
+                    var rot = [0, 0, 0];
+
+                    // console.log(&quot;rot: &quot; + axis + &quot; &quot; + angle + &quot; &quot;);
+                    rot[[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;].indexOf(axis)] = 1;
+                    mat4.rotate(node.matrix, node.matrix, angle, rot);
+                    break;
+            }
+        }
+
+        //Descendants
+        var desc = nodes[i].getElementsByTagName(&#x27;DESCENDANTS&#x27;)[0];
+        if (desc == null) return &quot;No &lt;DESCENDANTS&gt; tag found&quot;;
+
+        var d_list = desc.getElementsByTagName(&#x27;DESCENDANT&#x27;);
+        if (d_list.length &lt; 1) return &quot;Need at least 1 &lt;DESCENDANT&gt;&quot;;
+
+        for (j = 0; j &lt; d_list.length; j++) {
+            node.descendants.push(d_list[j].getAttribute(&#x27;id&#x27;));
+        }
+
+        // node.print();
+        this.nodes.push(node);
+    }
+
+    return null;
+};
+
+/**
+ * Helper method that parses a color from an Element with &#x27;r&#x27;, &#x27;g&#x27;, &#x27;b&#x27;, &#x27;a&#x27; attributes
+ * @method parseColor
+ * @param {Element} element
+ * @return {Array} color
+ */
+LSXParser.prototype.parseColor = function(element) {
+    var color = {};
+    color.r = this.reader.getFloat(element, &#x27;r&#x27;);
+    color.g = this.reader.getFloat(element, &#x27;g&#x27;);
+    color.b = this.reader.getFloat(element, &#x27;b&#x27;);
+    color.a = this.reader.getFloat(element, &#x27;a&#x27;);
+    return color;
+};
+/**
+ * @method findNode
+ * @param {String} id
+ * @return {LSXNode}
+ */
+LSXParser.prototype.findNode = function(id) {
+    for (i = 0; i &lt; this.nodes.length; i++)
+        if (this.nodes[i].id == id) return this.nodes[i];
+
+    return null;
+};
+
+/**
+ * Helper method that prints a color
+ * @method printColor
+ * @param {Array} c
+ * @return {String}
+ */
+function printColor(c) {
+    return &quot;(&quot; + c.r + &quot;, &quot; + c.g + &quot;, &quot; + c.b + &quot;, &quot; + c.a + &quot;)&quot;;
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
