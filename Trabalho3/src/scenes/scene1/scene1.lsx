@@ -16,12 +16,12 @@
     </ILLUMINATION>
 
     <LIGHTS>
-        <LIGHT id="sun">
+        <LIGHT id="light">
             <enable value="1" />
-            <position x="3" y="15" z="8" w="1" />
-            <ambient r="0.43" g="0.40" b="0.35" a="1" />
-            <diffuse r="0.7" g="0.623" b="0.44" a="1" />
-            <specular r="0.7" g="0.623" b="0.44" a="1" />
+            <position x="0" y="6" z="0" w="1" />
+            <ambient r="0.70" g="0.70" b="0.7" a="1" />
+            <diffuse r="0.7" g="0.7" b="0.7" a="1" />
+            <specular r="0.7" g="0.7" b="0.7" a="1" />
         </LIGHT>
     </LIGHTS>
 
@@ -31,8 +31,13 @@
             <amplif_factor s="1" t="1" />
         </TEXTURE>
 
-        <TEXTURE id="steel">
-            <file path="textures/steel.jpg" />
+        <TEXTURE id="wood-floor">
+            <file path="textures/wood.jpg" />
+            <amplif_factor s="0.1" t="0.1" />
+        </TEXTURE>
+
+        <TEXTURE id="gold">
+            <file path="textures/gold.jpg" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
 
@@ -52,7 +57,7 @@
             <amplif_factor s="1" t="1" />
         </TEXTURE>
 
-        <TEXTURE id="square-dark-piece">
+        <TEXTURE id="square-light-piece">
             <file path="textures/square-light-piece.jpg" />
             <amplif_factor s="1" t="1" />
         </TEXTURE>
@@ -64,6 +69,22 @@
             <specular r="0.0" g="0.0" b="0.0" a="0.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+        <MATERIAL id="light">
+            <shininess value="120" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="1" g="0.5" b="0.15" a="1.0" />
+            <ambient r="1" g="0.5" b="0.15" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+        <MATERIAL id="dark">
+            <shininess value="120" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.2" g="0" b="0" a="1.0" />
+            <ambient r="0.2" g="0" b="0" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
@@ -82,20 +103,16 @@
             <ambient r="0.9" g="0.45" b="0.2" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
-
     </MATERIALS>
 
     <LEAVES>
         <LEAF id="square" type="rectangle" args="0.0 1.0 1.0 0.0" />
         <LEAF id="cube" type="cube" args="" />
-        <LEAF id="cylinder" type="cylinder" args="1.0 1.0 1.0 16 16" />
-        <LEAF id="trunk" type="cylinder" args="1.0 1.7 1.0 16 16" />
-        <LEAF id="cone" type="cylinder" args="1.5 2 0.01 16 16" />
+        <LEAF id="cylinder" type="cylinder" args="1.0 0.5 0.5 16 16" />
         <LEAF id="sphere" type="sphere" args="1.0 16 16" />
         <LEAF id="tri" type="triangle" args="0.5 0.0 -0.5  -0.5 0.0 -0.5  0.0 0.0 1.0" />
         <LEAF id="plane" type="plane" parts="20" />
-        <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" />
-        <LEAF id="vehicle" type="vehicle" />
+        <!-- <LEAF id="terrain" type="terrain" texture="textures/terrain.jpg" heightmap="textures/heightmap.jpg" /> -->
         <LEAF id="patch" type="patch" order="2" partsU="20" partsV="20">
             <controlpoint x="0" y="0" z="0" />
             <controlpoint x="0" y="0.5" z="0.5" />
@@ -127,18 +144,47 @@
 
         <NODE id="scene">
             <MATERIAL id="default" />
+            <TEXTURE id="clear" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="board" />
+                <DESCENDANT id="board-base" />
+            </DESCENDANTS>
+        </NODE>
+
+        <NODE id="board" >
+            <MATERIAL id="null" />
             <TEXTURE id="null" />
 
             <DESCENDANTS>
-                <DESCENDANT id="airplane" />
+                <DESCENDANT id="round-tower" />
+                <DESCENDANT id="square-tower" />
             </DESCENDANTS>
         </NODE>
 
         <!-- BASE NODES -->
+        <!-- Board Base -->
+        <NODE id="board-base">
+            <MATERIAL id="light" />
+            <TEXTURE id="wood-floor" />
+
+            <SCALE sx="15" sy="15" sz="15"/>
+            <TRANSLATION x="-0.5" y="-0.001" z="0.5" />
+            <ROTATION axis="x" angle="-90" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="square" />
+            </DESCENDANTS>
+        </NODE>
+
         <!-- Towers -->
         <NODE id="round-tower">
             <MATERIAL id="light" />
             <TEXTURE id="wood" />
+
+            <TRANSLATION x="1" y="0" z="0"/>
+            <SCALE sx="0.6" sy="1" sz="0.6"/>
+            <ROTATION axis="x" angle="-90"/>
 
             <DESCENDANTS>
                 <DESCENDANT id="cylinder" />
@@ -148,6 +194,9 @@
         <NODE id="square-tower">
             <MATERIAL id="dark" />
             <TEXTURE id="wood" />
+
+            <SCALE sx="0.6" sy="1" sz="0.6"/>
+            <TRANSLATION x="0" y="0.5" z="0"/>
 
             <DESCENDANTS>
                 <DESCENDANT id="cube" />

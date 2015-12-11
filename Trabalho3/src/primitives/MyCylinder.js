@@ -21,7 +21,7 @@ function MyCylinder(scene, slices, stacks, topRad, botRad, height) {
     this.height = height || 1;
 
     this.initBuffers();
-};
+}
 
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;
@@ -36,7 +36,7 @@ MyCylinder.prototype.initBuffers = function() {
     this.normals = [];
     this.texCoords = [];
 
-    const angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
+    var angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
 
     var numVertices = (this.slices + 1) * 2;
     var delta_rad = (this.botRad - this.topRad) / this.stacks;

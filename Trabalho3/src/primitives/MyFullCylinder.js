@@ -25,7 +25,7 @@ function MyFullCylinder(scene, args){
 
     this.botFace = new MyCircle(scene, this.botRad, this.slices);
  	  this.botFace.initBuffers();
-};
+}
 
 MyFullCylinder.prototype = Object.create(CGFobject.prototype);
 MyFullCylinder.prototype.constructor = MyFullCylinder;

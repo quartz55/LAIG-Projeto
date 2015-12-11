@@ -77,10 +77,14 @@ serialInclude(['../lib/CGF.js',
     'lsxscene/SceneTexture.js',
     'lsxscene/SceneObject.js',
     'lsxscene/LSXscene.js',
+
+    'syrtis/Tower.js',
+    'syrtis/Piece.js',
+    'syrtis/Board.js',
+
     'Interface.js',
 
     main = function() {
-        makeRequest("makeBoard");
         var app = new CGFapplication(document.body);
         var myScene = new LSXscene();
         var myInterface = new Interface();
@@ -93,12 +97,11 @@ serialInclude(['../lib/CGF.js',
 
         myInterface.setActiveCamera(myScene.camera);
 
-        var filename = getUrlVars()['file'] || "scene1/scene1.lsx";
+        var filename = getUrlVars().file || "scene1/scene1.lsx";
 
-        var myGraph = new LSXParser(filename, myScene);
+        var parser = new LSXParser(filename, myScene);
 
         app.run();
 
     }
-
 ]);

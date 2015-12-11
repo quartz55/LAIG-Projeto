@@ -1,4 +1,3 @@
-
 /**
  * Provides the LSXscene class
  * @module LSXscene
@@ -51,7 +50,7 @@ LSXscene.prototype.init = function(application) {
  * @method initCameras
  */
 LSXscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(50, 10, 0), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 10, 15), vec3.fromValues(0, 0, 0));
 };
 
 /**
@@ -134,8 +133,21 @@ LSXscene.prototype.onGraphLoaded = function() {
         }
     }
 
+    var self = this;
+    makeRequest("makeMajor", function(data) {
+        var board = data.target.response;
+        // console.log(board);
+        // console.log("[" + typeof board + "]");
+        var array = JSON.parse(board);
+        // console.log(array);
+        // console.log("[" + typeof array + "]");
+        var test = new Board(self.graph, array);
+        test.display();
+        self.initNodes();
+    });
+
     // Nodes
-    this.initNodes();
+    // this.initNodes();
 };
 
 /**
@@ -187,15 +199,15 @@ LSXscene.prototype.applyInitials = function() {
     this.translate(trans.x, trans.y, trans.z);
     for (var i = 0; i < rots.length; i++) {
         switch (rots[i].axis) {
-            case 'x':
-                this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
-                break;
-            case 'y':
-                this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
-                break;
-            case 'z':
-                this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
-                break;
+        case 'x':
+            this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
+            break;
+        case 'y':
+            this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
+            break;
+        case 'z':
+            this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
+            break;
         }
     }
     this.scale(scale.sx, scale.sy, scale.sz);
@@ -238,46 +250,51 @@ LSXscene.prototype.initLeaves = function() {
     for (var i = 0; i < this.graph.leaves.length; i++) {
         var leaf = this.graph.leaves[i];
         switch (leaf.type) {
-            case "rectangle":
-                var primitive = new MyQuad(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "cylinder":
-                primitive = new MyFullCylinder(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "sphere":
-                primitive = new MySphere(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "triangle":
-                primitive = new MyTriangle(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "plane":
-                primitive = new MyPlane(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "terrain":
-                primitive = new MyTerrain(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "vehicle":
-                primitive = new MyVehicle(this);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
-            case "patch":
-                primitive = new MyPatch(this, leaf.args);
-                primitive.id = leaf.id;
-                this.leaves.push(primitive);
-                break;
+        case "rectangle":
+            var primitive = new MyQuad(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "cylinder":
+            primitive = new MyFullCylinder(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "cube":
+            primitive = new MyCube(this);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "sphere":
+            primitive = new MySphere(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "triangle":
+            primitive = new MyTriangle(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "plane":
+            primitive = new MyPlane(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "terrain":
+            primitive = new MyTerrain(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "vehicle":
+            primitive = new MyVehicle(this);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
+        case "patch":
+            primitive = new MyPatch(this, leaf.args);
+            primitive.id = leaf.id;
+            this.leaves.push(primitive);
+            break;
         }
     }
 };

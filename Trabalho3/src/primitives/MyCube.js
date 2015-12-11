@@ -10,7 +10,7 @@ function MyCube(scene) {
     CGFobject.call(this,scene);
 
     this.quad = new MyQuad(scene, null);
-};
+}
 
 MyCube.prototype = Object.create(CGFobject.prototype);
 MyCube.prototype.constructor=MyCube;
@@ -65,4 +65,14 @@ MyCube.prototype.displayQuad = function() {
     this.scene.translate(-0.5, -0.5, 0);
     this.quad.display();
     this.scene.popMatrix();
+};
+
+/**
+ * Updates the texture coordinates of the primitive
+ * @method updateTex
+ * @param {Float} S
+ * @param {Float} T
+ */
+MyCube.prototype.updateTex = function(S, T) {
+    this.quad.updateTex(S, T);
 };

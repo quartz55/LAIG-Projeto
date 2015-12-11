@@ -46,7 +46,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------INITIALS----------");
 
     var error = this.parseInitials(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -54,7 +54,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Illumination----------");
 
     error = this.parseIllumination(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -62,7 +62,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Lights----------");
 
     error = this.parseLights(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -70,7 +70,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Textures----------");
 
     error = this.parseTextures(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -78,7 +78,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Materials----------");
 
     error = this.parseMaterials(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -86,7 +86,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Leaves----------");
 
     error = this.parseLeaves(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -94,7 +94,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Anims----------");
 
     error = this.parseAnims(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -102,7 +102,7 @@ LSXParser.prototype.onXMLReady = function() {
     console.log("---------Nodes----------");
 
     error = this.parseNodes(mainElement);
-    if (error != null) {
+    if (error) {
         this.onXMLError(error);
         return;
     }
@@ -131,18 +131,18 @@ LSXParser.prototype.onXMLError = function(message) {
  */
 LSXParser.prototype.parseInitials = function(mainElement) {
     var initials_list = mainElement.getElementsByTagName('INITIALS')[0];
-    if (initials_list == null) return "<INITIALS> element is missing.";
+    if (initials_list === null) return "<INITIALS> element is missing.";
 
     // Frustum
     var frustum = initials_list.getElementsByTagName('frustum')[0];
-    if (frustum == null) return "<frustum> element is missing";
+    if (frustum === null) return "<frustum> element is missing";
 
     this.initials.frustum.near = this.reader.getFloat(frustum, 'near');
     this.initials.frustum.far = this.reader.getFloat(frustum, 'far');
 
     //Translation
     var translation = initials_list.getElementsByTagName('translation')[0];
-    if (translation == null) return "<translation> element is missing";
+    if (translation === null) return "<translation> element is missing";
 
     this.initials.translation.x = this.reader.getFloat(translation, 'x');
     this.initials.translation.y = this.reader.getFloat(translation, 'y');
@@ -150,7 +150,7 @@ LSXParser.prototype.parseInitials = function(mainElement) {
 
     //Rotations
     var rotations = initials_list.getElementsByTagName('rotation');
-    if (rotations.length != 3 || rotations == null) return "Needs 3 <rotation> elements";
+    if (rotations.length != 3 || rotations === null) return "Needs 3 <rotation> elements";
 
     for (i = 0; i < rotations.length; i++) {
         var rot = {
@@ -164,14 +164,14 @@ LSXParser.prototype.parseInitials = function(mainElement) {
 
     //Scale
     var scale = initials_list.getElementsByTagName('scale')[0];
-    if (scale == null) return "<scale> element is missing";
+    if (scale === null) return "<scale> element is missing";
     this.initials.scale.sx = this.reader.getFloat(scale, 'sx');
     this.initials.scale.sy = this.reader.getFloat(scale, 'sy');
     this.initials.scale.sz = this.reader.getFloat(scale, 'sz');
 
     //Reference length
     var r_length = initials_list.getElementsByTagName('reference')[0];
-    if (r_length == null) return "<reference> element is missing";
+    if (r_length === null) return "<reference> element is missing";
 
     this.initials.reference = this.reader.getFloat(r_length, 'length');
 
@@ -188,17 +188,17 @@ LSXParser.prototype.parseInitials = function(mainElement) {
  */
 LSXParser.prototype.parseIllumination = function(mainElement) {
     var illumination_list = mainElement.getElementsByTagName('ILLUMINATION')[0];
-    if (illumination_list == null) return "<ILLUMINATION> element is missing.";
+    if (illumination_list === null) return "<ILLUMINATION> element is missing.";
 
     //Ambient
     var ambient = illumination_list.getElementsByTagName('ambient')[0];
-    if (ambient == null) return "<ambient> element is missing";
+    if (ambient === null) return "<ambient> element is missing";
 
     this.illumination.ambient = this.parseColor(ambient);
 
     //Background
     var background = illumination_list.getElementsByTagName('background')[0];
-    if (background == null) return "<background> element is missing";
+    if (background === null) return "<background> element is missing";
 
     this.illumination.background = this.parseColor(background);
 
@@ -215,7 +215,7 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
  */
 LSXParser.prototype.parseLights = function(mainElement) {
     var lights_list = mainElement.getElementsByTagName('LIGHTS')[0];
-    if (lights_list == null) return "<LIGHTS> element is missing.";
+    if (lights_list === null) return "<LIGHTS> element is missing.";
 
     var lights = lights_list.getElementsByTagName('LIGHT');
     for (i = 0; i < lights.length; i++) {
@@ -246,7 +246,7 @@ LSXParser.prototype.parseLights = function(mainElement) {
  */
 LSXParser.prototype.parseTextures = function(mainElement) {
     var textures_list = mainElement.getElementsByTagName('TEXTURES')[0];
-    if (textures_list == null) return "<TEXTURES> element is missing.";
+    if (textures_list === null) return "<TEXTURES> element is missing.";
 
     var textures = textures_list.getElementsByTagName('TEXTURE');
     for (i = 0; i < textures.length; i++) {
@@ -274,7 +274,7 @@ LSXParser.prototype.parseTextures = function(mainElement) {
  */
 LSXParser.prototype.parseMaterials = function(mainElement) {
     var materials_list = mainElement.getElementsByTagName('MATERIALS')[0];
-    if (materials_list == null) return "<MATERIALS> element is missing.";
+    if (materials_list === null) return "<MATERIALS> element is missing.";
 
     var materials = materials_list.getElementsByTagName('MATERIAL');
     for (i = 0; i < materials.length; i++) {
@@ -301,7 +301,7 @@ LSXParser.prototype.parseMaterials = function(mainElement) {
  */
 LSXParser.prototype.parseLeaves = function(mainElement) {
     var leaves_list = mainElement.getElementsByTagName('LEAVES')[0];
-    if (leaves_list == null) return "<LEAVES> element is missing.";
+    if (leaves_list === null) return "<LEAVES> element is missing.";
 
     var leaves = leaves_list.getElementsByTagName('LEAF');
     for (i = 0; i < leaves.length; i++) {
@@ -310,8 +310,9 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
 
         var noargslist = ['terrain', 'plane', 'patch', 'vehicle'];
 
+        var args_aux;
         if (noargslist.indexOf(leaf.type) < 0) {
-            var args_aux = leaves[i].getAttribute('args').split(" ");
+            args_aux = leaves[i].getAttribute('args').split(" ");
             for (var j = 0; j < args_aux.length; j++) {
                 if (args_aux[j] === "") {
                     args_aux.splice(j, 1);
@@ -328,6 +329,10 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 for (var j = 0; j < args_aux.length; j++)
                     leaf.args.push(parseFloat(args_aux[j]));
 
+                break;
+            case "cube":
+                if (args_aux.length !== 0)
+                    return "Invalid number of arguments for type 'cylinder'";
                 break;
             case "cylinder":
                 if (args_aux.length != 5)
@@ -405,7 +410,7 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
  */
 LSXParser.prototype.parseAnims = function(mainElement) {
     var anims_list = mainElement.getElementsByTagName('animations')[0];
-    if (anims_list == null) return "<animations> element is missing.";
+    if (anims_list === null) return "<animations> element is missing.";
 
     var anims = anims_list.getElementsByTagName('animation');
 
@@ -426,10 +431,10 @@ LSXParser.prototype.parseAnims = function(mainElement) {
                 args.push(cp);
             }
         } else if (type == "circular") {
-            args["center"] = this.reader.getVector3(anims[i], 'center');
-            args["radius"] = this.reader.getFloat(anims[i], 'radius');
-            args["startang"] = this.reader.getFloat(anims[i], 'startang');
-            args["rotang"] = this.reader.getFloat(anims[i], 'rotang');
+            args.center = this.reader.getVector3(anims[i], 'center');
+            args.radius = this.reader.getFloat(anims[i], 'radius');
+            args.startang = this.reader.getFloat(anims[i], 'startang');
+            args.rotang = this.reader.getFloat(anims[i], 'rotang');
         }
 
         this.anims.push(new LSXAnim(id, span, type, args));
@@ -445,7 +450,7 @@ LSXParser.prototype.parseAnims = function(mainElement) {
  */
 LSXParser.prototype.parseNodes = function(mainElement) {
     var nodes_list = mainElement.getElementsByTagName('NODES')[0];
-    if (nodes_list == null) return "<NODES> element is missing.";
+    if (nodes_list === null) return "<NODES> element is missing.";
 
     var root_node = nodes_list.getElementsByTagName('ROOT')[0];
     this.root_id = this.reader.getString(root_node, 'id');
@@ -498,7 +503,7 @@ LSXParser.prototype.parseNodes = function(mainElement) {
 
         //Descendants
         var desc = nodes[i].getElementsByTagName('DESCENDANTS')[0];
-        if (desc == null) return "No <DESCENDANTS> tag found";
+        if (desc === null) return "No <DESCENDANTS> tag found";
 
         var d_list = desc.getElementsByTagName('DESCENDANT');
         if (d_list.length < 1) return "Need at least 1 <DESCENDANT>";
