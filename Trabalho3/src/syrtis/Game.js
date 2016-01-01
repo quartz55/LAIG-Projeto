@@ -17,10 +17,43 @@ var GAME_STATE = {
     PASSING: 9
 };
 
+var COLOR = {
+    BLACK: [0.12, 0.12, 0.12],
+    WHITE: [0.91, 0.91, 0.91],
+    YELLOW: [1, 0.99, 0.6],
+    RED: [1, 0.31, 0.3],
+
+    PURE_RED: [1, 0, 0],
+    PURE_GREEN: [0, 1, 0],
+    PURE_BLUE: [0, 0, 1],
+    PURE_YELLOW: [1, 1, 0],
+    PURE_PURPLE: [1, 0, 1],
+    PURE_CYAN: [0, 1, 1],
+    PURE_BLACK: [0, 0, 0],
+    PURE_WHITE: [1, 1, 1]
+};
+
+var MSG_TYPES = {
+    WARNING: [COLOR.BLACK, COLOR.YELLOW],
+    ERROR: [COLOR.WHITE, COLOR.RED],
+    INFO: [COLOR.BLACK, COLOR.WHITE]
+};
+
 var MAX_UNDO_LEVELS = 10;
+
+function Message (type, text) {
+    this.type = type;
+    this.text = text;
+    this.change = function (type, text) {
+        this.type = type;
+        this.text = text;
+    };
+}
 
 function Game() {
     this.state = GAME_STATE.PICK_BLACK1;
+    this.messages = [new Message("INFO", "Place first black tower")];
+    this.infoMessage = this.messages[0];
     this.undoStack = [];
 
     this.scene = new LSXscene();
@@ -32,7 +65,6 @@ function Game() {
     app.init();
     app.setScene(this.scene);
     app.setInterface(this.interface);
-
 
     // this.interface.setActiveCamera(this.scene.camera);
 
@@ -47,10 +79,10 @@ function Game() {
         var response = PLOG.getRequestResponse(data);
         self.loadGame(response);
         self.parser = new LSXParser(filename, self.scene,
-            function() {
-                this.scene.onGraphLoaded();
-                self.scene.loadBoard(self.board);
-            });
+                                    function() {
+                                        this.scene.onGraphLoaded();
+                                        self.scene.loadBoard(self.board);
+                                    });
         app.run();
     });
 }
@@ -72,160 +104,160 @@ Game.prototype.piecePicked = function(obj, id) {
         ////////////////
         // MOVE TOWER //
         ////////////////
-        case GAME_STATE.MOVE_FROM:
-            reqString = "getPlayerTower(" + piece.x + "," + piece.y + "," +
-                this.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var tower = PLOG.getIntResponse(data);
-                if (!tower) {
-                    alert("No player tower in that position");
-                    return;
-                }
-                for (var i = 0; i < pickedIDs.length; ++i)
-                    self.scene.highlightPiece(pickedIDs[i], true);
+    case GAME_STATE.MOVE_FROM:
+        reqString = "getPlayerTower(" + piece.x + "," + piece.y + "," +
+            this.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var tower = PLOG.getIntResponse(data);
+            if (!tower) {
+                alert("No player tower in that position");
+                return;
+            }
+            for (var i = 0; i < pickedIDs.length; ++i)
+                self.scene.highlightPiece(pickedIDs[i], true);
 
-                self.pickedPiece = [piece.x, piece.y];
-                PLOG.sendRequest("getValidMoves(" +
-                    piece.x + "," + piece.y + "," +
-                    self.stringify() + ")",
-                    function(data) {
-                        var moves = PLOG.getRequestResponse(data);
-                        moves = JSON.parse(moves);
-                        self.highlightPieces(moves);
-                    });
-                self.state = GAME_STATE.MOVE_TO;
-            });
-            break;
-        case GAME_STATE.MOVE_TO:
-            reqString = String.format("moveTower({0},{1},{2},{3},{4})",
-                this.pickedPiece[0], this.pickedPiece[1],
-                piece.x, piece.y,
-                this.stringify());
-            PLOG.sendRequest(reqString, function(data) {
-                var response = data.target.response;
-                if (response == self.stringify()) {
-                    alert('Invalid move');
-                    return;
-                }
-                self.saveState();
-                self.loadGame(response);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.MAIN_MENU;
-            });
-            break;
+            self.pickedPiece = [piece.x, piece.y];
+            PLOG.sendRequest("getValidMoves(" +
+                             piece.x + "," + piece.y + "," +
+                             self.stringify() + ")",
+                             function(data) {
+                                 var moves = PLOG.getRequestResponse(data);
+                                 moves = JSON.parse(moves);
+                                 self.highlightPieces(moves);
+                             });
+ self.changeState( GAME_STATE.MOVE_TO );
+        });
+        break;
+    case GAME_STATE.MOVE_TO:
+        reqString = String.format("moveTower({0},{1},{2},{3},{4})",
+                                  this.pickedPiece[0], this.pickedPiece[1],
+                                  piece.x, piece.y,
+                                  this.stringify());
+        PLOG.sendRequest(reqString, function(data) {
+            var response = data.target.response;
+            if (response == self.stringify()) {
+                alert('Invalid move');
+                return;
+            }
+            self.saveState();
+            self.loadGame(response);
+            self.scene.loadBoard(self.board);
+ self.changeState( GAME_STATE.MAIN_MENU );
+        });
+        break;
 
-            ///////////////
-            // SINK TILE //
-            ///////////////
-        case GAME_STATE.SINK_FROM:
-            reqString = "getPlayerTower(" + piece.x + "," + piece.y + "," +
-                this.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var tower = PLOG.getIntResponse(data);
-                if (!tower) {
-                    alert("No player tower in that position");
-                    return;
-                }
-                for (var i = 0; i < pickedIDs.length; ++i)
-                    self.scene.highlightPiece(pickedIDs[i], true);
+        ///////////////
+        // SINK TILE //
+        ///////////////
+    case GAME_STATE.SINK_FROM:
+        reqString = "getPlayerTower(" + piece.x + "," + piece.y + "," +
+            this.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var tower = PLOG.getIntResponse(data);
+            if (!tower) {
+                alert("No player tower in that position");
+                return;
+            }
+            for (var i = 0; i < pickedIDs.length; ++i)
+                self.scene.highlightPiece(pickedIDs[i], true);
 
-                self.pickedPiece = [piece.x, piece.y];
-                PLOG.sendRequest("getValidSinks(" +
-                    piece.x + "," + piece.y + "," +
-                    self.stringify() + ")",
-                    function(data) {
-                        var sinks = PLOG.getRequestResponse(data);
-                        sinks = JSON.parse(sinks);
-                        if (sinks.length === 0) {
-                            alert('No available sinks from that position');
-                            return;
-                        }
-                        self.highlightPieces(sinks);
-                    });
-                self.state = GAME_STATE.SINK_TO;
-            });
-            break;
-        case GAME_STATE.SINK_TO:
-            reqString = String.format("sinkTile({0},{1},{2},{3},{4})",
-                this.pickedPiece[0], this.pickedPiece[1],
-                piece.x, piece.y,
-                this.stringify());
-            PLOG.sendRequest(reqString, function(data) {
-                var response = data.target.response;
-                if (response == self.stringify()) {
-                    alert('Invalid sink');
-                    return;
-                }
-                self.saveState();
-                self.loadGame(response);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.MAIN_MENU;
-            });
-            break;
+            self.pickedPiece = [piece.x, piece.y];
+            PLOG.sendRequest("getValidSinks(" +
+                             piece.x + "," + piece.y + "," +
+                             self.stringify() + ")",
+                             function(data) {
+                                 var sinks = PLOG.getRequestResponse(data);
+                                 sinks = JSON.parse(sinks);
+                                 if (sinks.length === 0) {
+                                     alert('No available sinks from that position');
+                                     return;
+                                 }
+                                 self.highlightPieces(sinks);
+                             });
+ self.changeState( GAME_STATE.SINK_TO );
+        });
+        break;
+    case GAME_STATE.SINK_TO:
+        reqString = String.format("sinkTile({0},{1},{2},{3},{4})",
+                                  this.pickedPiece[0], this.pickedPiece[1],
+                                  piece.x, piece.y,
+                                  this.stringify());
+        PLOG.sendRequest(reqString, function(data) {
+            var response = data.target.response;
+            if (response == self.stringify()) {
+                alert('Invalid sink');
+                return;
+            }
+            self.saveState();
+            self.loadGame(response);
+            self.scene.loadBoard(self.board);
+ self.changeState( GAME_STATE.MAIN_MENU );
+        });
+        break;
 
-            //////////////////
-            // PLACE TOWERS //
-            //////////////////
-        case GAME_STATE.PICK_BLACK1:
-            reqString = "placeBlackTower(" + piece.x + "," + piece.y + "," +
-                this.board.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var board = PLOG.getArrayResponse(data);
-                if (board + "" == self.board.board + "") {
-                    alert('Invalid placement');
-                    return;
-                }
-                self.board = new Board(board);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.PICK_BLACK2;
-            });
-            break;
-        case GAME_STATE.PICK_BLACK2:
-            reqString = "placeBlackTower(" + piece.x + "," + piece.y + "," +
-                this.board.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var board = PLOG.getArrayResponse(data);
-                if (board + "" == self.board.board + "") {
-                    alert('Invalid placement');
-                    return;
-                }
-                self.board = new Board(board);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.PICK_WHITE1;
-            });
-            break;
-        case GAME_STATE.PICK_WHITE1:
-            reqString = "placeWhiteTower(" + piece.x + "," + piece.y + "," +
-                this.board.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var board = PLOG.getArrayResponse(data);
-                if (board + "" == self.board.board + "") {
-                    alert('Invalid placement');
-                    return;
-                }
-                self.board = new Board(board);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.PICK_WHITE2;
-            });
-            break;
-        case GAME_STATE.PICK_WHITE2:
-            reqString = "placeWhiteTower(" + piece.x + "," + piece.y + "," +
-                this.board.stringify() + ")";
-            PLOG.sendRequest(reqString, function(data) {
-                var board = PLOG.getArrayResponse(data);
-                if (board + "" == self.board.board + "") {
-                    alert('Invalid placement');
-                    return;
-                }
-                self.board = new Board(board);
-                self.scene.loadBoard(self.board);
-                self.state = GAME_STATE.MAIN_MENU;
-            });
-            break;
+        //////////////////
+        // PLACE TOWERS //
+        //////////////////
+    case GAME_STATE.PICK_BLACK1:
+        reqString = "placeBlackTower(" + piece.x + "," + piece.y + "," +
+            this.board.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var board = PLOG.getArrayResponse(data);
+            if (board + "" == self.board.board + "") {
+                alert('Invalid placement');
+                return;
+            }
+            self.board = new Board(board);
+            self.scene.loadBoard(self.board);
+            self.changeState(GAME_STATE.PICK_BLACK2);
+        });
+        break;
+    case GAME_STATE.PICK_BLACK2:
+        reqString = "placeBlackTower(" + piece.x + "," + piece.y + "," +
+            this.board.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var board = PLOG.getArrayResponse(data);
+            if (board + "" == self.board.board + "") {
+                alert('Invalid placement');
+                return;
+            }
+            self.board = new Board(board);
+            self.scene.loadBoard(self.board);
+            self.changeState(GAME_STATE.PICK_WHITE1);
+        });
+        break;
+    case GAME_STATE.PICK_WHITE1:
+        reqString = "placeWhiteTower(" + piece.x + "," + piece.y + "," +
+            this.board.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var board = PLOG.getArrayResponse(data);
+            if (board + "" == self.board.board + "") {
+                alert('Invalid placement');
+                return;
+            }
+            self.board = new Board(board);
+            self.scene.loadBoard(self.board);
+            self.changeState(GAME_STATE.PICK_WHITE2);
+        });
+        break;
+    case GAME_STATE.PICK_WHITE2:
+        reqString = "placeWhiteTower(" + piece.x + "," + piece.y + "," +
+            this.board.stringify() + ")";
+        PLOG.sendRequest(reqString, function(data) {
+            var board = PLOG.getArrayResponse(data);
+            if (board + "" == self.board.board + "") {
+                alert('Invalid placement');
+                return;
+            }
+            self.board = new Board(board);
+            self.scene.loadBoard(self.board);
+            self.changeState(GAME_STATE.MAIN_MENU);
+        });
+        break;
 
-        default:
-            console.error("No picking can be done atm");
-            break;
+    default:
+        console.error("No picking can be done atm");
+        break;
     }
 };
 
@@ -237,6 +269,46 @@ Game.prototype.loadGame = function(gameStr) {
     this.whitePlayer = new Player(gameObj.players.white);
     this.blackPlayer = new Player(gameObj.players.black);
     this.turn = gameObj.turn;
+    this.updateHUD();
+};
+
+Game.prototype.updateHUD = function() {
+    this.scene.hud.clear();
+    this.scene.hud.position = [-2.95, 1.8];
+
+    // White player info
+    this.scene.hud.setFgColor(COLOR.BLACK);
+    this.scene.hud.setBgColor(COLOR.WHITE);
+    this.scene.hud.add("White player | " + this.whitePlayer.type);
+    this.scene.hud.add("Passes " + this.whitePlayer.passes, [0, -1]);
+    this.scene.hud.add("Sinks " + this.whitePlayer.sinks, [0, -2]);
+
+    // Black player info
+    this.scene.hud.setFgColor(COLOR.WHITE);
+    this.scene.hud.setBgColor(COLOR.BLACK);
+    this.scene.hud.add("Black player | " + this.blackPlayer.type, [0, -4]);
+    this.scene.hud.add("Passes " + this.blackPlayer.passes, [0, -5]);
+    this.scene.hud.add("Sinks " + this.blackPlayer.sinks, [0, -6]);
+
+    // Messages
+    for (var i = 0; i < this.messages.length; ++i) {
+        var msg = this.messages[i];
+        this.scene.hud.setFgColor(MSG_TYPES[msg.type][0]);
+        this.scene.hud.setBgColor(MSG_TYPES[msg.type][1]);
+        this.scene.hud.add(msg.text, [0, -30+i]);
+    }
+
+    // Player turn
+    if (this.state > GAME_STATE.PICK_WHITE2) {
+        if (this.turn == "white") {
+            this.scene.hud.setFgColor(COLOR.BLACK);
+            this.scene.hud.setBgColor(COLOR.WHITE);
+        } else {
+            this.scene.hud.setFgColor(COLOR.WHITE);
+            this.scene.hud.setBgColor(COLOR.BLACK);
+        }
+        this.scene.hud.add("It is " + this.turn + "'s turn", [0, -31]);
+    }
 };
 
 Game.prototype.update = function(gameStr) {
@@ -271,20 +343,15 @@ Game.prototype.undo = function() {
 };
 
 Game.prototype.mainMenu = function() {
-    if (this.state > GAME_STATE.PICK_WHITE2) {
-        this.state = GAME_STATE.MAIN_MENU;
-        this.scene.clearHighlights();
-    }
+    this.changeState(GAME_STATE.MAIN_MENU);
 };
 
 Game.prototype.moveMenu = function() {
-    if (this.state == GAME_STATE.MAIN_MENU)
-        this.state = GAME_STATE.MOVE_FROM;
+    this.changeState(GAME_STATE.MOVE_FROM);
 };
 
 Game.prototype.sinkMenu = function() {
-    if (this.state == GAME_STATE.MAIN_MENU)
-        this.state = GAME_STATE.SINK_FROM;
+    this.changeState(GAME_STATE.SINK_FROM);
 };
 
 Game.prototype.passMenu = function() {
@@ -308,6 +375,61 @@ Game.prototype.highlightPieces = function(positions) {
         var id = this.board.getPieceID(positions[i]);
         this.scene.highlightPiece(id);
     }
+};
+
+Game.prototype.changeState = function(nextState) {
+    switch (nextState) {
+    case GAME_STATE.PICK_BLACK2:
+        if (this.state == GAME_STATE.PICK_BLACK1)
+            this.infoMessage.change("INFO", "Place second black tower");
+        else return false;
+        break;
+    case GAME_STATE.PICK_WHITE1:
+        if (this.state == GAME_STATE.PICK_BLACK2)
+            this.infoMessage.change("INFO", "Place first white tower");
+        else return false;
+        break;
+    case GAME_STATE.PICK_WHITE2:
+        if (this.state == GAME_STATE.PICK_WHITE1)
+            this.infoMessage.change("INFO", "Place second white tower");
+        else return false;
+        break;
+    case GAME_STATE.MAIN_MENU:
+        if (this.state > GAME_STATE.PICK_WHITE2) {
+            this.scene.clearHighlights();
+        }
+        this.infoMessage.change("INFO", "Pick a move");
+        break;
+    case GAME_STATE.MOVE_FROM:
+        if (this.changeState(GAME_STATE.MAIN_MENU)) {
+            this.infoMessage.change("INFO", "Select a tower to move");
+        }
+        else return false;
+        break;
+    case GAME_STATE.MOVE_TO:
+        if (this.changeState(GAME_STATE.MOVE_FROM)) {
+            this.infoMessage.change("INFO", "Select a tile to move to");
+        }
+        else return false;
+        break;
+    case GAME_STATE.SINK_FROM:
+        if (this.changeState(GAME_STATE.MAIN_MENU)) {
+            this.infoMessage.change("INFO", "Select a tower to sink from");
+        }
+        else return false;
+        break;
+    case GAME_STATE.SINK_TO:
+        if (this.changeState(GAME_STATE.SINK_FROM)) {
+            this.infoMessage.change("INFO", "Select a tile to sink");
+        }
+        else return false;
+        break;
+    }
+
+    this.messages.splice(1, this.messages.length);
+    this.state = nextState;
+    this.updateHUD();
+    return true;
 };
 
 // Static

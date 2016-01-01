@@ -31,7 +31,7 @@ LSXscene.prototype.init = function(application) {
 
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    this.gl.clearDepth(100.0);
+    this.gl.clearDepth(1000.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
@@ -52,14 +52,29 @@ LSXscene.prototype.init = function(application) {
     this.setPickEnabled(true);
 
     // HUD
-    this.textPlane = new MyPlane(this);
+    this.hud = {
+        position: [0, 0],
+        textObjects: [],
+        add: function(text, position, fg, bg) {
+            position = position || [0, 0];
+            fg = fg || this.fg || [1,1,1];
+            bg = bg || this.bg || [0,0,0];
+            this.textObjects.push({pos: position, color: [fg,bg], text: text});
+        },
+        clear: function() {this.textObjects = [];},
+        setFgColor: function(color) {this.fg = color;},
+        setBgColor: function(color) {this.bg = color;},
+        clearFgColor: function() {this.fg = null;},
+        clearBgColor: function() {this.bg = null;}
+    };
+    this.textPlane = new MyQuad(this);
+    this.textApp = new CGFappearance(this);
+    this.fontTexture = new CGFtexture(this, "textures/oolite-font.png");
+    this.textApp.setTexture(this.fontTexture);
     this.textShader = new CGFshader(this.gl, "shaders/font.vert", "shaders/font.frag");
     this.textShader.setUniformsValues({
         'dims': [16, 16]
     });
-    this.textApp = new CGFappearance(this);
-    this.fontTexture = new CGFtexture(this, "textures/oolite-font.png");
-    this.textApp.setTexture(this.fontTexture);
 };
 
 /**
@@ -150,10 +165,10 @@ LSXscene.prototype.onGraphLoaded = function() {
                 break;
             case "circular":
                 this.anims.push(new CircularAnimation(anims[i].id, anims[i].span,
-                    anims[i].args["center"],
-                    anims[i].args["radius"],
-                    deg2rad * anims[i].args["startang"],
-                    deg2rad * anims[i].args["rotang"]));
+                    anims[i].args.center,
+                    anims[i].args.radius,
+                    deg2rad * anims[i].args.startang,
+                    deg2rad * anims[i].args.rotang));
                 break;
         }
     }
@@ -193,21 +208,24 @@ LSXscene.prototype.display = function() {
     this.updateProjectionMatrix();
     this.loadIdentity();
 
-    // this.pushMatrix();
-    // {
-    //     this.translate(0, 0, -10);
-    //     this.drawText("Teste", [255, 0, 0]);
-    // }
-    // this.popMatrix();
+    this.pushMatrix();
+    {
+        this.translate(this.hud.position[0], this.hud.position[1], -10);
+        this.scale(0.12, 0.12, 0.1);
+
+        for (var textObj in this.hud.textObjects) {
+            var obj = this.hud.textObjects[textObj];
+            this.pushMatrix();
+            {
+                this.translate(obj.pos[0], obj.pos[1], 0);
+                this.drawText(obj.text, obj.color[0], obj.color[1]);
+            }
+            this.popMatrix();
+        }
+    }
+    this.popMatrix();
 
     this.applyViewMatrix();
-
-    // this.pushMatrix();
-    // {
-    //     this.translate(0, 5, 0);
-    //     this.drawText("Teste", [255, 0, 0]);
-    // }
-    // this.popMatrix();
 
     // If LSX has been loaded
     if (this.graph.loadedOK) {
@@ -538,11 +556,17 @@ LSXscene.prototype.reloadBoard = function() {
     this.initNodes();
 };
 
-LSXscene.prototype.drawText = function(string, color) {
-    color = color || [255, 255, 255];
+LSXscene.prototype.drawText = function(string, fg, bg) {
+    fg = fg || [1, 1, 1];
+    bg = bg || [0, 0, 0];
 
     var prevShader = this.activeShader;
     this.setActiveShaderSimple(this.textShader);
+
+    this.activeShader.setUniformsValues({
+        'uFgColor': vec3.fromValues(fg[0], fg[1], fg[2]),
+        'uBgColor': vec3.fromValues(bg[0], bg[1], bg[2])
+    });
 
     this.textApp.apply();
 
@@ -552,7 +576,7 @@ LSXscene.prototype.drawText = function(string, color) {
         if (charCode >= 32 && charCode <= 127) {
             offset[0] += (charCode - 32) % 16;
             offset[1] += Math.floor((charCode - 32) / 16);
-            this.textShader.setUniformsValues({
+            this.activeShader.setUniformsValues({
                 'charCoords': offset
             });
             this.textPlane.display();
