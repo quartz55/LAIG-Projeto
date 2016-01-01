@@ -63,7 +63,7 @@ MyPatch.prototype.getKnots = function() {
     var knot = [];
     for (var i = 0; i < this.order + 1; ++i)
         knot.push(0);
-    for (var i = 0; i < this.order + 1; ++i)
+    for (i = 0; i < this.order + 1; ++i)
         knot.push(1);
 
     return knot;

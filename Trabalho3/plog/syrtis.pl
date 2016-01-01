@@ -148,10 +148,24 @@ sinkTile(X, Y, Board, NewBoard) :-
 
 isValidSink(X, Y, Board) :-
   get_tower(X, Y, Board, Tower), Tower =:= 0, % Not occupied
-  checkFreeEdges([X,Y], Board, N),
+  checkFreeEdges([X,Y], Board, N), !,
   N < 4,
   sinkTile(X, Y, Board, NewBoard),
   check_if_connected(NewBoard).
+
+getValidSinks([X,Y], Board, ValidSinks) :-
+  neighbours(X,Y,Neighbours), !,
+  validateSinks(Neighbours, Board, [], ValidSinks).
+
+validateSinks([], _, ValidSinks, ValidSinks).
+validateSinks([[X,Y]|T], Board, Acc, ValidSinks) :-
+  get_tile(X, Y, Board, Tile), Tile \= 0,
+  isValidSink(X, Y, Board),
+  append(Acc, [[X,Y]], Acc1),
+  write(Acc1), nl,
+  validateSinks(T, Board, Acc1, ValidSinks).
+validateSinks([_|T], Board, Acc, ValidSinks) :-
+  validateSinks(T, Board, Acc, ValidSinks).
 
 % ------------- Move tile
 
@@ -252,11 +266,15 @@ fourth_tower(Board, NewBoard) :-
 
 place_tower(X, Y, Tower, Board, NewBoard) :-
   check_if_no_tower(X, Y, Board),
+  check_if_valid_tile(X, Y, Tower, Board),
   set_tower(X, Y, Board, Tower, NewBoard).
 
 check_if_no_tower(X, Y, Board) :-
   get_tower(X, Y, Board, Tower),
-  Tower =:= 0 .
+  Tower =:= 0.
+
+check_if_valid_tile(X,Y,1,Board) :- check_if_valid_black_tile(X,Y,Board).
+check_if_valid_tile(X,Y,2,Board) :- check_if_valid_white_tile(X,Y,Board).
 
 check_if_valid_black_tile(X, Y, Board) :-
   get_tile(X, Y, Board, Tile),

@@ -35,14 +35,31 @@ LSXscene.prototype.init = function(application) {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+
+    this.graph = null;
+
     this.textures = [];
     this.materials = [];
     this.leaves = [];
     this.anims = [];
     this.objects = [];
+
     this.axis = new CGFaxis(this);
+
     this.currTime = new Date().getTime();
     this.setUpdatePeriod(10);
+
+    this.setPickEnabled(true);
+
+    // HUD
+    this.textPlane = new MyPlane(this);
+    this.textShader = new CGFshader(this.gl, "shaders/font.vert", "shaders/font.frag");
+    this.textShader.setUniformsValues({
+        'dims': [16, 16]
+    });
+    this.textApp = new CGFappearance(this);
+    this.fontTexture = new CGFtexture(this, "textures/oolite-font.png");
+    this.textApp.setTexture(this.fontTexture);
 };
 
 /**
@@ -50,7 +67,8 @@ LSXscene.prototype.init = function(application) {
  * @method initCameras
  */
 LSXscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 10, 15), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0.01, 30, 0.01), vec3.fromValues(0, 0, 0));
+    this.camera.setPosition(vec3.fromValues(0.00, 20, 20));
 };
 
 /**
@@ -62,9 +80,12 @@ LSXscene.prototype.setDefaultAppearance = function() {
     for (var i = 0; i < this.materials.length; i++) {
         if (this.materials[i].id == "default") {
             this.materials[i].apply();
-            break;
+            return true;
         }
     }
+    var defaultMat = new CGFappearance();
+    defaultMat.apply();
+    return false;
 };
 
 /**
@@ -90,17 +111,20 @@ LSXscene.prototype.onGraphLoaded = function() {
     this.initLights();
 
     // Textures
+    this.textures = [];
     if (this.graph.textures.length > 0)
         this.enableTextures(true);
 
     var text = this.graph.textures;
+    var aux;
     for (var i = 0; i < text.length; i++) {
-        var aux = new SceneTexture(this, text[i].id, text[i].path, text[i].amplif_factor);
+        aux = new SceneTexture(this, text[i].id, text[i].path, text[i].amplif_factor);
 
         this.textures.push(aux);
     }
 
     // Materials
+    this.materials = [];
     var mat = this.graph.materials;
     for (i = 0; i < mat.length; i++) {
         aux = new SceneMaterial(this, mat[i].id);
@@ -117,6 +141,7 @@ LSXscene.prototype.onGraphLoaded = function() {
     this.initLeaves();
 
     // Anims
+    this.anims = [];
     var anims = this.graph.anims;
     for (i = 0; i < anims.length; ++i) {
         switch (anims[i].type) {
@@ -133,21 +158,23 @@ LSXscene.prototype.onGraphLoaded = function() {
         }
     }
 
-    var self = this;
-    makeRequest("makeMajor", function(data) {
-        var board = data.target.response;
-        // console.log(board);
-        // console.log("[" + typeof board + "]");
-        var array = JSON.parse(board);
-        // console.log(array);
-        // console.log("[" + typeof array + "]");
-        var test = new Board(self.graph, array);
-        test.display();
-        self.initNodes();
-    });
+    this.initNodes();
+};
 
-    // Nodes
-    // this.initNodes();
+LSXscene.prototype.logPicking = function() {
+    if (this.pickMode === false) {
+        if (this.pickResults !== null && this.pickResults.length > 0) {
+            for (var i = 0; i < this.pickResults.length; i++) {
+                var obj = this.pickResults[i][0];
+                if (obj) {
+                    var customID = this.pickResults[i][1];
+                    console.log("Picked object with ID " + customID);
+                    this.onPickObj(obj, customID);
+                }
+            }
+            this.pickResults = [];
+        }
+    }
 };
 
 /**
@@ -155,20 +182,39 @@ LSXscene.prototype.onGraphLoaded = function() {
  * @method display
  */
 LSXscene.prototype.display = function() {
+    this.logPicking();
+    this.clearPickRegistration();
+
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    this.gl.clearColor(32/255, 32/255, 32/255, 1.0);
+    this.gl.enable(this.gl.DEPTH_TEST);
 
     this.updateProjectionMatrix();
     this.loadIdentity();
 
+    // this.pushMatrix();
+    // {
+    //     this.translate(0, 0, -10);
+    //     this.drawText("Teste", [255, 0, 0]);
+    // }
+    // this.popMatrix();
+
     this.applyViewMatrix();
+
+    // this.pushMatrix();
+    // {
+    //     this.translate(0, 5, 0);
+    //     this.drawText("Teste", [255, 0, 0]);
+    // }
+    // this.popMatrix();
 
     // If LSX has been loaded
     if (this.graph.loadedOK) {
 
         this.setDefaultAppearance();
 
-        if (this.axis.length != 0) this.axis.display();
+        if (this.axis.length !== 0) this.axis.display();
 
         // Apply initial transformations
         this.applyInitials();
@@ -178,8 +224,16 @@ LSXscene.prototype.display = function() {
             this.lights[i].update();
 
         // Draw Objects to scene (nodes with leaves)
+        var pieceID = 0, towerID = 100, obj;
+
         for (i = 0; i < this.objects.length; i++) {
-            var obj = this.objects[i];
+            obj = this.objects[i];
+            if (/piece/.test(obj.id)) {
+                this.registerForPick(pieceID++, obj);
+            }
+            else if (/tower/.test(obj.id)) {
+                this.registerForPick(towerID++, obj);
+            }
             obj.draw(this);
         }
     }
@@ -199,15 +253,15 @@ LSXscene.prototype.applyInitials = function() {
     this.translate(trans.x, trans.y, trans.z);
     for (var i = 0; i < rots.length; i++) {
         switch (rots[i].axis) {
-        case 'x':
-            this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
-            break;
-        case 'y':
-            this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
-            break;
-        case 'z':
-            this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
-            break;
+            case 'x':
+                this.rotate(rots[i].angle * deg2rad, 1, 0, 0);
+                break;
+            case 'y':
+                this.rotate(rots[i].angle * deg2rad, 0, 1, 0);
+                break;
+            case 'z':
+                this.rotate(rots[i].angle * deg2rad, 0, 0, 1);
+                break;
         }
     }
     this.scale(scale.sx, scale.sy, scale.sz);
@@ -247,54 +301,55 @@ LSXscene.prototype.initLights = function() {
  * @method initLeaves
  */
 LSXscene.prototype.initLeaves = function() {
+    this.leaves = [];
     for (var i = 0; i < this.graph.leaves.length; i++) {
         var leaf = this.graph.leaves[i];
         switch (leaf.type) {
-        case "rectangle":
-            var primitive = new MyQuad(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "cylinder":
-            primitive = new MyFullCylinder(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "cube":
-            primitive = new MyCube(this);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "sphere":
-            primitive = new MySphere(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "triangle":
-            primitive = new MyTriangle(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "plane":
-            primitive = new MyPlane(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "terrain":
-            primitive = new MyTerrain(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "vehicle":
-            primitive = new MyVehicle(this);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
-        case "patch":
-            primitive = new MyPatch(this, leaf.args);
-            primitive.id = leaf.id;
-            this.leaves.push(primitive);
-            break;
+            case "rectangle":
+                var primitive = new MyQuad(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "cylinder":
+                primitive = new MyFullCylinder(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "cube":
+                primitive = new MyCube(this);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "sphere":
+                primitive = new MySphere(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "triangle":
+                primitive = new MyTriangle(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "plane":
+                primitive = new MyPlane(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "terrain":
+                primitive = new MyTerrain(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "vehicle":
+                primitive = new MyVehicle(this);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
+            case "patch":
+                primitive = new MyPatch(this, leaf.args);
+                primitive.id = leaf.id;
+                this.leaves.push(primitive);
+                break;
         }
     }
 };
@@ -307,6 +362,7 @@ LSXscene.prototype.initLeaves = function() {
  * @method initNodes
  */
 LSXscene.prototype.initNodes = function() {
+    this.objects = [];
     var nodes_list = this.graph.nodes;
 
     var root_node = this.graph.findNode(this.graph.root_id);
@@ -338,8 +394,8 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
     for (var i = 0; i < node.descendants.length; i++) {
         var nextNode = this.graph.findNode(node.descendants[i]);
 
-        if (nextNode == null) {
-            var aux = new SceneObject(node.descendants[i]);
+        if (nextNode === null) {
+            var aux = new SceneObject(node.id);
             aux.material = this.getMaterial(nextMat);
             aux.texture = this.getTexture(nextTex);
             for (var k = 0; k < nextAnims.length; ++k) {
@@ -349,7 +405,7 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
             aux.matrix = nextMatrix;
             aux.isLeaf = true;
             for (var j = 0; j < this.leaves.length; j++) {
-                if (this.leaves[j].id == aux.id) {
+                if (this.leaves[j].id == node.descendants[i]) {
                     aux.primitive = this.leaves[j];
                     break;
                 }
@@ -368,7 +424,7 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
  * @return {Animation}
  */
 LSXscene.prototype.getAnim = function(id) {
-    if (id == null) return null;
+    if (id === null) return null;
 
     for (var i = 0; i < this.anims.length; ++i)
         if (id == this.anims[i].id) return this.anims[i];
@@ -382,7 +438,7 @@ LSXscene.prototype.getAnim = function(id) {
  * @return {SceneMaterial}
  */
 LSXscene.prototype.getMaterial = function(id) {
-    if (id == null) return null;
+    if (id === null) return null;
 
     for (var i = 0; i < this.materials.length; i++)
         if (id == this.materials[i].id) return this.materials[i];
@@ -396,7 +452,7 @@ LSXscene.prototype.getMaterial = function(id) {
  * @return {SceneTexture}
  */
 LSXscene.prototype.getTexture = function(id) {
-    if (id == null) return null;
+    if (id === null) return null;
 
     for (var i = 0; i < this.textures.length; i++)
         if (id == this.textures[i].id) return this.textures[i];
@@ -432,4 +488,77 @@ LSXscene.prototype.update = function(currTime) {
 
     for (var i = 0; i < this.objects.length; ++i)
         this.objects[i].updateAnims(delta);
+};
+
+LSXscene.prototype.setScene = function(scene) {
+    current_scene = scene || DEFAULT_SCENE;
+    this.reloadScene();
+};
+
+LSXscene.prototype.reloadScene = function() {
+    var handler = null;
+    if (this.board) {
+        var self = this;
+        handler = function() {
+            self.onGraphLoaded();
+            self.board.display(self.graph);
+            self.initNodes();
+        };
+    }
+    this.graph = new LSXParser(current_scene, this, handler);
+};
+
+LSXscene.prototype.clearHighlights = function() {
+    for (var i = 0; i < this.objects.length; ++i) {
+        this.objects[i].picked = false;
+        this.objects[i].highlighted = false;
+    }
+};
+
+LSXscene.prototype.highlightPiece = function(id, pick) {
+    if (!id && id !== 0) return false;
+    pick = pick || false;
+
+    if (pick) this.pickData[id][0].picked = true;
+    else this.pickData[id][0].highlighted = true;
+    return true;
+};
+
+LSXscene.prototype.loadBoard = function(board) {
+    this.graph.nodes = [];
+    this.graph.parseNodes();
+    board.display(this.graph);
+    this.initNodes();
+};
+
+LSXscene.prototype.reloadBoard = function() {
+    this.graph.nodes = [];
+    this.graph.parseNodes();
+    this.board.display(this.graph);
+    this.initNodes();
+};
+
+LSXscene.prototype.drawText = function(string, color) {
+    color = color || [255, 255, 255];
+
+    var prevShader = this.activeShader;
+    this.setActiveShaderSimple(this.textShader);
+
+    this.textApp.apply();
+
+    for (var i = 0; i < string.length; ++i) {
+        var charCode = string.charCodeAt(i);
+        var offset = [0, 2];
+        if (charCode >= 32 && charCode <= 127) {
+            offset[0] += (charCode - 32) % 16;
+            offset[1] += Math.floor((charCode - 32) / 16);
+            this.textShader.setUniformsValues({
+                'charCoords': offset
+            });
+            this.textPlane.display();
+        }
+        this.translate(1, 0, 0);
+    }
+
+    this.setActiveShaderSimple(prevShader);
 };

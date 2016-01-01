@@ -10,8 +10,11 @@
  * @param {LSXscene} scene
  * @param {String} filename
  */
-function LSXParser(filename, scene) {
+function LSXParser(filename, scene, readyHandler) {
     this.loadedOK = null;
+    this.onReady = readyHandler || function() {
+        scene.onGraphLoaded();
+    };
 
     this.scene = scene;
     scene.graph = this;
@@ -32,6 +35,8 @@ function LSXParser(filename, scene) {
     this.anims = [];
     this.root_id = null;
     this.nodes = [];
+
+    this.debug = false;
 }
 
 /**
@@ -43,7 +48,8 @@ LSXParser.prototype.onXMLReady = function() {
 
     var mainElement = this.reader.xmlDoc.documentElement;
 
-    console.log("---------INITIALS----------");
+    if (this.debug)
+        console.log("---------INITIALS----------");
 
     var error = this.parseInitials(mainElement);
     if (error) {
@@ -51,7 +57,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Illumination----------");
+    if (this.debug)
+        console.log("---------Illumination----------");
 
     error = this.parseIllumination(mainElement);
     if (error) {
@@ -59,7 +66,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Lights----------");
+    if (this.debug)
+        console.log("---------Lights----------");
 
     error = this.parseLights(mainElement);
     if (error) {
@@ -67,7 +75,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Textures----------");
+    if (this.debug)
+        console.log("---------Textures----------");
 
     error = this.parseTextures(mainElement);
     if (error) {
@@ -75,7 +84,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Materials----------");
+    if (this.debug)
+        console.log("---------Materials----------");
 
     error = this.parseMaterials(mainElement);
     if (error) {
@@ -83,7 +93,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Leaves----------");
+    if (this.debug)
+        console.log("---------Leaves----------");
 
     error = this.parseLeaves(mainElement);
     if (error) {
@@ -91,7 +102,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Anims----------");
+    if (this.debug)
+        console.log("---------Anims----------");
 
     error = this.parseAnims(mainElement);
     if (error) {
@@ -99,7 +111,8 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("---------Nodes----------");
+    if (this.debug)
+        console.log("---------Nodes----------");
 
     error = this.parseNodes(mainElement);
     if (error) {
@@ -107,10 +120,11 @@ LSXParser.prototype.onXMLReady = function() {
         return;
     }
 
-    console.log("-------------------");
+    if (this.debug)
+        console.log("-------------------");
 
     this.loadedOK = true;
-    this.scene.onGraphLoaded();
+    this.onReady();
 };
 
 /**
@@ -175,7 +189,8 @@ LSXParser.prototype.parseInitials = function(mainElement) {
 
     this.initials.reference = this.reader.getFloat(r_length, 'length');
 
-    this.initials.print();
+    if (this.debug)
+        this.initials.print();
 
     return null;
 };
@@ -202,7 +217,8 @@ LSXParser.prototype.parseIllumination = function(mainElement) {
 
     this.illumination.background = this.parseColor(background);
 
-    this.illumination.print();
+    if (this.debug)
+        this.illumination.print();
 
     return null;
 };
@@ -231,7 +247,8 @@ LSXParser.prototype.parseLights = function(mainElement) {
         light.position.z = this.reader.getFloat(aux, 'z');
         light.position.w = this.reader.getFloat(aux, 'w');
 
-        light.print();
+        if (this.debug)
+            light.print();
         this.lights.push(light);
     }
 
@@ -259,7 +276,8 @@ LSXParser.prototype.parseTextures = function(mainElement) {
         texture.amplif_factor.s = this.reader.getFloat(aux, 's');
         texture.amplif_factor.t = this.reader.getFloat(aux, 't');
 
-        texture.print();
+        if (this.debug)
+            texture.print();
         this.textures.push(texture);
     }
 
@@ -286,7 +304,8 @@ LSXParser.prototype.parseMaterials = function(mainElement) {
 
         mat.shininess = this.reader.getFloat(materials[i].getElementsByTagName('shininess')[0], 'value');
 
-        mat.print();
+        if (this.debug)
+            mat.print();
         this.materials.push(mat);
     }
 
@@ -395,7 +414,8 @@ LSXParser.prototype.parseLeaves = function(mainElement) {
                 return "Type " + "\"" + leaf.type + "\" not valid.";
         }
 
-        leaf.print();
+        if (this.debug)
+            leaf.print();
         this.leaves.push(leaf);
     }
 
@@ -440,6 +460,8 @@ LSXParser.prototype.parseAnims = function(mainElement) {
         this.anims.push(new LSXAnim(id, span, type, args));
 
     }
+
+    return null;
 };
 
 /**
@@ -449,12 +471,14 @@ LSXParser.prototype.parseAnims = function(mainElement) {
  * @return {String} Error message, null if none
  */
 LSXParser.prototype.parseNodes = function(mainElement) {
+    mainElement = mainElement || this.reader.xmlDoc.documentElement;
     var nodes_list = mainElement.getElementsByTagName('NODES')[0];
     if (nodes_list === null) return "<NODES> element is missing.";
 
     var root_node = nodes_list.getElementsByTagName('ROOT')[0];
     this.root_id = this.reader.getString(root_node, 'id');
-    console.log("ROOT Node: " + this.root_id);
+    if (this.debug)
+        console.log("ROOT Node: " + this.root_id);
 
     var nodes = nodes_list.getElementsByTagName('NODE');
 

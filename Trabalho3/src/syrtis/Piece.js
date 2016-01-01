@@ -19,3 +19,21 @@ function Piece(position, type) {
             break;
     }
 }
+
+Piece.prototype.getShape = function() {
+    if (this.type == "round-light-piece" || this.type == "round-dark-piece") {
+        return "round";
+    }
+    else return "square";
+
+    return "invalid";
+};
+
+Piece.prototype.getColor = function() {
+    if (this.type == "round-light-piece" || this.type == "square-light-piece") {
+        return "light";
+    }
+    else return "dark";
+
+    return "invalid";
+};

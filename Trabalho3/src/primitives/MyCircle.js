@@ -15,7 +15,7 @@ function MyCircle(scene, rad, slices) {
     this.slices = slices || 8;
 
     this.initBuffers();
-};
+}
 
 MyCircle.prototype = Object.create(CGFobject.prototype);
 MyCircle.prototype.constructor = MyCircle;
@@ -30,10 +30,10 @@ MyCircle.prototype.initBuffers = function() {
     this.normals = [];
     this.texCoords = [];
 
-    const angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
+    var angle = (2 * Math.PI) / this.slices; /* 2*PI/nSlices */
 
-    for (i = 0; i < this.slices; i++) {
-        this.vertices.push(this.rad*Math.cos(i * angle), this.rad*Math.sin(i * angle), 0);
+    for (var i = 0; i < this.slices; i++) {
+        this.vertices.push(this.rad * Math.cos(i * angle), this.rad * Math.sin(i * angle), 0);
         this.normals.push(0, 0, 1);
         this.texCoords.push(0.5 + 0.5 * Math.cos(i * angle), 0.5 - 0.5 * Math.sin(i * angle));
     }

@@ -1,8 +1,8 @@
-//From https://github.com/EvanHahn/ScriptInclude
 /**
  * @module main
  * @main main
  */
+
 include = function() {
     function f() {
         var a = this.readyState;
@@ -40,68 +40,63 @@ serialInclude.l = new Array();
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-        function(m, key, value) {
-            vars[decodeURIComponent(key)] = decodeURIComponent(value);
-        });
+                                             function(m, key, value) {
+                                                 vars[decodeURIComponent(key)] = decodeURIComponent(value);
+                                             });
     return vars;
 }
 
 serialInclude(['../lib/CGF.js',
-    'lsxparser/LSXIllumination.js',
-    'lsxparser/LSXInitials.js',
-    'lsxparser/LSXLeaf.js',
-    'lsxparser/LSXLight.js',
-    'lsxparser/LSXMaterial.js',
-    'lsxparser/LSXNode.js',
-    'lsxparser/LSXTexture.js',
-    'lsxparser/LSXParser.js',
-    'lsxparser/LSXAnim.js',
+               'lsxparser/LSXIllumination.js',
+               'lsxparser/LSXInitials.js',
+               'lsxparser/LSXLeaf.js',
+               'lsxparser/LSXLight.js',
+               'lsxparser/LSXMaterial.js',
+               'lsxparser/LSXNode.js',
+               'lsxparser/LSXTexture.js',
+               'lsxparser/LSXParser.js',
+               'lsxparser/LSXAnim.js',
 
-    'primitives/MyCircle.js',
-    'primitives/MyCylinder.js',
-    'primitives/MyFullCylinder.js',
-    'primitives/MyQuad.js',
-    'primitives/MyTriangle.js',
-    'primitives/MySphere.js',
-    'primitives/MyPlane.js',
-    'primitives/MyPatch.js',
-    'primitives/MyTerrain.js',
-    'primitives/MyVehicle.js',
-    'primitives/MyCube.js',
+               'primitives/MyCircle.js',
+               'primitives/MyCylinder.js',
+               'primitives/MyFullCylinder.js',
+               'primitives/MyQuad.js',
+               'primitives/MyTriangle.js',
+               'primitives/MySphere.js',
+               'primitives/MyPlane.js',
+               'primitives/MyPatch.js',
+               'primitives/MyTerrain.js',
+               'primitives/MyVehicle.js',
+               'primitives/MyCube.js',
 
-    'anim/Animation.js',
-    'anim/LinearAnimation.js',
-    'anim/CircularAnimation.js',
+               'anim/Animation.js',
+               'anim/LinearAnimation.js',
+               'anim/CircularAnimation.js',
 
-    'lsxscene/SceneMaterial.js',
-    'lsxscene/SceneTexture.js',
-    'lsxscene/SceneObject.js',
-    'lsxscene/LSXscene.js',
+               'lsxscene/SceneMaterial.js',
+               'lsxscene/SceneTexture.js',
+               'lsxscene/SceneObject.js',
+               'lsxscene/LSXscene.js',
 
-    'syrtis/Tower.js',
-    'syrtis/Piece.js',
-    'syrtis/Board.js',
+               'syrtis/Game.js',
+               'syrtis/Player.js',
+               'syrtis/Tower.js',
+               'syrtis/Piece.js',
+               'syrtis/Board.js',
 
-    'Interface.js',
+               'Interface.js',
 
-    main = function() {
-        var app = new CGFapplication(document.body);
-        var myScene = new LSXscene();
-        var myInterface = new Interface();
-        myInterface.setScene(myScene);
+               main = function() {
+                   var game = new Game();
+               }
+              ]);
 
-        app.init();
-
-        app.setScene(myScene);
-        app.setInterface(myInterface);
-
-        myInterface.setActiveCamera(myScene.camera);
-
-        var filename = getUrlVars().file || "scene1/scene1.lsx";
-
-        var parser = new LSXParser(filename, myScene);
-
-        app.run();
-
-    }
-]);
+if (!String.format) {
+    String.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function(match, number) {
+            return typeof args[number] != 'undefined' ?
+                args[number] : match;
+        });
+    };
+}
