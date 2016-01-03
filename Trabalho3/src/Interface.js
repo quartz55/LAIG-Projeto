@@ -29,7 +29,7 @@ Interface.prototype.init = function(application) {
     var themeBtn = {
         Theme: "",
         click: function() {
-            self.scene.setScene(themeBtn.Theme);
+            self.game.setScene(themeBtn.Theme);
         }
     };
     var test = this.gui.add(themeBtn, 'Theme', SCENES);

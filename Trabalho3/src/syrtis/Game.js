@@ -76,7 +76,7 @@ function Game() {
         self.piecePicked(obj, id);
     };
 
-    PLOG.sendRequest("createMajorGame", function(data) {
+    PLOG.sendRequest("createMinorGame", function(data) {
         var response = PLOG.getRequestResponse(data);
         self.loadGame(response);
         self.parser = new LSXParser(filename, self.scene,
@@ -143,7 +143,7 @@ Game.prototype.piecePicked = function(obj, id) {
 
             // Animation for tower
             var delta = [1.5*( self.pickedPiece[0]-piece.x ), 0, 1.5*( self.pickedPiece[1]-piece.y )];
-            var anim = new LinearAnimation("moveAnim", 1.5, [delta,[0,0,0]]);
+            var anim = new LinearAnimation("moveAnim", 1.5, [delta,[0,0,0]], 5);
             anim.ondone(function () {
                 self.changeState( GAME_STATE.MAIN_MENU );
             });
@@ -282,6 +282,15 @@ Game.prototype.loadGame = function(gameStr) {
     this.blackPlayer = new Player(gameObj.players.black);
     this.turn = gameObj.turn;
     this.updateHUD();
+};
+
+Game.prototype.setScene = function(scene) {
+    var self = this;
+    this.parser = new LSXParser(scene, this.scene,
+                                function() {
+                                    this.scene.onGraphLoaded();
+                                    self.scene.loadBoard(self.board);
+                                });
 };
 
 Game.prototype.addMessage = function(type, text) {

@@ -79,11 +79,19 @@
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
-        <MATERIAL id="light">
+        <MATERIAL id="wood">
             <shininess value="10" />
             <specular r="0.9" g="0.9" b="0.9" a="1.0" />
             <diffuse r="1" g="0.5" b="0.15" a="1.0" />
             <ambient r="1" g="0.5" b="0.15" a="1.0" />
+            <emission r="0" g="0" b="0" a="0" />
+        </MATERIAL>
+
+        <MATERIAL id="light">
+            <shininess value="10" />
+            <specular r="0.9" g="0.9" b="0.9" a="1.0" />
+            <diffuse r="1" g="0.7" b="0.05" a="1.0" />
+            <ambient r="1" g="0.7" b="0.05" a="1.0" />
             <emission r="0" g="0" b="0" a="0" />
         </MATERIAL>
 
@@ -176,6 +184,15 @@
             </DESCENDANTS>
         </NODE>
 
+        <NODE id="stack">
+            <MATERIAL id="null" />
+            <TEXTURE id="null" />
+
+            <DESCENDANTS>
+                <DESCENDANT id="placeholder" />
+            </DESCENDANTS>
+        </NODE>
+
         <NODE id="placeholder">
             <MATERIAL id="null" />
             <TEXTURE id="null" />
@@ -190,7 +207,7 @@
         <!-- BASE NODES -->
         <!-- Board Base -->
         <NODE id="board-base">
-            <MATERIAL id="light" />
+            <MATERIAL id="wood" />
             <TEXTURE id="wood-floor" />
 
             <SCALE sx="25" sy="25" sz="25" />

@@ -418,8 +418,11 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
             aux.material = this.getMaterial(nextMat);
             aux.texture = this.getTexture(nextTex);
             for (var k = 0; k < nextAnims.length; ++k) {
-                var anim = this.getAnim(nextAnims[k]).clone();
-                aux.anims.push(anim);
+                var anim = this.getAnim(nextAnims[k]);
+                if (anim) {
+                    anim = anim.clone();
+                    aux.anims.push(anim);
+                }
             }
             aux.matrix = nextMatrix;
             aux.isLeaf = true;
@@ -511,11 +514,6 @@ LSXscene.prototype.update = function(currTime) {
     for (var i = 0; i < this.objects.length; ++i) {
         this.objects[i].updateAnims(delta);
     }
-};
-
-LSXscene.prototype.setScene = function(scene) {
-    current_scene = scene || DEFAULT_SCENE;
-    this.reloadScene();
 };
 
 LSXscene.prototype.reloadScene = function() {
