@@ -511,6 +511,10 @@ LSXscene.prototype.update = function(currTime) {
     var delta = currTime - this.currTime;
     this.currTime = currTime;
 
+    if (this.anims.camRot && !this.anims.camRot.done) {
+        this.anims.camRot.update(delta);
+    }
+
     for (var i = 0; i < this.objects.length; ++i) {
         this.objects[i].updateAnims(delta);
     }
@@ -588,4 +592,19 @@ LSXscene.prototype.drawText = function(string, fg, bg) {
     }
 
     this.setActiveShaderSimple(prevShader);
+};
+
+LSXscene.prototype.rotateView = function(time, ondone) {
+    var self = this;
+    var camAnim = new Animation("cameraRot", time);
+    camAnim._position = vec4.clone(this.camera.position);
+    camAnim.update = function(delta) {
+        Animation.prototype.update.call(this, delta);
+        self.camera.position = vec4.clone(this._position);
+
+        var rotAng = jEase.ease(this.currTime, 0, Math.PI, this.time, "easeInOutQuint");
+        self.camera.orbit([0,1,0], rotAng);
+    };
+    camAnim.ondone(ondone);
+    this.anims.camRot = camAnim;
 };

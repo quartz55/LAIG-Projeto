@@ -157,6 +157,15 @@ parse_input(getValidSinks(X,Y,Game), ValidSinks) :-
 %%%%% Pass turn
 parse_input(passTurn(Game), NewGame) :- pass(Game, NewGame).
 
+%%%%% Check win conditions
+parse_input(checkWin(Game), Winner) :-
+  check_completed_islands(Game, Winner).
+parse_input(checkWin(Game), Winner) :-
+  game_checkSinks(Game, Winner).
+parse_input(checkWin(Game), Winner) :-
+  game_checkPasses(Game, Winner).
+parse_input(checkWin(_), 'null').
+
 %%%%% Setup
 parse_input(createMajorGame, G) :- createPvPgame(G, 'major').
 parse_input(createMinorGame, G) :- createPvPgame(G, 'minor').

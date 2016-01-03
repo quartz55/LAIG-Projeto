@@ -42,10 +42,12 @@ LinearAnimation.prototype.update = function(delta) {
     rotAng *= sign;
 
     this.pos = nextPos;
-    var heightCalc = function (x, height, time) {
-        return -x * (x - time) * height;
+    var heightCalc = function (x, height, curr, time) {
+        if (curr < time/2)
+            return jEase.ease(curr, 0, height, time/2, "easeOutCubic");
+        else return jEase.ease(curr-time/2, height, 0, time/2, "easeInCubic");
     };
-    this.pos[1] = heightCalc(this.currTime, this.maxHeight, this.time);
+    this.pos[1] = heightCalc(this.currTime, this.maxHeight, this.currTime, this.time);
 
     mat4.identity(this.matrix);
     mat4.translate(this.matrix, this.matrix, this.pos);
@@ -71,6 +73,14 @@ LinearAnimation.prototype.interp = function() {
     interpPoint[0] = linearInterp(currCP[0], nextCP[0], f);
     interpPoint[1] = linearInterp(currCP[1], nextCP[1], f);
     interpPoint[2] = linearInterp(currCP[2], nextCP[2], f);
+
+    var t = function easeInCubic(t) {
+        return Math.pow(t,3);
+    };
+
+    interpPoint[0] = jEase.ease(f, currCP[0], nextCP[0], 1, "easeInOutCubic");
+    interpPoint[1] = jEase.ease(f, currCP[1], nextCP[1], 1, "easeInOutCubic");
+    interpPoint[2] = jEase.ease(f, currCP[2], nextCP[2], 1, "easeInOutCubic");
 
     return interpPoint;
 };

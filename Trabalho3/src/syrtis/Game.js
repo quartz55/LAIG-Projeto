@@ -15,7 +15,8 @@ var GAME_STATE = {
     SINK_FROM: 7,
     SINK_TO: 8,
     PASSING: 9,
-    ANIMATING: 10
+    ANIMATING: 10,
+    SWITCHING_PLAYER: 11
 };
 
 var COLOR = {
@@ -143,13 +144,13 @@ Game.prototype.piecePicked = function(obj, id) {
 
             // Animation for tower
             var delta = [1.5*( self.pickedPiece[0]-piece.x ), 0, 1.5*( self.pickedPiece[1]-piece.y )];
-            var anim = new LinearAnimation("moveAnim", 1.5, [delta,[0,0,0]], 5);
+            var anim = new LinearAnimation("moveAnim", 1.5, [delta,[0,0,0]], 2.5);
             anim.ondone(function () {
-                self.changeState( GAME_STATE.MAIN_MENU );
+                self.changeState(GAME_STATE.SWITCHING_PLAYER);
             });
             self.scene.anims.moveAnim = anim;
 
-            self.saveState();
+            self.saveGameState();
             self.loadGame(response);
             var t = self.board.getTower([piece.x, piece.y]);
             t.animations.push("moveAnim");
@@ -200,10 +201,10 @@ Game.prototype.piecePicked = function(obj, id) {
                 self.addMessage("ERROR", "Invalid sink");
                 return;
             }
-            self.saveState();
+            self.saveGameState();
             self.loadGame(response);
             self.scene.loadBoard(self.board);
-            self.changeState( GAME_STATE.MAIN_MENU );
+            self.changeState(GAME_STATE.SWITCHING_PLAYER);
         });
         break;
 
@@ -282,15 +283,12 @@ Game.prototype.loadGame = function(gameStr) {
     this.blackPlayer = new Player(gameObj.players.black);
     this.turn = gameObj.turn;
     this.updateHUD();
-};
-
-Game.prototype.setScene = function(scene) {
-    var self = this;
-    this.parser = new LSXParser(scene, this.scene,
-                                function() {
-                                    this.scene.onGraphLoaded();
-                                    self.scene.loadBoard(self.board);
-                                });
+    PLOG.sendRequest(String.format("checkWin({0})",this.stringify()), function (data) {
+        var winner = PLOG.getRequestResponse(data);
+        if (winner != 'null') {
+            window.location = winner+".html";
+        }
+    });
 };
 
 Game.prototype.addMessage = function(type, text) {
@@ -341,49 +339,6 @@ Game.prototype.updateHUD = function() {
 
 Game.prototype.update = function(gameStr) {
     this.loadGame(gameStr);
-};
-
-Game.prototype.stringify = function() {
-    return String.format(
-        "[{0},{1},[{2},{3}],{4}]",
-        this.board.stringify(),
-        this.type,
-        this.whitePlayer.stringify(), this.blackPlayer.stringify(),
-        this.turn
-    );
-};
-
-Game.prototype.saveState = function() {
-    this.undoStack.push({
-        game: this.stringify(),
-        state: GAME_STATE.MOVE_FROM
-    });
-    if (this.undoStack.length > MAX_UNDO_LEVELS)
-        this.undoStack.shift();
-};
-
-Game.prototype.undo = function() {
-    if (this.undoStack.length === 0) return;
-    var prevState = this.undoStack.pop();
-    this.state = prevState.state;
-    this.loadGame(prevState.game);
-    this.scene.loadBoard(this.board);
-};
-
-Game.prototype.mainMenu = function() {
-    this.changeState(GAME_STATE.MAIN_MENU);
-};
-
-Game.prototype.moveMenu = function() {
-    this.changeState(GAME_STATE.MOVE_FROM);
-};
-
-Game.prototype.sinkMenu = function() {
-    this.changeState(GAME_STATE.SINK_FROM);
-};
-
-Game.prototype.passMenu = function() {
-    this.changeState(GAME_STATE.PASSING);
 };
 
 Game.prototype.highlightPieces = function(positions) {
@@ -460,10 +415,17 @@ Game.prototype.changeState = function(nextState) {
                 var res = PLOG.getRequestResponse(data);
                 self.loadGame(res);
                 self.scene.loadBoard(self.board);
-                self.changeState(GAME_STATE.MAIN_MENU);
+                self.changeState(GAME_STATE.SWITCHING_PLAYER);
             });
         }
         else return false;
+        break;
+    case GAME_STATE.SWITCHING_PLAYER:
+        var self = this;
+        this.infoMessage.change("WARNING", "Switching player");
+        this.scene.rotateView(2, function() {
+            self.changeState(GAME_STATE.MAIN_MENU);
+        });
         break;
     }
 
@@ -471,6 +433,58 @@ Game.prototype.changeState = function(nextState) {
     this.state = nextState;
     this.updateHUD();
     return true;
+};
+
+Game.prototype.saveGameState = function() {
+    this.undoStack.push({
+        game: this.stringify(),
+        state: GAME_STATE.MOVE_FROM
+    });
+    if (this.undoStack.length > MAX_UNDO_LEVELS)
+        this.undoStack.shift();
+};
+
+Game.prototype.undo = function() {
+    if (this.undoStack.length === 0) return;
+    var prevState = this.undoStack.pop();
+    this.state = prevState.state;
+    this.loadGame(prevState.game);
+    this.scene.loadBoard(this.board);
+};
+
+Game.prototype.setScene = function(scene) {
+    var self = this;
+    this.parser = new LSXParser(scene, this.scene,
+                                function() {
+                                    this.scene.onGraphLoaded();
+                                    self.scene.loadBoard(self.board);
+                                });
+};
+
+Game.prototype.mainMenu = function() {
+    this.changeState(GAME_STATE.MAIN_MENU);
+};
+
+Game.prototype.moveMenu = function() {
+    this.changeState(GAME_STATE.MOVE_FROM);
+};
+
+Game.prototype.sinkMenu = function() {
+    this.changeState(GAME_STATE.SINK_FROM);
+};
+
+Game.prototype.passMenu = function() {
+    this.changeState(GAME_STATE.PASSING);
+};
+
+Game.prototype.stringify = function() {
+    return String.format(
+        "[{0},{1},[{2},{3}],{4}]",
+        this.board.stringify(),
+        this.type,
+        this.whitePlayer.stringify(), this.blackPlayer.stringify(),
+        this.turn
+    );
 };
 
 // Static

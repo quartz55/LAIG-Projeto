@@ -84,6 +84,8 @@ serialInclude(['../lib/CGF.js',
                'syrtis/Piece.js',
                'syrtis/Board.js',
 
+               'utils/jEase.js',
+
                'Interface.js',
 
                main = function() {
