@@ -2,6 +2,8 @@
 :-use_module(library(lists)).
 :-use_module(library(codesio)).
 
+:- include('syrtis.pl').
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                        Server                                                   %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,9 +106,88 @@ print_header_line(_).
 % Require your Prolog Files here
 
 parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 
-test(_,[],N) :- N =< 0.
-test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
+
+%%% Syrtis predicates
+
+%%%%% Place towers
+parse_input(placeBlackTower(X,Y,Board), NewBoard) :-
+  place_tower(X,Y,1,Board,NewBoard).
+parse_input(placeBlackTower(_,_,Board), Board).
+
+parse_input(placeWhiteTower(X,Y,Board), NewBoard) :-
+  place_tower(X,Y,2,Board,NewBoard).
+parse_input(placeWhiteTower(_,_,Board), Board).
+
+
+%%%%% Move towers
+parse_input(moveTower(X,Y,X2,Y2,Game), NewGame) :-
+  game_getBoard(Game, Board),
+  get_tower(X,Y,Board,Tower),
+  isValidMove([X,Y],[X2,Y2],Board,Tower),
+  moveTower(X,Y,X2,Y2,Tower,Board,NewBoard),
+  game_setBoard(Game, NewBoard, G1),
+  game_clearPasses(G1, G2),
+  game_nextTurn(G2, NewGame).
+parse_input(moveTower(_,_,_,_,Game), Game).
+
+parse_input(getValidMoves(X,Y,Game), ValidMoves) :-
+  getTurnTower(Game, T),
+  game_getBoard(Game, Board),
+  getCurrIsland(X, Y, T, Board, Temp),
+  validateMoves([X,Y], Temp, Board, T, [], ValidMoves).
+
+%%%%% Sink tile
+parse_input(sinkTile(X1,Y1,X,Y,Game), NewGame):-
+  game_getBoard(Game, Board),
+  getValidSinks([X1,Y1], Board, ValidSinks),
+  member([X,Y], ValidSinks),
+  sinkTile(X, Y, Board, NewBoard),
+  game_setBoard(Game, NewBoard, G1),
+  game_clearPasses(G1, G2),
+  game_sink(G2, G3),
+  game_nextTurn(G3, NewGame).
+parse_input(sinkTile(_,_,_,_,Game), Game).
+
+parse_input(getValidSinks(X,Y,Game), ValidSinks) :-
+  game_getBoard(Game, Board),
+  getValidSinks([X,Y], Board, ValidSinks).
+
+%%%%% Pass turn
+parse_input(passTurn(Game), NewGame) :- pass(Game, NewGame).
+
+%%%%% Check win conditions
+parse_input(checkWin(Game), Winner) :-
+  check_completed_islands(Game, Winner).
+parse_input(checkWin(Game), Winner) :-
+  game_checkSinks(Game, Winner).
+parse_input(checkWin(Game), Winner) :-
+  game_checkPasses(Game, Winner).
+parse_input(checkWin(_), 'null').
+
+%%%%% Setup
+parse_input(createMajorGame, G) :- createPvPgame(G, 'major').
+parse_input(createMinorGame, G) :- createPvPgame(G, 'minor').
+
+%%%%% Utils
+parse_input(getPlayerTower(X,Y,Game), Tower) :-
+  getTurnTower(Game, Tower),
+  game_getBoard(Game, Board),
+  get_tower(X,Y,Board,T), T =:= Tower.
+parse_input(getPlayerTower(_,_,_), 0).
+
+getTurnTower(Game, T) :-
+  game_getTurn(Game, Turn),
+  (
+    Turn = 'white' -> T = 2;
+    Turn = 'black' -> T = 1
+  ).
+
+validateMoves(_, [], _, _, Valid, Valid).
+validateMoves(Pos, [Move|T], Board, Tower, Acc, Valid) :-
+  isValidMove(Pos, Move, Board, Tower),
+  append(Acc, [Move], Acc1),
+  validateMoves(Pos, T, Board, Tower, Acc1, Valid).
+validateMoves(Pos, [_|T], Board, Tower, Acc, Valid) :-
+  validateMoves(Pos, T, Board, Tower, Acc, Valid).

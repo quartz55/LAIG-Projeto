@@ -1,0 +1,1 @@
+clearScreen :- write('\e[2J').
