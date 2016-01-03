@@ -75,8 +75,14 @@ SceneObject.prototype.draw = function(scene) {
  * @return
  */
 SceneObject.prototype.updateAnims = function(delta) {
+    // if (this.anims.length === 0 || this.currAnim >= this.anims.length) return;
+
+    // if (this.anims[this.currAnim].done) ++this.currAnim;
+    // if(this.currAnim < this.anims.length) this.anims[this.currAnim].update(delta);
+
     if (this.anims.length === 0 || this.currAnim >= this.anims.length) return;
 
-    if (this.anims[this.currAnim].done) ++this.currAnim;
-    if(this.currAnim < this.anims.length) this.anims[this.currAnim].update(delta);
+    this.anims[0].update(delta);
+    if (this.anims[0].done) this.anims.splice(0, 1);
+    // if(this.currAnim < this.anims.length) this.anims[this.currAnim].update(delta);
 };

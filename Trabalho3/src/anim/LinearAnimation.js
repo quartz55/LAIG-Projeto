@@ -9,10 +9,11 @@
  * @param {Float} time Time animation takes
  * @param {Array} controlPoints
  */
-function LinearAnimation(id, time, controlPoints) {
+function LinearAnimation(id, time, controlPoints, maxHeight) {
     Animation.call(this, id, time);
     this.cp = controlPoints;
     this.pos = [];
+    this.maxHeight = maxHeight || 0;
 }
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
@@ -41,6 +42,10 @@ LinearAnimation.prototype.update = function(delta) {
     rotAng *= sign;
 
     this.pos = nextPos;
+    var heightCalc = function (x, height, time) {
+        return -x * (x - time) * height;
+    };
+    this.pos[1] = heightCalc(this.currTime, this.maxHeight, this.time);
 
     mat4.identity(this.matrix);
     mat4.translate(this.matrix, this.matrix, this.pos);
@@ -88,7 +93,7 @@ function linearInterp(a, b, f) {
  * @return {LinearAnimation} clone
  */
 LinearAnimation.prototype.clone = function() {
-    var clone = new LinearAnimation(this.id, this.time, this.cp);
+    var clone = new LinearAnimation(this.id, this.time, this.cp, this.maxHeight);
     clone._doneHandlers = this._doneHandlers;
     return clone;
 };
