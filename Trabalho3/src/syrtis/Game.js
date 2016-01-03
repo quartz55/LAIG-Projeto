@@ -383,16 +383,7 @@ Game.prototype.sinkMenu = function() {
 };
 
 Game.prototype.passMenu = function() {
-    if (this.state == GAME_STATE.MAIN_MENU) {
-        this.state = GAME_STATE.PASSING;
-        var self = this;
-        PLOG.sendRequest("passTurn(" + this.stringify() + ")", function(data) {
-            var res = PLOG.getRequestResponse(data);
-            self.loadGame(res);
-            self.scene.loadBoard(self.board);
-            self.state = GAME_STATE.MAIN_MENU;
-        });
-    }
+    this.changeState(GAME_STATE.PASSING);
 };
 
 Game.prototype.highlightPieces = function(positions) {
@@ -459,6 +450,18 @@ Game.prototype.changeState = function(nextState) {
     case GAME_STATE.ANIMATING:
         if (this.state == GAME_STATE.SINK_TO || this.state == GAME_STATE.MOVE_TO) {
             this.infoMessage.change("INFO", "");
+        }
+        else return false;
+        break;
+    case GAME_STATE.PASSING:
+        if (this.changeState(GAME_STATE.MAIN_MENU)) {
+            var self = this;
+            PLOG.sendRequest("passTurn(" + this.stringify() + ")", function(data) {
+                var res = PLOG.getRequestResponse(data);
+                self.loadGame(res);
+                self.scene.loadBoard(self.board);
+                self.changeState(GAME_STATE.MAIN_MENU);
+            });
         }
         else return false;
         break;
