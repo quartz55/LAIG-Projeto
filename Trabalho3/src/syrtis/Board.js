@@ -26,6 +26,7 @@ Board.prototype.display = function(graph) {
         node = new LSXNode("Piece"+i);
         node.material = "null";
         node.texture = "null";
+        node.anims = piece.animations;
         mat4.translate(node.matrix, node.matrix, [piece.x, 0, piece.y]);
         node.descendants.push(piece.type);
         board_node.descendants.push("Piece"+i);
@@ -37,6 +38,7 @@ Board.prototype.display = function(graph) {
         node = new LSXNode("Tower"+i);
         node.material = "null";
         node.texture = "null";
+        node.anims = tower.animations;
         mat4.translate(node.matrix, node.matrix, [tower.x, 0, tower.y]);
         node.descendants.push(tower.type);
         board_node.descendants.push("Tower"+i);
@@ -74,7 +76,7 @@ Board.prototype.getPiece = function(id) {
 
 Board.prototype.getTower = function(id) {
     if (id.constructor === Array) {
-        return this.pieces[this.getTowerID(id)];
+        return this.towers[this.getTowerID(id) - 100];
     }
 
     var towerID = id - 100;

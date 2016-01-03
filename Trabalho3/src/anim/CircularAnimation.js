@@ -34,13 +34,7 @@ CircularAnimation.prototype.constructor = CircularAnimation;
  * @param {Float} delta
  */
 CircularAnimation.prototype.update = function(delta) {
-    delta = delta / 1000;
-
-    this.currTime = Math.min(this.time, this.currTime + delta);
-    if (this.currTime == this.time) {
-        this.done = true;
-        return;
-    }
+    Animation.prototype.update.call(this, delta);
 
     mat4.identity(this.matrix);
 

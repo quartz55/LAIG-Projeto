@@ -14,7 +14,8 @@ var GAME_STATE = {
     MOVE_TO: 6,
     SINK_FROM: 7,
     SINK_TO: 8,
-    PASSING: 9
+    PASSING: 9,
+    ANIMATING: 10
 };
 
 var COLOR = {
@@ -125,7 +126,7 @@ Game.prototype.piecePicked = function(obj, id) {
                                  moves = JSON.parse(moves);
                                  self.highlightPieces(moves);
                              });
- self.changeState( GAME_STATE.MOVE_TO );
+            self.changeState( GAME_STATE.MOVE_TO );
         });
         break;
     case GAME_STATE.MOVE_TO:
@@ -139,10 +140,21 @@ Game.prototype.piecePicked = function(obj, id) {
                 self.addMessage("ERROR", "Invalid move");
                 return;
             }
+
+            // Animation for tower
+            var delta = [1.5*( self.pickedPiece[0]-piece.x ), 0, 1.5*( self.pickedPiece[1]-piece.y )];
+            var anim = new LinearAnimation("moveAnim", 1.5, [delta,[0,0,0]]);
+            anim.ondone(function () {
+                self.changeState( GAME_STATE.MAIN_MENU );
+            });
+            self.scene.anims.moveAnim = anim;
+
             self.saveState();
             self.loadGame(response);
+            var t = self.board.getTower([piece.x, piece.y]);
+            t.animations.push("moveAnim");
+            self.changeState(GAME_STATE.ANIMATING);
             self.scene.loadBoard(self.board);
- self.changeState( GAME_STATE.MAIN_MENU );
         });
         break;
 
@@ -174,7 +186,7 @@ Game.prototype.piecePicked = function(obj, id) {
                                  }
                                  self.highlightPieces(sinks);
                              });
- self.changeState( GAME_STATE.SINK_TO );
+            self.changeState( GAME_STATE.SINK_TO );
         });
         break;
     case GAME_STATE.SINK_TO:
@@ -191,7 +203,7 @@ Game.prototype.piecePicked = function(obj, id) {
             self.saveState();
             self.loadGame(response);
             self.scene.loadBoard(self.board);
- self.changeState( GAME_STATE.MAIN_MENU );
+            self.changeState( GAME_STATE.MAIN_MENU );
         });
         break;
 
@@ -402,6 +414,10 @@ Game.prototype.changeState = function(nextState) {
         else return false;
         break;
     case GAME_STATE.MAIN_MENU:
+        if (this.state < GAME_STATE.PICK_WHITE2 ||
+            this.board.towers.length < 4) {
+            return false;
+        }
         if (this.state > GAME_STATE.PICK_WHITE2) {
             this.scene.clearHighlights();
         }
@@ -428,6 +444,12 @@ Game.prototype.changeState = function(nextState) {
     case GAME_STATE.SINK_TO:
         if (this.changeState(GAME_STATE.SINK_FROM)) {
             this.infoMessage.change("INFO", "Select a tile to sink");
+        }
+        else return false;
+        break;
+    case GAME_STATE.ANIMATING:
+        if (this.state == GAME_STATE.SINK_TO || this.state == GAME_STATE.MOVE_TO) {
+            this.infoMessage.change("INFO", "");
         }
         else return false;
         break;

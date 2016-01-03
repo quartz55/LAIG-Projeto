@@ -3,6 +3,7 @@ function Piece(position, type) {
     this.y = position[1];
 
     this.type = null;
+    this.animations = [];
 
     switch (type) {
         case 1:

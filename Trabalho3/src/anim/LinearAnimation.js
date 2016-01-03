@@ -23,14 +23,7 @@ LinearAnimation.prototype.constructor = LinearAnimation;
  * @param {Float} delta
  */
 LinearAnimation.prototype.update = function(delta) {
-    delta = delta / 1000;
-
-    this.currTime = Math.min(this.time, this.currTime + delta);
-
-    if (this.currTime == this.time) {
-        this.done = true;
-        return;
-    }
+    Animation.prototype.update.call(this, delta);
 
     var nextPos = this.interp();
 
@@ -51,8 +44,7 @@ LinearAnimation.prototype.update = function(delta) {
 
     mat4.identity(this.matrix);
     mat4.translate(this.matrix, this.matrix, this.pos);
-    mat4.rotateY(this.matrix, this.matrix, rotAng);
-
+    // mat4.rotateY(this.matrix, this.matrix, rotAng);
 };
 
 /**
@@ -96,7 +88,7 @@ function linearInterp(a, b, f) {
  * @return {LinearAnimation} clone
  */
 LinearAnimation.prototype.clone = function() {
-    return new LinearAnimation(this.id,
-        this.time,
-        this.cp);
+    var clone = new LinearAnimation(this.id, this.time, this.cp);
+    clone._doneHandlers = this._doneHandlers;
+    return clone;
 };

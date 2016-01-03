@@ -174,6 +174,7 @@ LSXscene.prototype.onGraphLoaded = function() {
     }
 
     this.initNodes();
+
 };
 
 LSXscene.prototype.logPicking = function() {
@@ -444,8 +445,11 @@ LSXscene.prototype.DFS = function(node, currMaterial, currTexture, currMatrix, c
 LSXscene.prototype.getAnim = function(id) {
     if (id === null) return null;
 
-    for (var i = 0; i < this.anims.length; ++i)
-        if (id == this.anims[i].id) return this.anims[i];
+    for (var anim in this.anims) {
+        if (id == this.anims[anim].id){
+            return this.anims[anim];
+        }
+    }
 
     return null;
 };
@@ -504,8 +508,9 @@ LSXscene.prototype.update = function(currTime) {
     var delta = currTime - this.currTime;
     this.currTime = currTime;
 
-    for (var i = 0; i < this.objects.length; ++i)
+    for (var i = 0; i < this.objects.length; ++i) {
         this.objects[i].updateAnims(delta);
+    }
 };
 
 LSXscene.prototype.setScene = function(scene) {
