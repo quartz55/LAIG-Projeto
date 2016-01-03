@@ -110,7 +110,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var tower = PLOG.getIntResponse(data);
             if (!tower) {
-                alert("No player tower in that position");
+                self.addMessage("ERROR", "No player tower in that position");
                 return;
             }
             for (var i = 0; i < pickedIDs.length; ++i)
@@ -136,7 +136,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var response = data.target.response;
             if (response == self.stringify()) {
-                alert('Invalid move');
+                self.addMessage("ERROR", "Invalid move");
                 return;
             }
             self.saveState();
@@ -155,7 +155,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var tower = PLOG.getIntResponse(data);
             if (!tower) {
-                alert("No player tower in that position");
+                self.addMessage("ERROR", "No player tower in that position");
                 return;
             }
             for (var i = 0; i < pickedIDs.length; ++i)
@@ -169,7 +169,7 @@ Game.prototype.piecePicked = function(obj, id) {
                                  var sinks = PLOG.getRequestResponse(data);
                                  sinks = JSON.parse(sinks);
                                  if (sinks.length === 0) {
-                                     alert('No available sinks from that position');
+                                     self.addMessage("ERROR", "No available sinks from that position");
                                      return;
                                  }
                                  self.highlightPieces(sinks);
@@ -185,7 +185,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var response = data.target.response;
             if (response == self.stringify()) {
-                alert('Invalid sink');
+                self.addMessage("ERROR", "Invalid sink");
                 return;
             }
             self.saveState();
@@ -204,7 +204,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var board = PLOG.getArrayResponse(data);
             if (board + "" == self.board.board + "") {
-                alert('Invalid placement');
+                self.addMessage("ERROR", "Invalid placement");
                 return;
             }
             self.board = new Board(board);
@@ -218,7 +218,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var board = PLOG.getArrayResponse(data);
             if (board + "" == self.board.board + "") {
-                alert('Invalid placement');
+                self.addMessage("ERROR", "Invalid placement");
                 return;
             }
             self.board = new Board(board);
@@ -232,7 +232,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var board = PLOG.getArrayResponse(data);
             if (board + "" == self.board.board + "") {
-                alert('Invalid placement');
+                self.addMessage("ERROR", "Invalid placement");
                 return;
             }
             self.board = new Board(board);
@@ -246,7 +246,7 @@ Game.prototype.piecePicked = function(obj, id) {
         PLOG.sendRequest(reqString, function(data) {
             var board = PLOG.getArrayResponse(data);
             if (board + "" == self.board.board + "") {
-                alert('Invalid placement');
+                self.addMessage("ERROR", "Invalid placement");
                 return;
             }
             self.board = new Board(board);
@@ -272,23 +272,30 @@ Game.prototype.loadGame = function(gameStr) {
     this.updateHUD();
 };
 
+Game.prototype.addMessage = function(type, text) {
+    this.messages.push(new Message(type, text));
+    this.updateHUD();
+};
+
 Game.prototype.updateHUD = function() {
     this.scene.hud.clear();
     this.scene.hud.position = [-2.95, 1.8];
 
-    // White player info
-    this.scene.hud.setFgColor(COLOR.BLACK);
-    this.scene.hud.setBgColor(COLOR.WHITE);
-    this.scene.hud.add("White player | " + this.whitePlayer.type);
-    this.scene.hud.add("Passes " + this.whitePlayer.passes, [0, -1]);
-    this.scene.hud.add("Sinks " + this.whitePlayer.sinks, [0, -2]);
+    if (this.state > GAME_STATE.PICK_WHITE2) {
+        // White player info
+        this.scene.hud.setFgColor(COLOR.BLACK);
+        this.scene.hud.setBgColor(COLOR.WHITE);
+        this.scene.hud.add("White player | " + this.whitePlayer.type);
+        this.scene.hud.add("Passes " + this.whitePlayer.passes, [0, -1]);
+        this.scene.hud.add("Sinks " + this.whitePlayer.sinks, [0, -2]);
 
-    // Black player info
-    this.scene.hud.setFgColor(COLOR.WHITE);
-    this.scene.hud.setBgColor(COLOR.BLACK);
-    this.scene.hud.add("Black player | " + this.blackPlayer.type, [0, -4]);
-    this.scene.hud.add("Passes " + this.blackPlayer.passes, [0, -5]);
-    this.scene.hud.add("Sinks " + this.blackPlayer.sinks, [0, -6]);
+        // Black player info
+        this.scene.hud.setFgColor(COLOR.WHITE);
+        this.scene.hud.setBgColor(COLOR.BLACK);
+        this.scene.hud.add("Black player | " + this.blackPlayer.type, [0, -4]);
+        this.scene.hud.add("Passes " + this.blackPlayer.passes, [0, -5]);
+        this.scene.hud.add("Sinks " + this.blackPlayer.sinks, [0, -6]);
+    }
 
     // Messages
     for (var i = 0; i < this.messages.length; ++i) {
