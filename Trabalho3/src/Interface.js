@@ -37,10 +37,19 @@ Interface.prototype.init = function(application) {
         themeBtn.click();
     });
 
-    this.gui.add(this.game, 'mainMenu');
-    this.gui.add(this.game, 'moveMenu');
-    this.gui.add(this.game, 'sinkMenu');
-    this.gui.add(this.game, 'passMenu');
+    var actions = this.gui.addFolder("Actions");
+    actions.open();
+    var move = actions.add(this.game, 'moveMenu');
+    var sink = actions.add(this.game, 'sinkMenu');
+    var pass = actions.add(this.game, 'passMenu');
+    var undo = actions.add(this.game, 'undo');
+    var cancel = actions.add(this.game, 'cancelMenu');
+
+    move.name("Move tower");
+    sink.name("Sink tile");
+    pass.name("Pass turn");
+    undo.name("Undo action");
+    cancel.name("Cancel action");
 
     return true;
 };
@@ -67,6 +76,7 @@ Interface.prototype.setScene = function(scene) {
  * @method initLights
  */
 Interface.prototype.initLights = function() {
+    return;
     this.gui.removeFolder("Lights");
     var lights_group = this.gui.addFolder("Lights");
     lights_group.open();

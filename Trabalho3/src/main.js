@@ -89,9 +89,15 @@ serialInclude(['../lib/CGF.js',
                'Interface.js',
 
                main = function() {
-                   var game = new Game();
+                   // var game = new Game();
                }
               ]);
+
+function startGame(form) {
+    var board = form.board.value;
+    form.parentNode.removeChild(form);
+    new Game(board);
+}
 
 if (!String.format) {
     String.format = function(format) {

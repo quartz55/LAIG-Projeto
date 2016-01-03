@@ -5,18 +5,20 @@ var SCENES = [
 var DEFAULT_SCENE = SCENES[0];
 
 var GAME_STATE = {
-    PICK_BLACK1: 0,
-    PICK_BLACK2: 1,
-    PICK_WHITE1: 2,
-    PICK_WHITE2: 3,
-    MAIN_MENU: 4,
-    MOVE_FROM: 5,
-    MOVE_TO: 6,
-    SINK_FROM: 7,
-    SINK_TO: 8,
-    PASSING: 9,
-    ANIMATING: 10,
-    SWITCHING_PLAYER: 11
+    PLACING_TOWER: 0,
+    PICK_BLACK1: 1,
+    PICK_BLACK2: 2,
+    PICK_WHITE1: 3,
+    PICK_WHITE2: 4,
+    MAIN_MENU: 5,
+    MOVE_FROM: 6,
+    MOVE_TO: 7,
+    SINK_FROM: 8,
+    SINK_TO: 9,
+    PASSING: 10,
+    ANIMATING: 11,
+    SWITCHING_PLAYER: 12,
+    NEXT_TURN: 13
 };
 
 var COLOR = {
@@ -52,7 +54,7 @@ function Message (type, text) {
     };
 }
 
-function Game() {
+function Game(boardType) {
     this.state = GAME_STATE.PICK_BLACK1;
     this.messages = [new Message("INFO", "Place first black tower")];
     this.infoMessage = this.messages[0];
@@ -63,10 +65,10 @@ function Game() {
     this.interface.setScene(this.scene);
     this.interface.game = this;
 
-    var app = new CGFapplication(document.body);
-    app.init();
-    app.setScene(this.scene);
-    app.setInterface(this.interface);
+    this.app = new CGFapplication(document.body);
+    this.app.init();
+    this.app.setScene(this.scene);
+    this.app.setInterface(this.interface);
 
     // this.interface.setActiveCamera(this.scene.camera);
 
@@ -77,7 +79,8 @@ function Game() {
         self.piecePicked(obj, id);
     };
 
-    PLOG.sendRequest("createMinorGame", function(data) {
+    boardType = boardType || "Major";
+    PLOG.sendRequest(String.format("create{0}Game", boardType), function(data) {
         var response = PLOG.getRequestResponse(data);
         self.loadGame(response);
         self.parser = new LSXParser(filename, self.scene,
@@ -85,7 +88,7 @@ function Game() {
                                         this.scene.onGraphLoaded();
                                         self.scene.loadBoard(self.board);
                                     });
-        app.run();
+        self.app.run();
     });
 }
 
@@ -201,10 +204,17 @@ Game.prototype.piecePicked = function(obj, id) {
                 self.addMessage("ERROR", "Invalid sink");
                 return;
             }
-            self.saveGameState();
-            self.loadGame(response);
-            self.scene.loadBoard(self.board);
-            self.changeState(GAME_STATE.SWITCHING_PLAYER);
+
+            // Animation for piece
+            var anim = new LinearAnimation("sinkAnim", 1, [[0,0,0],[0,15,0]], 0);
+            anim.ondone(function () {
+                self.saveGameState();
+                self.loadGame(response);
+                self.scene.loadBoard(self.board);
+                self.changeState(GAME_STATE.SWITCHING_PLAYER);
+            });
+            var p = self.board.getPieceID([piece.x, piece.y]);
+            self.scene.pickData[p][0].anims.push(anim);
         });
         break;
 
@@ -221,8 +231,18 @@ Game.prototype.piecePicked = function(obj, id) {
                 return;
             }
             self.board = new Board(board);
+
+            self.changeState(GAME_STATE.PLACING_TOWER);
+
+            var anim = new LinearAnimation("moveAnim", 0.8, [[0,10,0],[0,0,0]]);
+            anim.ondone(function () {
+                self.changeState(GAME_STATE.PICK_BLACK2);
+            });
+            self.scene.anims.moveAnim = anim;
+            var t = self.board.getTower([piece.x, piece.y]);
+            t.animations.push("moveAnim");
+
             self.scene.loadBoard(self.board);
-            self.changeState(GAME_STATE.PICK_BLACK2);
         });
         break;
     case GAME_STATE.PICK_BLACK2:
@@ -235,8 +255,18 @@ Game.prototype.piecePicked = function(obj, id) {
                 return;
             }
             self.board = new Board(board);
+
+            var anim = new LinearAnimation("moveAnim", 0.8, [[0,10,0],[0,0,0]]);
+            anim.ondone(function () {
+                self.changeState(GAME_STATE.PICK_WHITE1);
+            });
+            self.scene.anims.moveAnim = anim;
+
+            var t = self.board.getTower([piece.x, piece.y]);
+            t.animations.push("moveAnim");
+
             self.scene.loadBoard(self.board);
-            self.changeState(GAME_STATE.PICK_WHITE1);
+            self.changeState(GAME_STATE.PLACING_TOWER);
         });
         break;
     case GAME_STATE.PICK_WHITE1:
@@ -249,8 +279,18 @@ Game.prototype.piecePicked = function(obj, id) {
                 return;
             }
             self.board = new Board(board);
+
+            var anim = new LinearAnimation("moveAnim", 0.8, [[0,10,0],[0,0,0]]);
+            anim.ondone(function () {
+                self.changeState(GAME_STATE.PICK_WHITE2);
+            });
+            self.scene.anims.moveAnim = anim;
+
+            var t = self.board.getTower([piece.x, piece.y]);
+            t.animations.push("moveAnim");
+
             self.scene.loadBoard(self.board);
-            self.changeState(GAME_STATE.PICK_WHITE2);
+            self.changeState(GAME_STATE.PLACING_TOWER);
         });
         break;
     case GAME_STATE.PICK_WHITE2:
@@ -263,8 +303,18 @@ Game.prototype.piecePicked = function(obj, id) {
                 return;
             }
             self.board = new Board(board);
+
+            var anim = new LinearAnimation("moveAnim", 0.8, [[0,10,0],[0,0,0]]);
+            anim.ondone(function () {
+                self.changeState(GAME_STATE.MAIN_MENU);
+            });
+            self.scene.anims.moveAnim = anim;
+
+            var t = self.board.getTower([piece.x, piece.y]);
+            t.animations.push("moveAnim");
+
             self.scene.loadBoard(self.board);
-            self.changeState(GAME_STATE.MAIN_MENU);
+            self.changeState(GAME_STATE.PLACING_TOWER);
         });
         break;
 
@@ -283,10 +333,11 @@ Game.prototype.loadGame = function(gameStr) {
     this.blackPlayer = new Player(gameObj.players.black);
     this.turn = gameObj.turn;
     this.updateHUD();
+    var self = this;
     PLOG.sendRequest(String.format("checkWin({0})",this.stringify()), function (data) {
         var winner = PLOG.getRequestResponse(data);
         if (winner != 'null') {
-            window.location = winner+".html";
+            window.location = "winner_"+winner.toLowerCase()+".html";
         }
     });
 };
@@ -354,29 +405,31 @@ Game.prototype.highlightPieces = function(positions) {
 Game.prototype.changeState = function(nextState) {
     switch (nextState) {
     case GAME_STATE.PICK_BLACK2:
-        if (this.state == GAME_STATE.PICK_BLACK1)
+        if (this.state == GAME_STATE.PICK_BLACK1 ||
+            this.state == GAME_STATE.PLACING_TOWER)
             this.infoMessage.change("INFO", "Place second black tower");
         else return false;
         break;
     case GAME_STATE.PICK_WHITE1:
-        if (this.state == GAME_STATE.PICK_BLACK2)
+        if (this.state == GAME_STATE.PICK_BLACK2 ||
+            this.state == GAME_STATE.PLACING_TOWER)
             this.infoMessage.change("INFO", "Place first white tower");
         else return false;
         break;
     case GAME_STATE.PICK_WHITE2:
-        if (this.state == GAME_STATE.PICK_WHITE1)
+        if (this.state == GAME_STATE.PICK_WHITE1 ||
+            this.state == GAME_STATE.PLACING_TOWER)
             this.infoMessage.change("INFO", "Place second white tower");
         else return false;
         break;
     case GAME_STATE.MAIN_MENU:
-        if (this.state < GAME_STATE.PICK_WHITE2 ||
-            this.board.towers.length < 4) {
+        if (this.board.towers.length < 4 || this.state == GAME_STATE.ANIMATING ||
+           this.state == GAME_STATE.SWITCHING_PLAYER) {
             return false;
         }
-        if (this.state > GAME_STATE.PICK_WHITE2) {
-            this.scene.clearHighlights();
-        }
+        this.scene.clearHighlights();
         this.infoMessage.change("INFO", "Pick a move");
+        console.log("Main menu");
         break;
     case GAME_STATE.MOVE_FROM:
         if (this.changeState(GAME_STATE.MAIN_MENU)) {
@@ -403,7 +456,14 @@ Game.prototype.changeState = function(nextState) {
         else return false;
         break;
     case GAME_STATE.ANIMATING:
-        if (this.state == GAME_STATE.SINK_TO || this.state == GAME_STATE.MOVE_TO) {
+        if (this.state == GAME_STATE.SINK_TO || this.state == GAME_STATE.MOVE_TO ||
+            this.state <= GAME_STATE.PICK_WHITE2) {
+            this.infoMessage.change("INFO", "");
+        }
+        else return false;
+        break;
+    case GAME_STATE.PLACING_TOWER:
+        if (this.state <= GAME_STATE.PICK_WHITE2) {
             this.infoMessage.change("INFO", "");
         }
         else return false;
@@ -413,6 +473,7 @@ Game.prototype.changeState = function(nextState) {
             var self = this;
             PLOG.sendRequest("passTurn(" + this.stringify() + ")", function(data) {
                 var res = PLOG.getRequestResponse(data);
+                self.saveGameState();
                 self.loadGame(res);
                 self.scene.loadBoard(self.board);
                 self.changeState(GAME_STATE.SWITCHING_PLAYER);
@@ -424,8 +485,12 @@ Game.prototype.changeState = function(nextState) {
         var self = this;
         this.infoMessage.change("WARNING", "Switching player");
         this.scene.rotateView(2, function() {
-            self.changeState(GAME_STATE.MAIN_MENU);
+            self.changeState(GAME_STATE.NEXT_TURN);
         });
+        break;
+    case GAME_STATE.NEXT_TURN:
+        this.state = GAME_STATE.NEXT_TURN;
+        this.changeState(GAME_STATE.MAIN_MENU);
         break;
     }
 
@@ -445,11 +510,17 @@ Game.prototype.saveGameState = function() {
 };
 
 Game.prototype.undo = function() {
-    if (this.undoStack.length === 0) return;
-    var prevState = this.undoStack.pop();
-    this.state = prevState.state;
-    this.loadGame(prevState.game);
-    this.scene.loadBoard(this.board);
+    if (this.undoStack.length === 0) {
+        this.addMessage("ERROR", "No more actions to undo");
+        return;
+    }
+    if (this.state != GAME_STATE.ANIMATING && this.state != GAME_STATE.SWITCHING_PLAYER) {
+        var prevState = this.undoStack.pop();
+        this.state = prevState.state;
+        this.loadGame(prevState.game);
+        this.scene.loadBoard(this.board);
+        this.changeState(GAME_STATE.SWITCHING_PLAYER);
+    }
 };
 
 Game.prototype.setScene = function(scene) {
@@ -461,7 +532,7 @@ Game.prototype.setScene = function(scene) {
                                 });
 };
 
-Game.prototype.mainMenu = function() {
+Game.prototype.cancelMenu = function() {
     this.changeState(GAME_STATE.MAIN_MENU);
 };
 

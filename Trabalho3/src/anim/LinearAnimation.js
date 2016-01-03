@@ -47,7 +47,8 @@ LinearAnimation.prototype.update = function(delta) {
             return jEase.ease(curr, 0, height, time/2, "easeOutCubic");
         else return jEase.ease(curr-time/2, height, 0, time/2, "easeInCubic");
     };
-    this.pos[1] = heightCalc(this.currTime, this.maxHeight, this.currTime, this.time);
+    if (this.maxHeight !== 0)
+        this.pos[1] = heightCalc(this.currTime, this.maxHeight, this.currTime, this.time);
 
     mat4.identity(this.matrix);
     mat4.translate(this.matrix, this.matrix, this.pos);

@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>CGFexample</title>
+    <title>Syrtis Boardgame</title>
 
     <style>
         body,
@@ -23,16 +23,26 @@
 <body>
     <script type="text/javascript" src="plServer.js"> </script>
     <script type="text/javascript" src="main.js"></script>
-
-    <!-- <style>
-         ul {
-         position: absolute;
-         }
-         </style>
-         <ul>
-         <li>O joao e gay</li>
-         <li>O joao e muito gay</li>
-         </ul> -->
+    <form onsubmit="return false;">
+        <h1>Syrtis</h1>
+        Board size:
+        <select name="board" >
+            <option value="Major" selected>Major board</option>
+            <option value="Minor">Minor board</option>
+        </select>
+        <br>
+        Mode:
+        <select name="mode">
+            <option value="Major" selected>Human vs Human</option>
+        </select>
+        <br>
+        Difficulty:
+        <select name="difficulty" disabled>
+            <option value="Major" selected>Not implemented</option>
+        </select>
+        <br>
+        <button onclick="startGame(this.form);">Play game</button>
+    </form>
 </body>
 
 </html>
